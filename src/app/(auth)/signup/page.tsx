@@ -181,8 +181,27 @@ export default function SignupPage() {
         </CardContent>
       </Card>
 
+      {/* Support Links */}
+      <div className="flex items-center justify-center gap-6 mt-6">
+        <a
+          href="https://help.explodely.com/support/tickets/new"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-zinc-500 hover:text-cyan-400 text-xs uppercase tracking-wider transition-colors"
+        >
+          Billing Support
+        </a>
+        <span className="text-zinc-700">•</span>
+        <a
+          href="mailto:imv@neoai.freshdesk.com"
+          className="text-zinc-500 hover:text-cyan-400 text-xs uppercase tracking-wider transition-colors"
+        >
+          Product Support
+        </a>
+      </div>
+
       {/* Version info */}
-      <p className="text-center text-zinc-600 text-xs mt-6 uppercase tracking-widest">
+      <p className="text-center text-zinc-600 text-xs mt-4 uppercase tracking-widest">
         Secure Connection • v2.0.1
       </p>
     </motion.div>
