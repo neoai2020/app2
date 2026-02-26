@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { PromoBanner } from '@/components/ui/promo-banner'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { Offer } from '@/types/database'
 import { Plus, Edit, Trash2, ExternalLink, Gift, FolderOpen, X } from 'lucide-react'
@@ -137,11 +136,6 @@ export default function OffersPage() {
       animate="visible"
       className="max-w-4xl mx-auto"
     >
-      {/* Promo Banner */}
-      <motion.div variants={itemVariants}>
-        <PromoBanner />
-      </motion.div>
-
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6 flex items-start justify-between flex-wrap gap-4">
         <div>

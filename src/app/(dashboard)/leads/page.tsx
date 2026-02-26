@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { PromoBanner } from '@/components/ui/promo-banner'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { createClient } from '@/lib/supabase/client'
 import { INDUSTRIES, DAILY_LEAD_LIMIT, LEAD_STATUS } from '@/lib/constants'
@@ -114,11 +113,6 @@ export default function LeadsPage() {
       animate="visible"
       className="max-w-6xl mx-auto"
     >
-      {/* Promo Banner */}
-      <motion.div variants={itemVariants}>
-        <PromoBanner />
-      </motion.div>
-
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <div className="flex items-center gap-3">

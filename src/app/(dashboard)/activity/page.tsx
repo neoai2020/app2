@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Select } from '@/components/ui/select'
-import { PromoBanner } from '@/components/ui/promo-banner'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 import { createClient } from '@/lib/supabase/client'
 import { ActivityLog } from '@/types/database'
@@ -92,11 +91,6 @@ export default function ActivityPage() {
       animate="visible"
       className="max-w-4xl mx-auto"
     >
-      {/* Promo Banner */}
-      <motion.div variants={itemVariants}>
-        <PromoBanner />
-      </motion.div>
-
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <div className="flex items-center gap-3">

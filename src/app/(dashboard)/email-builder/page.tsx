@@ -9,7 +9,6 @@ import { Select } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
-import { PromoBanner } from '@/components/ui/promo-banner'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { createClient } from '@/lib/supabase/client'
 import { EMAIL_TONES, DAILY_EMAIL_LIMIT } from '@/lib/constants'
@@ -197,11 +196,6 @@ function EmailBuilderContent() {
       animate="visible"
       className="max-w-4xl mx-auto"
     >
-      {/* Promo Banner */}
-      <motion.div variants={itemVariants}>
-        <PromoBanner />
-      </motion.div>
-
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <div className="flex items-center justify-between flex-wrap gap-4">

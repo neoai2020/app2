@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { PromoBanner } from '@/components/ui/promo-banner'
 import { ChevronDown, ChevronUp, HelpCircle, Mail, FileText, CheckCircle, MessageSquare } from 'lucide-react'
 
 const containerVariants = {
@@ -80,11 +79,6 @@ export default function SupportPage() {
       animate="visible"
       className="max-w-4xl mx-auto"
     >
-      {/* Promo Banner */}
-      <motion.div variants={itemVariants}>
-        <PromoBanner />
-      </motion.div>
-
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <h1 className="text-4xl font-bold gradient-text">Support Center</h1>

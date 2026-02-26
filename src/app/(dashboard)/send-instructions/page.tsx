@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { PromoBanner } from '@/components/ui/promo-banner'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 import { Mail, Shield, Clock, AlertTriangle, CheckCircle, ArrowRight, Terminal } from 'lucide-react'
 
@@ -38,11 +37,6 @@ export default function SendInstructionsPage() {
       animate="visible"
       className="max-w-4xl mx-auto"
     >
-      {/* Promo Banner */}
-      <motion.div variants={itemVariants}>
-        <PromoBanner />
-      </motion.div>
-
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <div className="flex items-center gap-3">

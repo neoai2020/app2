@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { PromoBanner } from '@/components/ui/promo-banner'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 import { createClient } from '@/lib/supabase/client'
 import { EmailTemplate, Lead } from '@/types/database'
@@ -99,11 +98,6 @@ export default function SavedEmailsPage() {
       animate="visible"
       className="max-w-4xl mx-auto"
     >
-      {/* Promo Banner */}
-      <motion.div variants={itemVariants}>
-        <PromoBanner />
-      </motion.div>
-
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <div className="flex items-center gap-3">

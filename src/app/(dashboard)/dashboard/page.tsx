@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { PromoBanner } from '@/components/ui/promo-banner'
 import { VideoCard } from '@/components/ui/video-card'
 import { LiveActivityCounter } from '@/components/ui/social-proof'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
@@ -119,11 +118,6 @@ export default function DashboardPage() {
       animate="visible"
       className="max-w-6xl mx-auto"
     >
-      {/* Promo Banner */}
-      <motion.div variants={itemVariants}>
-        <PromoBanner />
-      </motion.div>
-
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <div className="flex items-center gap-3">
