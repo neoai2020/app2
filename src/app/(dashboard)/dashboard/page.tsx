@@ -102,7 +102,7 @@ export default function DashboardPage() {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-12 h-12 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full"
+          className="w-12 h-12 border-2 border-blue-400/30 border-t-blue-400 rounded-full"
         />
       </div>
     )
@@ -192,8 +192,8 @@ export default function DashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/20">
-                    <Users className="w-6 h-6 text-cyan-400" />
+                  <div className="p-3 rounded-lg bg-blue-400/10 border border-blue-400/20">
+                    <Users className="w-6 h-6 text-blue-400" />
                   </div>
                   <div className="flex items-center gap-2">
                     <CardTitle className="text-base text-zinc-400 uppercase tracking-wider">
@@ -207,7 +207,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex items-center gap-2 text-zinc-500 text-xs">
                   <Clock className="w-3 h-3" />
-                  <span className="font-mono text-cyan-400">
+                  <span className="font-mono text-blue-400">
                     {String(timeUntilReset.hours).padStart(2, '0')}:{String(timeUntilReset.minutes).padStart(2, '0')}:{String(timeUntilReset.seconds).padStart(2, '0')}
                   </span>
                 </div>
@@ -237,7 +237,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="p-3 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
                   <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Usage Rate</p>
-                  <p className="text-2xl font-bold text-cyan-400">
+                  <p className="text-2xl font-bold text-blue-400">
                     {Math.round((stats.leadsAllocatedToday / DAILY_LEAD_LIMIT) * 100)}%
                   </p>
                 </div>
@@ -252,8 +252,8 @@ export default function DashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-lg bg-purple-400/10 border border-purple-400/20">
-                    <Mail className="w-6 h-6 text-purple-400" />
+                  <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
+                    <Mail className="w-6 h-6 text-indigo-400" />
                   </div>
                   <div className="flex items-center gap-2">
                     <CardTitle className="text-base text-zinc-400 uppercase tracking-wider">
@@ -283,8 +283,8 @@ export default function DashboardPage() {
                   transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
                   className="absolute inset-y-0 left-0 rounded-full"
                   style={{
-                    background: 'linear-gradient(90deg, #a855f7, #ec4899)',
-                    boxShadow: '0 0 10px rgba(168, 85, 247, 0.3)'
+                    background: 'linear-gradient(90deg, #10b981, #f59e0b)',
+                    boxShadow: '0 0 10px rgba(16, 185, 129, 0.3)'
                   }}
                 />
               </div>
@@ -296,7 +296,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="p-3 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
                   <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Usage Rate</p>
-                  <p className="text-2xl font-bold text-purple-400">
+                  <p className="text-2xl font-bold text-indigo-400">
                     {Math.round((stats.emailsGeneratedToday / DAILY_EMAIL_LIMIT) * 100)}%
                   </p>
                 </div>
@@ -325,27 +325,27 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <a
                 href="/leads"
-                className="group p-4 rounded-lg bg-cyan-400/5 border border-cyan-400/20 hover:bg-cyan-400/10 hover:border-cyan-400/40 transition-all duration-300"
+                className="group p-4 rounded-lg bg-blue-400/5 border border-blue-400/20 hover:bg-blue-400/10 hover:border-blue-400/40 transition-all duration-300"
               >
-                <Users className="w-8 h-8 text-cyan-400 mb-3 group-hover:scale-110 transition-transform" />
+                <Users className="w-8 h-8 text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-white mb-1">Allocate Leads</h3>
                 <p className="text-sm text-zinc-500">Generate new business leads</p>
               </a>
               
               <a
                 href="/email-builder"
-                className="group p-4 rounded-lg bg-purple-400/5 border border-purple-400/20 hover:bg-purple-400/10 hover:border-purple-400/40 transition-all duration-300"
+                className="group p-4 rounded-lg bg-indigo-400/5 border border-indigo-400/20 hover:bg-indigo-400/10 hover:border-indigo-400/40 transition-all duration-300"
               >
-                <Mail className="w-8 h-8 text-purple-400 mb-3 group-hover:scale-110 transition-transform" />
+                <Mail className="w-8 h-8 text-indigo-400 mb-3 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-white mb-1">Build Email</h3>
                 <p className="text-sm text-zinc-500">Create AI-powered outreach</p>
               </a>
               
               <a
                 href="/activity"
-                className="group p-4 rounded-lg bg-pink-400/5 border border-pink-400/20 hover:bg-pink-400/10 hover:border-pink-400/40 transition-all duration-300"
+                className="group p-4 rounded-lg bg-blue-400/5 border border-blue-400/20 hover:bg-blue-400/10 hover:border-blue-400/40 transition-all duration-300"
               >
-                <Activity className="w-8 h-8 text-pink-400 mb-3 group-hover:scale-110 transition-transform" />
+                <Activity className="w-8 h-8 text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-white mb-1">View Activity</h3>
                 <p className="text-sm text-zinc-500">Monitor system logs</p>
               </a>

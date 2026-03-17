@@ -90,8 +90,8 @@ export default function SupportPage() {
         <Card className="mb-6">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/20">
-                <HelpCircle className="w-6 h-6 text-cyan-400" />
+              <div className="p-3 rounded-lg bg-blue-400/10 border border-blue-400/20">
+                <HelpCircle className="w-6 h-6 text-blue-400" />
               </div>
               <div>
                 <CardTitle>Frequently Asked Questions</CardTitle>
@@ -109,9 +109,9 @@ export default function SupportPage() {
                   >
                     <span className="font-medium text-zinc-200 pr-4">{faq.question}</span>
                     {expandedFaq === index ? (
-                      <ChevronUp size={18} className="text-cyan-400 flex-shrink-0" />
+                      <ChevronUp size={18} className="text-blue-400 shrink-0" />
                     ) : (
-                      <ChevronDown size={18} className="text-zinc-500 flex-shrink-0" />
+                      <ChevronDown size={18} className="text-zinc-500 shrink-0" />
                     )}
                   </button>
                   <AnimatePresence>
@@ -210,8 +210,8 @@ export default function SupportPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-purple-400/10 border border-purple-400/20">
-                <FileText className="w-6 h-6 text-purple-400" />
+              <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
+                <FileText className="w-6 h-6 text-indigo-400" />
               </div>
               <div>
                 <CardTitle>Refund Protocol</CardTitle>
@@ -222,21 +222,21 @@ export default function SupportPage() {
           <CardContent>
             <div className="space-y-4">
               <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
-                <h4 className="font-medium text-cyan-400 mb-2 uppercase tracking-wider text-sm">30-Day Guarantee</h4>
+                <h4 className="font-medium text-blue-400 mb-2 uppercase tracking-wider text-sm">30-Day Guarantee</h4>
                 <p className="text-zinc-400 text-sm">
                   Full refund available within 30 days of purchase. No interrogation required.
                 </p>
               </div>
 
               <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
-                <h4 className="font-medium text-cyan-400 mb-2 uppercase tracking-wider text-sm">Request Procedure</h4>
+                <h4 className="font-medium text-blue-400 mb-2 uppercase tracking-wider text-sm">Request Procedure</h4>
                 <p className="text-zinc-400 text-sm">
                   Submit request via contact form above. Include account email and acquisition date.
                 </p>
               </div>
 
               <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
-                <h4 className="font-medium text-cyan-400 mb-2 uppercase tracking-wider text-sm">Processing Timeline</h4>
+                <h4 className="font-medium text-blue-400 mb-2 uppercase tracking-wider text-sm">Processing Timeline</h4>
                 <p className="text-zinc-400 text-sm">
                   Refunds processed within 5-7 business days. Confirmation transmitted upon completion.
                 </p>

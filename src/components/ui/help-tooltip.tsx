@@ -20,8 +20,8 @@ const icons = {
 }
 
 const colors = {
-  help: 'text-zinc-400 hover:text-cyan-400',
-  info: 'text-cyan-400 hover:text-cyan-300',
+  help: 'text-zinc-400 hover:text-blue-400',
+  info: 'text-blue-400 hover:text-blue-300',
   tip: 'text-yellow-400 hover:text-yellow-300'
 }
 
@@ -84,7 +84,7 @@ export function HelpTooltip({
               {learnMoreLink && (
                 <a
                   href={learnMoreLink}
-                  className="mt-3 flex items-center gap-1 text-cyan-400 text-xs hover:text-cyan-300 transition-colors"
+                  className="mt-3 flex items-center gap-1 text-blue-400 text-xs hover:text-blue-300 transition-colors"
                 >
                   <BookOpen size={12} />
                   Learn more
@@ -114,7 +114,7 @@ export function HelpButton({ topic, className = '' }: HelpButtonProps) {
         // Could open a help modal or navigate to docs
         window.open(`/support#${topic}`, '_blank')
       }}
-      className={`inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-cyan-400 transition-colors ${className}`}
+      className={`inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-blue-400 transition-colors ${className}`}
     >
       <HelpCircle size={12} />
       Need help?
@@ -140,7 +140,7 @@ export function QuickTip({ tip, onDismiss }: QuickTipProps) {
       exit={{ opacity: 0, y: -10 }}
       className="mb-4 p-3 rounded-lg bg-yellow-400/5 border border-yellow-400/20 flex items-start gap-3"
     >
-      <Lightbulb className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
+      <Lightbulb className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
       <p className="text-sm text-yellow-200/80 flex-1">{tip}</p>
       <button
         onClick={() => {

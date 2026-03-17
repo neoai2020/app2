@@ -35,22 +35,22 @@ export function Button({
 
   const variants = {
     primary: `
-      bg-gradient-to-r from-cyan-500/20 to-purple-500/20
-      border border-cyan-400/50 text-cyan-300
-      hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(0,240,255,0.3)]
-      hover:text-cyan-200
+      bg-gradient-to-r from-blue-500/20 to-indigo-500/20
+      border border-blue-400/50 text-blue-300
+      hover:border-blue-400 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]
+      hover:text-blue-200
     `,
     secondary: `
       bg-white/5 border border-white/10 text-zinc-300
       hover:bg-white/10 hover:border-white/20
     `,
     outline: `
-      border border-cyan-400/30 text-cyan-400 bg-transparent
-      hover:bg-cyan-400/10 hover:border-cyan-400/50
+      border border-blue-400/30 text-blue-400 bg-transparent
+      hover:bg-blue-400/10 hover:border-blue-400/50
     `,
     ghost: `
       text-zinc-400 bg-transparent
-      hover:text-cyan-400 hover:bg-cyan-400/5
+      hover:text-blue-400 hover:bg-blue-400/5
     `,
     danger: `
       bg-red-500/10 border border-red-500/30 text-red-400
@@ -83,7 +83,7 @@ export function Button({
     >
       {/* Shimmer effect on hover */}
       <span className="absolute inset-0 overflow-hidden rounded-lg">
-        <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-shimmer" />
+        <span className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent group-hover:animate-shimmer" />
       </span>
 
       {/* Content */}

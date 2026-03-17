@@ -19,7 +19,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         transition={{ duration: 0.3 }}
       >
         {label && (
-          <label className="block text-sm font-medium text-cyan-300/80 mb-2 uppercase tracking-wider">
+          <label className="block text-sm font-medium text-blue-300/80 mb-2 uppercase tracking-wider">
             {label}
           </label>
         )}
@@ -35,10 +35,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {/* Corner accents */}
-          <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-400/30 rounded-tl" />
-          <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-cyan-400/30 rounded-tr" />
-          <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-cyan-400/30 rounded-bl" />
-          <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan-400/30 rounded-br" />
+          <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-blue-400/30 rounded-tl" />
+          <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-blue-400/30 rounded-tr" />
+          <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-blue-400/30 rounded-bl" />
+          <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-blue-400/30 rounded-br" />
         </div>
         {error && (
           <p className="mt-2 text-sm text-red-400 flex items-center gap-1">

@@ -30,7 +30,7 @@ export function VideoCard({
       className="glass-card overflow-hidden"
     >
       {/* Video Thumbnail / Player */}
-      <div className="relative aspect-video bg-gradient-to-br from-zinc-900 to-zinc-800">
+      <div className="relative aspect-video bg-linear-to-br from-zinc-900 to-zinc-800">
         {isPlaying && videoUrl ? (
           <>
             <iframe
@@ -50,16 +50,16 @@ export function VideoCard({
           <>
             {/* Animated background */}
             <div className="absolute inset-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20" />
+              <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 via-indigo-500/20 to-sapphire-500/20" />
               <div className="absolute inset-0" style={{
-                backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(0, 240, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)'
+                backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%)'
               }} />
               
               {/* Grid lines */}
               <div 
                 className="absolute inset-0 opacity-20"
                 style={{
-                  backgroundImage: 'linear-gradient(rgba(0, 240, 255, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.3) 1px, transparent 1px)',
+                  backgroundImage: 'linear-gradient(rgba(59, 130, 246, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.3) 1px, transparent 1px)',
                   backgroundSize: '40px 40px'
                 }}
               />
@@ -75,14 +75,14 @@ export function VideoCard({
               >
                 {/* Pulse rings */}
                 <div className="absolute inset-0 -m-4">
-                  <div className="absolute inset-0 rounded-full bg-cyan-400/20 animate-ping" />
+                  <div className="absolute inset-0 rounded-full bg-blue-400/20 animate-ping" />
                 </div>
                 <div className="absolute inset-0 -m-2">
-                  <div className="absolute inset-0 rounded-full bg-cyan-400/30 animate-pulse" />
+                  <div className="absolute inset-0 rounded-full bg-blue-400/30 animate-pulse" />
                 </div>
                 
                 {/* Play button */}
-                <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center shadow-2xl shadow-cyan-400/30 group-hover:shadow-cyan-400/50 transition-shadow">
+                <div className="relative w-20 h-20 rounded-full bg-linear-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-2xl shadow-blue-400/30 group-hover:shadow-blue-400/50 transition-shadow">
                   <Play className="w-8 h-8 text-white ml-1" fill="white" />
                 </div>
               </motion.button>
@@ -132,7 +132,7 @@ export function VideoCard({
           {!isPlaying && (
             <button
               onClick={() => videoUrl && setIsPlaying(true)}
-              className="text-cyan-400 text-sm font-semibold hover:text-cyan-300 transition-colors flex items-center gap-1"
+              className="text-blue-400 text-sm font-semibold hover:text-blue-300 transition-colors flex items-center gap-1"
             >
               Watch Now
               <Play className="w-3 h-3" fill="currentColor" />

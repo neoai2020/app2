@@ -227,8 +227,8 @@ function EmailBuilderContent() {
         <Card className="mb-6" glow>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-purple-400/10 border border-purple-400/20">
-                <Sparkles className="w-6 h-6 text-purple-400" />
+              <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
+                <Sparkles className="w-6 h-6 text-indigo-400" />
               </div>
               <div>
                 <CardTitle>Generation Parameters</CardTitle>
@@ -272,10 +272,10 @@ function EmailBuilderContent() {
               />
 
               {selectedLeadData && (
-                <div className="p-4 rounded-lg bg-cyan-400/5 border border-cyan-400/20">
+                <div className="p-4 rounded-lg bg-blue-400/5 border border-blue-400/20">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full" />
-                    <span className="text-xs text-cyan-400 uppercase tracking-wider">Target Data</span>
+                    <div className="w-2 h-2 bg-blue-400 rounded-full" />
+                    <span className="text-xs text-blue-400 uppercase tracking-wider">Target Data</span>
                   </div>
                   <p className="font-medium text-white">{selectedLeadData.business_name}</p>
                   <p className="text-sm text-zinc-400 font-mono">{selectedLeadData.email}</p>
@@ -357,7 +357,7 @@ function EmailBuilderContent() {
             <CardContent className="space-y-6">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-cyan-300/80 uppercase tracking-wider">Subject Line</label>
+                  <label className="text-sm font-medium text-blue-300/80 uppercase tracking-wider">Subject Line</label>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -375,7 +375,7 @@ function EmailBuilderContent() {
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-cyan-300/80 uppercase tracking-wider">Email Body</label>
+                  <label className="text-sm font-medium text-blue-300/80 uppercase tracking-wider">Email Body</label>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -395,7 +395,7 @@ function EmailBuilderContent() {
               {followUp && (
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-sm font-medium text-cyan-300/80 uppercase tracking-wider">Follow-Up</label>
+                    <label className="text-sm font-medium text-blue-300/80 uppercase tracking-wider">Follow-Up</label>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -447,7 +447,7 @@ export default function EmailBuilderPage() {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-12 h-12 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full"
+          className="w-12 h-12 border-2 border-blue-400/30 border-t-blue-400 rounded-full"
         />
       </div>
     }>

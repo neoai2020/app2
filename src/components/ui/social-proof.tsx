@@ -79,9 +79,9 @@ const iconComponents = {
 
 const iconColors = {
   dollar: 'text-green-400 bg-green-400/20',
-  email: 'text-cyan-400 bg-cyan-400/20',
-  lead: 'text-purple-400 bg-purple-400/20',
-  success: 'text-emerald-400 bg-emerald-400/20'
+  email: 'text-blue-400 bg-blue-400/20',
+  lead: 'text-indigo-400 bg-indigo-400/20',
+  success: 'text-blue-400 bg-blue-400/20'
 }
 
 export function SocialProofNotifications() {
@@ -150,7 +150,7 @@ export function SocialProofNotifications() {
                     <p className="font-bold text-white text-sm truncate">
                       {notification.name}
                     </p>
-                    <span className="flex-shrink-0 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                    <span className="shrink-0 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                   </div>
                   <p className="text-zinc-400 text-xs mt-0.5">
                     {notification.location}
@@ -219,20 +219,20 @@ export function LiveActivityCounter() {
         </p>
         <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Community Earnings</p>
       </div>
-      <div className="text-center p-4 rounded-lg bg-cyan-400/5 border border-cyan-400/20">
-        <p className="text-2xl font-bold text-cyan-400 font-mono">
+      <div className="text-center p-4 rounded-lg bg-blue-400/5 border border-blue-400/20">
+        <p className="text-2xl font-bold text-blue-400 font-mono">
           {formatNumber(stats.activeUsers)}
         </p>
         <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Active Members</p>
       </div>
-      <div className="text-center p-4 rounded-lg bg-purple-400/5 border border-purple-400/20">
-        <p className="text-2xl font-bold text-purple-400 font-mono">
+      <div className="text-center p-4 rounded-lg bg-indigo-400/5 border border-indigo-400/20">
+        <p className="text-2xl font-bold text-indigo-400 font-mono">
           {formatNumber(stats.emailsSent)}
         </p>
         <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Emails Sent</p>
       </div>
-      <div className="text-center p-4 rounded-lg bg-pink-400/5 border border-pink-400/20">
-        <p className="text-2xl font-bold text-pink-400 font-mono">
+      <div className="text-center p-4 rounded-lg bg-orange-400/5 border border-orange-400/20">
+        <p className="text-2xl font-bold text-orange-400 font-mono">
           {formatNumber(stats.leadsGenerated)}
         </p>
         <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Leads Generated</p>

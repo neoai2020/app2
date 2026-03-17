@@ -70,9 +70,9 @@ export default function ActivityPage() {
   const getActionColor = (action: string) => {
     switch (action) {
       case 'lead_allocated':
-        return { bg: 'bg-cyan-400/10', border: 'border-cyan-400/20', text: 'text-cyan-400' }
+        return { bg: 'bg-blue-400/10', border: 'border-blue-400/20', text: 'text-blue-400' }
       case 'email_generated':
-        return { bg: 'bg-purple-400/10', border: 'border-purple-400/20', text: 'text-purple-400' }
+        return { bg: 'bg-indigo-400/10', border: 'border-indigo-400/20', text: 'text-indigo-400' }
       case 'email_saved':
         return { bg: 'bg-green-400/10', border: 'border-green-400/20', text: 'text-green-400' }
       case 'offer_created':
@@ -136,13 +136,13 @@ export default function ActivityPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/20">
-                <Activity className="w-6 h-6 text-cyan-400" />
+              <div className="p-3 rounded-lg bg-blue-400/10 border border-blue-400/20">
+                <Activity className="w-6 h-6 text-blue-400" />
               </div>
               <div>
                 <CardTitle>Event Stream</CardTitle>
                 <CardDescription>
-                  <span className="text-cyan-400 font-mono">{activities.length}</span> events recorded
+                  <span className="text-blue-400 font-mono">{activities.length}</span> events recorded
                 </CardDescription>
               </div>
             </div>
@@ -153,7 +153,7 @@ export default function ActivityPage() {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="w-8 h-8 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full mx-auto"
+                  className="w-8 h-8 border-2 border-blue-400/30 border-t-blue-400 rounded-full mx-auto"
                 />
                 <p className="text-zinc-500 mt-4">Loading events...</p>
               </div>
@@ -175,7 +175,7 @@ export default function ActivityPage() {
                       transition={{ delay: index * 0.03 }}
                       className="px-6 py-4 flex items-start gap-4 hover:bg-zinc-800/20 transition-colors"
                     >
-                      <div className={`p-2.5 rounded-lg ${colors.bg} border ${colors.border} flex-shrink-0`}>
+                      <div className={`p-2.5 rounded-lg ${colors.bg} border ${colors.border} shrink-0`}>
                         <span className={colors.text}>
                           {getIcon(activity.action as keyof typeof ACTIVITY_ACTIONS)}
                         </span>
@@ -188,11 +188,11 @@ export default function ActivityPage() {
                           {activity.description}
                         </p>
                       </div>
-                      <div className="text-right flex-shrink-0">
+                      <div className="text-right shrink-0">
                         <p className="text-xs text-zinc-500 font-mono">
                           {format(new Date(activity.created_at), 'MMM d, yyyy')}
                         </p>
-                        <p className="text-xs text-cyan-400/60 font-mono">
+                        <p className="text-xs text-blue-400/60 font-mono">
                           {format(new Date(activity.created_at), 'HH:mm:ss')}
                         </p>
                       </div>

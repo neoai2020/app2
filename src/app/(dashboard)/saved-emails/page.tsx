@@ -118,7 +118,7 @@ export default function SavedEmailsPage() {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="w-8 h-8 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full mx-auto"
+              className="w-8 h-8 border-2 border-blue-400/30 border-t-blue-400 rounded-full mx-auto"
             />
             <p className="text-zinc-500 mt-4">Loading archive...</p>
           </CardContent>
@@ -194,7 +194,7 @@ export default function SavedEmailsPage() {
                         {/* Subject */}
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2">
-                            <label className="text-xs font-medium text-cyan-300/80 uppercase tracking-wider">Subject Line</label>
+                            <label className="text-xs font-medium text-blue-300/80 uppercase tracking-wider">Subject Line</label>
                             <Button
                               variant="ghost"
                               size="sm"
@@ -215,7 +215,7 @@ export default function SavedEmailsPage() {
                         {/* Body */}
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2">
-                            <label className="text-xs font-medium text-cyan-300/80 uppercase tracking-wider">Email Body</label>
+                            <label className="text-xs font-medium text-blue-300/80 uppercase tracking-wider">Email Body</label>
                             <Button
                               variant="ghost"
                               size="sm"
@@ -237,7 +237,7 @@ export default function SavedEmailsPage() {
                         {email.follow_up && (
                           <div className="mb-4">
                             <div className="flex items-center justify-between mb-2">
-                              <label className="text-xs font-medium text-cyan-300/80 uppercase tracking-wider">Follow-Up</label>
+                              <label className="text-xs font-medium text-blue-300/80 uppercase tracking-wider">Follow-Up</label>
                               <Button
                                 variant="ghost"
                                 size="sm"
