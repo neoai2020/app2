@@ -136,13 +136,13 @@ export default function LeadsPage() {
         <Card className="mb-8" glow>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-blue-400/10 border border-blue-400/20">
-                <Target className="w-6 h-6 text-blue-400" />
+              <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20">
+                <Target className="w-6 h-6 text-[#D946EF]" />
               </div>
               <div>
                 <CardTitle>Allocation Parameters</CardTitle>
                 <CardDescription>
-                  <span className="text-blue-400 font-mono">{remainingLeads}</span> allocations remaining in current cycle
+                  <span className="text-[#D946EF] font-mono">{remainingLeads}</span> allocations remaining in current cycle
                 </CardDescription>
               </div>
             </div>
@@ -242,7 +242,7 @@ export default function LeadsPage() {
                                 href={lead.website}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 mt-1"
+                                className="text-xs text-[#D946EF] hover:text-[#e879f9] flex items-center gap-1 mt-1"
                               >
                                 <ExternalLink size={10} />
                                 Website
@@ -253,7 +253,7 @@ export default function LeadsPage() {
                         <td className="px-6 py-4">
                           <a
                             href={`mailto:${lead.email}`}
-                            className="text-blue-400 hover:text-blue-300 flex items-center gap-2"
+                            className="text-[#D946EF] hover:text-[#e879f9] flex items-center gap-2"
                           >
                             <Mail size={14} />
                             <span className="font-mono text-sm">{lead.email}</span>

@@ -70,7 +70,7 @@ export default function ActivityPage() {
   const getActionColor = (action: string) => {
     switch (action) {
       case 'lead_allocated':
-        return { bg: 'bg-blue-400/10', border: 'border-blue-400/20', text: 'text-blue-400' }
+        return { bg: 'bg-[#D946EF]/10', border: 'border-[#D946EF]/20', text: 'text-[#D946EF]' }
       case 'email_generated':
         return { bg: 'bg-indigo-400/10', border: 'border-indigo-400/20', text: 'text-indigo-400' }
       case 'email_saved':
@@ -136,13 +136,13 @@ export default function ActivityPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-blue-400/10 border border-blue-400/20">
-                <Activity className="w-6 h-6 text-blue-400" />
+              <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20">
+                <Activity className="w-6 h-6 text-[#D946EF]" />
               </div>
               <div>
                 <CardTitle>Event Stream</CardTitle>
                 <CardDescription>
-                  <span className="text-blue-400 font-mono">{activities.length}</span> events recorded
+                  <span className="text-[#D946EF] font-mono">{activities.length}</span> events recorded
                 </CardDescription>
               </div>
             </div>
@@ -153,7 +153,7 @@ export default function ActivityPage() {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="w-8 h-8 border-2 border-blue-400/30 border-t-blue-400 rounded-full mx-auto"
+                  className="w-8 h-8 border-2 border-[#D946EF]/30 border-t-[#D946EF] rounded-full mx-auto"
                 />
                 <p className="text-zinc-500 mt-4">Loading events...</p>
               </div>
@@ -192,7 +192,7 @@ export default function ActivityPage() {
                         <p className="text-xs text-zinc-500 font-mono">
                           {format(new Date(activity.created_at), 'MMM d, yyyy')}
                         </p>
-                        <p className="text-xs text-blue-400/60 font-mono">
+                        <p className="text-xs text-[#D946EF]/60 font-mono">
                           {format(new Date(activity.created_at), 'HH:mm:ss')}
                         </p>
                       </div>

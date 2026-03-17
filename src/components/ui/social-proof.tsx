@@ -79,9 +79,9 @@ const iconComponents = {
 
 const iconColors = {
   dollar: 'text-green-400 bg-green-400/20',
-  email: 'text-blue-400 bg-blue-400/20',
+  email: 'text-[#D946EF] bg-[#D946EF]/20',
   lead: 'text-indigo-400 bg-indigo-400/20',
-  success: 'text-blue-400 bg-blue-400/20'
+  success: 'text-[#D946EF] bg-[#D946EF]/20'
 }
 
 export function SocialProofNotifications() {
@@ -182,7 +182,7 @@ export function SocialProofNotifications() {
 }
 
 // Live counter component for dashboard
-export function LiveActivityCounter() {
+export function LiveActivityCounter({ orientation = 'horizontal' }: { orientation?: 'horizontal' | 'vertical' }) {
   const [stats, setStats] = useState({
     totalEarnings: 683755.34,
     activeUsers: 1847,
@@ -212,30 +212,30 @@ export function LiveActivityCounter() {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div className="text-center p-4 rounded-lg bg-green-400/5 border border-green-400/20">
-        <p className="text-2xl font-bold text-green-400 font-mono">
+    <div className={orientation === 'vertical' ? 'flex flex-col gap-4' : 'grid grid-cols-2 md:grid-cols-4 gap-4'}>
+      <div className={`text-center p-4 rounded-lg bg-white/2 border border-white/5 ${orientation === 'vertical' ? 'text-left' : ''}`}>
+        <p className={`text-xl font-bold text-[#D946EF] font-mono ${orientation === 'vertical' ? 'text-lg' : ''}`}>
           {formatCurrency(stats.totalEarnings)}
         </p>
-        <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Community Earnings</p>
+        <p className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1 font-bold">Community Earnings</p>
       </div>
-      <div className="text-center p-4 rounded-lg bg-blue-400/5 border border-blue-400/20">
-        <p className="text-2xl font-bold text-blue-400 font-mono">
+      <div className={`text-center p-4 rounded-lg bg-white/2 border border-white/5 ${orientation === 'vertical' ? 'text-left' : ''}`}>
+        <p className={`text-xl font-bold text-white font-mono ${orientation === 'vertical' ? 'text-lg' : ''}`}>
           {formatNumber(stats.activeUsers)}
         </p>
-        <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Active Members</p>
+        <p className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1 font-bold">Active Members</p>
       </div>
-      <div className="text-center p-4 rounded-lg bg-indigo-400/5 border border-indigo-400/20">
-        <p className="text-2xl font-bold text-indigo-400 font-mono">
+      <div className={`text-center p-4 rounded-lg bg-white/2 border border-white/5 ${orientation === 'vertical' ? 'text-left' : ''}`}>
+        <p className={`text-xl font-bold text-white font-mono ${orientation === 'vertical' ? 'text-lg' : ''}`}>
           {formatNumber(stats.emailsSent)}
         </p>
-        <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Emails Sent</p>
+        <p className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1 font-bold">Emails Sent</p>
       </div>
-      <div className="text-center p-4 rounded-lg bg-orange-400/5 border border-orange-400/20">
-        <p className="text-2xl font-bold text-orange-400 font-mono">
+      <div className={`text-center p-4 rounded-lg bg-white/2 border border-white/5 ${orientation === 'vertical' ? 'text-left' : ''}`}>
+        <p className={`text-xl font-bold text-white font-mono ${orientation === 'vertical' ? 'text-lg' : ''}`}>
           {formatNumber(stats.leadsGenerated)}
         </p>
-        <p className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Leads Generated</p>
+        <p className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1 font-bold">Leads Generated</p>
       </div>
     </div>
   )

@@ -46,20 +46,20 @@ export function Sidebar() {
   const sidebarContent = (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="p-6 border-b border-blue-400/10">
+      <div className="p-6 border-b border-white/5">
         <div className="flex items-center gap-3">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           >
-            <Hexagon className="w-10 h-10 text-blue-400" strokeWidth={1.5} />
+            <Hexagon className="w-10 h-10 text-[#D946EF]" strokeWidth={1.5} />
           </motion.div>
           <div>
-            <h1 className="text-lg font-bold gradient-text">
+            <h1 className="text-xl font-black italic uppercase tracking-tighter text-white">
               INBOX VAULT
             </h1>
-            <p className="text-[10px] text-blue-400/50 uppercase tracking-[0.2em]">
-              Lead System v2.0
+            <p className="text-[10px] text-[#D946EF]/50 uppercase tracking-[0.2em] font-bold">
+              Control Hub v2.0
             </p>
           </div>
         </div>
@@ -91,8 +91,8 @@ export function Sidebar() {
                     flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
                     transition-all duration-300
                     ${isActive
-                      ? 'active bg-blue-400/5 text-blue-400'
-                      : 'text-zinc-400 hover:text-blue-300'
+                      ? 'active bg-[#D946EF]/5 text-[#D946EF]'
+                      : 'text-zinc-400 hover:text-[#D946EF]/80'
                     }
                   `}
                 >
@@ -101,8 +101,8 @@ export function Sidebar() {
                   {isActive && (
                     <motion.div
                       layoutId="activeIndicator"
-                      className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"
-                      style={{ boxShadow: '0 0 10px rgba(0, 240, 255, 0.5)' }}
+                      className="ml-auto w-1.5 h-1.5 rounded-full bg-[#D946EF]"
+                      style={{ boxShadow: '0 0 10px rgba(217, 70, 239, 0.5)' }}
                     />
                   )}
                 </Link>
@@ -113,7 +113,7 @@ export function Sidebar() {
       </nav>
 
       {/* Status indicator */}
-      <div className="px-4 py-3 mx-4 mb-4 rounded-lg bg-blue-400/5 border border-blue-400/10">
+      <div className="px-4 py-3 mx-4 mb-4 rounded-lg bg-[#D946EF]/5 border border-white/5">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
@@ -124,7 +124,7 @@ export function Sidebar() {
       </div>
 
       {/* Sign Out */}
-      <div className="p-4 border-t border-blue-400/10">
+      <div className="p-4 border-t border-[#D946EF]/10">
         <button
           onClick={handleSignOut}
           className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-zinc-500 hover:text-red-400 hover:bg-red-400/5 w-full transition-all duration-300"
@@ -145,7 +145,7 @@ export function Sidebar() {
         className="lg:hidden fixed top-4 left-4 z-50 p-3 glass-card"
         onClick={() => setMobileOpen(!mobileOpen)}
       >
-        {mobileOpen ? <X size={20} className="text-blue-400" /> : <Menu size={20} className="text-blue-400" />}
+        {mobileOpen ? <X size={20} className="text-[#D946EF]" /> : <Menu size={20} className="text-[#D946EF]" />}
       </motion.button>
 
       {/* Overlay for mobile */}

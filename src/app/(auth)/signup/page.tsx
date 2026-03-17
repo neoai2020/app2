@@ -79,7 +79,7 @@ export default function SignupPage() {
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         >
-          <Hexagon className="w-16 h-16 text-blue-400" strokeWidth={1} />
+          <Hexagon className="w-16 h-16 text-[#D946EF]" strokeWidth={1} />
         </motion.div>
         <h1 className="text-3xl font-bold gradient-text mb-2">INBOX VAULT</h1>
         <p className="text-zinc-500 text-sm uppercase tracking-widest">Lead Allocation System</p>
@@ -187,14 +187,14 @@ export default function SignupPage() {
           href="https://help.explodely.com/support/tickets/new"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-zinc-500 hover:text-blue-400 text-xs uppercase tracking-wider transition-colors"
+          className="text-zinc-500 hover:text-[#D946EF] text-xs uppercase tracking-wider transition-colors"
         >
           Billing Support
         </a>
         <span className="text-zinc-700">•</span>
         <a
           href="mailto:imv@neoai.freshdesk.com"
-          className="text-zinc-500 hover:text-blue-400 text-xs uppercase tracking-wider transition-colors"
+          className="text-zinc-500 hover:text-[#D946EF] text-xs uppercase tracking-wider transition-colors"
         >
           Product Support
         </a>

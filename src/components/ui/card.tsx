@@ -16,9 +16,9 @@ export function Card({ children, className = '', hover = true, glow = false }: C
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      whileHover={hover ? { scale: 1.01, y: -2 } : undefined}
+      whileHover={hover ? { scale: 1.005, y: -1 } : undefined}
       className={`
-        glass-card relative
+        glass-card relative border-2 border-white/5 rounded-3xl
         ${glow ? 'animate-border-glow' : ''}
         ${className}
       `}
@@ -43,7 +43,7 @@ interface CardHeaderProps {
 export function CardHeader({ children, className = '', onClick }: CardHeaderProps) {
   return (
     <div
-      className={`px-6 py-5 border-b border-white/5 ${className}`}
+      className={`px-6 py-5 border-b-2 border-white/5 ${className}`}
       onClick={onClick}
     >
       {children}

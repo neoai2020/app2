@@ -21,7 +21,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         transition={{ duration: 0.3 }}
       >
         {label && (
-          <label className="block text-sm font-medium text-blue-300/80 mb-2 uppercase tracking-wider">
+          <label className="block text-sm font-medium text-[#D946EF]/80 mb-2 uppercase tracking-wider">
             {label}
           </label>
         )}
@@ -49,15 +49,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           </select>
           {/* Dropdown arrow */}
           <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-            <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-[#D946EF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
           {/* Corner accents */}
-          <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-blue-400/30 rounded-tl" />
-          <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-blue-400/30 rounded-tr" />
-          <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-blue-400/30 rounded-bl" />
-          <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-blue-400/30 rounded-br" />
+          <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#D946EF]/30 rounded-tl" />
+          <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[#D946EF]/30 rounded-tr" />
+          <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[#D946EF]/30 rounded-bl" />
+          <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#D946EF]/30 rounded-br" />
         </div>
         {error && (
           <p className="mt-2 text-sm text-red-400 flex items-center gap-1">

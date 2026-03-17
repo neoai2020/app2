@@ -76,8 +76,8 @@ export default function SendInstructionsPage() {
         <Card className="mb-6">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-blue-400/10 border border-blue-400/20">
-                <Terminal className="w-6 h-6 text-blue-400" />
+              <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20">
+                <Terminal className="w-6 h-6 text-[#D946EF]" />
               </div>
               <div>
                 <CardTitle>Transmission Sequence</CardTitle>
@@ -93,10 +93,10 @@ export default function SendInstructionsPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="flex items-start gap-4 p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-blue-400/20 transition-colors"
+                  className="flex items-start gap-4 p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-[#D946EF]/20 transition-colors"
                 >
-                  <div className="shrink-0 w-12 h-12 rounded-lg bg-linear-to-br from-blue-400/20 to-indigo-400/20 border border-blue-400/30 flex items-center justify-center">
-                    <span className="font-mono text-blue-400 font-bold">{step.number}</span>
+                  <div className="shrink-0 w-12 h-12 rounded-lg bg-linear-to-br from-[#D946EF]/20 to-[#8B5CF6]/20 border border-[#D946EF]/30 flex items-center justify-center">
+                    <span className="font-mono text-[#D946EF] font-bold">{step.number}</span>
                   </div>
                   <div className="flex-1">
                     <h4 className="font-semibold text-white mb-1">{step.title}</h4>
@@ -207,8 +207,8 @@ export default function SendInstructionsPage() {
               For operators familiar with email infrastructure, direct SMTP integration 
               enables streamlined transmission workflows.
             </p>
-            <div className="p-4 rounded-lg bg-blue-400/5 border border-blue-400/20">
-              <h4 className="font-medium text-blue-400 mb-3 uppercase tracking-wider text-sm">Recommended Providers</h4>
+            <div className="p-4 rounded-lg bg-[#D946EF]/5 border border-[#D946EF]/20">
+              <h4 className="font-medium text-[#D946EF] mb-3 uppercase tracking-wider text-sm">Recommended Providers</h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {['Google Workspace', 'Microsoft 365', 'Zoho Mail', 'SendGrid'].map((provider) => (
                   <div key={provider} className="p-2 rounded bg-zinc-800/50 text-center text-sm text-zinc-300">

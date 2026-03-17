@@ -272,10 +272,10 @@ function EmailBuilderContent() {
               />
 
               {selectedLeadData && (
-                <div className="p-4 rounded-lg bg-blue-400/5 border border-blue-400/20">
+                <div className="p-4 rounded-lg bg-[#D946EF]/5 border border-[#D946EF]/20">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full" />
-                    <span className="text-xs text-blue-400 uppercase tracking-wider">Target Data</span>
+                    <div className="w-2 h-2 bg-[#D946EF] rounded-full" />
+                    <span className="text-xs text-[#D946EF] uppercase tracking-wider">Target Data</span>
                   </div>
                   <p className="font-medium text-white">{selectedLeadData.business_name}</p>
                   <p className="text-sm text-zinc-400 font-mono">{selectedLeadData.email}</p>
@@ -357,7 +357,7 @@ function EmailBuilderContent() {
             <CardContent className="space-y-6">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-blue-300/80 uppercase tracking-wider">Subject Line</label>
+                  <label className="text-sm font-medium text-[#e879f9]/80 uppercase tracking-wider">Subject Line</label>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -375,7 +375,7 @@ function EmailBuilderContent() {
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-blue-300/80 uppercase tracking-wider">Email Body</label>
+                  <label className="text-sm font-medium text-[#e879f9]/80 uppercase tracking-wider">Email Body</label>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -395,7 +395,7 @@ function EmailBuilderContent() {
               {followUp && (
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-sm font-medium text-blue-300/80 uppercase tracking-wider">Follow-Up</label>
+                    <label className="text-sm font-medium text-[#e879f9]/80 uppercase tracking-wider">Follow-Up</label>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -447,7 +447,7 @@ export default function EmailBuilderPage() {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-12 h-12 border-2 border-blue-400/30 border-t-blue-400 rounded-full"
+          className="w-12 h-12 border-2 border-[#D946EF]/30 border-t-[#D946EF] rounded-full"
         />
       </div>
     }>

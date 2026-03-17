@@ -35,22 +35,22 @@ export function Button({
 
   const variants = {
     primary: `
-      bg-gradient-to-r from-blue-500/20 to-indigo-500/20
-      border border-blue-400/50 text-blue-300
-      hover:border-blue-400 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]
-      hover:text-blue-200
+      bg-[#D946EF] text-white font-black italic
+      shadow-[0_8px_30px_rgba(217,70,239,0.3)]
+      hover:bg-[#e879f9] hover:scale-[1.02]
+      active:scale-[0.98]
     `,
     secondary: `
       bg-white/5 border border-white/10 text-zinc-300
       hover:bg-white/10 hover:border-white/20
     `,
     outline: `
-      border border-blue-400/30 text-blue-400 bg-transparent
-      hover:bg-blue-400/10 hover:border-blue-400/50
+      bg-white/2 border-2 border-white/5 text-white backdrop-blur-sm
+      hover:bg-white/5 hover:border-white/10
     `,
     ghost: `
       text-zinc-400 bg-transparent
-      hover:text-blue-400 hover:bg-blue-400/5
+      hover:text-[#D946EF] hover:bg-white/5
     `,
     danger: `
       bg-red-500/10 border border-red-500/30 text-red-400

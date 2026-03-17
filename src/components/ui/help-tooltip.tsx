@@ -20,9 +20,9 @@ const icons = {
 }
 
 const colors = {
-  help: 'text-zinc-400 hover:text-blue-400',
-  info: 'text-blue-400 hover:text-blue-300',
-  tip: 'text-yellow-400 hover:text-yellow-300'
+  help: 'text-zinc-400 hover:text-[#D946EF]',
+  info: 'text-[#D946EF] hover:text-[#e879f9]',
+  tip: 'text-[#C026D3] hover:text-[#D946EF]'
 }
 
 export function HelpTooltip({
@@ -84,7 +84,7 @@ export function HelpTooltip({
               {learnMoreLink && (
                 <a
                   href={learnMoreLink}
-                  className="mt-3 flex items-center gap-1 text-blue-400 text-xs hover:text-blue-300 transition-colors"
+                  className="mt-3 flex items-center gap-1 text-[#D946EF] text-xs hover:text-[#e879f9] transition-colors"
                 >
                   <BookOpen size={12} />
                   Learn more
@@ -114,7 +114,7 @@ export function HelpButton({ topic, className = '' }: HelpButtonProps) {
         // Could open a help modal or navigate to docs
         window.open(`/support#${topic}`, '_blank')
       }}
-      className={`inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-blue-400 transition-colors ${className}`}
+      className={`inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-[#D946EF] transition-colors ${className}`}
     >
       <HelpCircle size={12} />
       Need help?
@@ -138,10 +138,10 @@ export function QuickTip({ tip, onDismiss }: QuickTipProps) {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="mb-4 p-3 rounded-lg bg-yellow-400/5 border border-yellow-400/20 flex items-start gap-3"
+      className="mb-4 p-3 rounded-lg bg-[#D946EF]/5 border border-[#D946EF]/20 flex items-start gap-3"
     >
-      <Lightbulb className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-      <p className="text-sm text-yellow-200/80 flex-1">{tip}</p>
+      <Lightbulb className="w-4 h-4 text-[#D946EF] shrink-0 mt-0.5" />
+      <p className="text-sm text-purple-200/80 flex-1">{tip}</p>
       <button
         onClick={() => {
           setDismissed(true)

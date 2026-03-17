@@ -251,8 +251,8 @@ export default function OffersPage() {
         <Card className="mb-6">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-blue-400/10 border border-blue-400/20">
-                <FolderOpen className="w-6 h-6 text-blue-400" />
+              <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20">
+                <FolderOpen className="w-6 h-6 text-[#D946EF]" />
               </div>
               <div>
                 <CardTitle>System Templates</CardTitle>
@@ -268,9 +268,9 @@ export default function OffersPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-blue-400/20 transition-colors"
+                  className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-[#D946EF]/20 transition-colors"
                 >
-                  <h4 className="font-medium text-blue-400 mb-2">{template.title}</h4>
+                  <h4 className="font-medium text-[#D946EF] mb-2">{template.title}</h4>
                   <p className="text-sm text-zinc-500 italic">{template.description}</p>
                 </motion.div>
               ))}
@@ -321,7 +321,7 @@ export default function OffersPage() {
                             href={offer.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-400 hover:text-blue-300 text-sm flex items-center gap-1 mt-2"
+                            className="text-[#D946EF] hover:text-[#e879f9] text-sm flex items-center gap-1 mt-2"
                           >
                             <ExternalLink size={12} />
                             <span className="font-mono">{offer.link}</span>
