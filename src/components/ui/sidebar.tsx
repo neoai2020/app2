@@ -16,7 +16,10 @@ import {
   Menu,
   X,
   Hexagon,
-  TrendingUp
+  TrendingUp,
+  Diamond,
+  Sparkles,
+  Zap
 } from 'lucide-react'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -32,6 +35,12 @@ const navItems = [
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive },
   { href: '/scale', label: 'Scale to $1,000+/Day', icon: TrendingUp },
   { href: '/support', label: 'Support', icon: HelpCircle }
+]
+
+const premiumFeatures = [
+  { href: '/dfy', label: 'DFY', icon: Diamond },
+  { href: '/instant-income', label: 'Instant Income', icon: Sparkles },
+  { href: '/autopilot', label: 'Autopilot', icon: Zap }
 ]
 
 export function Sidebar() {
@@ -105,6 +114,50 @@ export function Sidebar() {
                       layoutId="activeIndicator"
                       className="ml-auto w-1.5 h-1.5 rounded-full bg-[#D946EF]"
                       style={{ boxShadow: '0 0 10px rgba(217, 70, 239, 0.5)' }}
+                    />
+                  )}
+                </Link>
+              </motion.li>
+            )
+          })}
+        </ul>
+
+        {/* Premium Features */}
+        <div className="mt-8 mb-4">
+          <p className="text-[10px] text-[#D946EF] font-bold uppercase tracking-widest px-4 mb-2">
+            Premium Features
+          </p>
+        </div>
+        <ul className="space-y-1">
+          {premiumFeatures.map((item, index) => {
+            const isActive = pathname === item.href
+            const Icon = item.icon
+            return (
+              <motion.li 
+                key={item.href}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: (navItems.length + index) * 0.05 }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`
+                    cyber-sidebar-item
+                    flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
+                    transition-all duration-300
+                    ${isActive
+                      ? 'active bg-[#D946EF] text-black shadow-[0_0_15px_rgba(217,70,239,0.5)]'
+                      : 'text-zinc-400 hover:text-[#D946EF]/80 hover:bg-[#D946EF]/5'
+                    }
+                  `}
+                >
+                  <Icon size={18} strokeWidth={1.5} className={isActive ? "text-black" : ""} />
+                  <span className="tracking-wide">{item.label}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activePremiumIndicator"
+                      className="ml-auto w-1.5 h-1.5 rounded-full bg-black"
                     />
                   )}
                 </Link>
