@@ -15,7 +15,8 @@ import {
   LogOut,
   Menu,
   X,
-  Hexagon
+  Hexagon,
+  TrendingUp
 } from 'lucide-react'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -29,6 +30,7 @@ const navItems = [
   { href: '/activity', label: 'Activity Log', icon: FileText },
   { href: '/offers', label: 'Offer Library', icon: Gift },
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive },
+  { href: '/scale', label: 'Scale to $1,000+/Day', icon: TrendingUp },
   { href: '/support', label: 'Support', icon: HelpCircle }
 ]
 

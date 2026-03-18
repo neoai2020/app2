@@ -341,25 +341,6 @@ export default function DashboardPage() {
             </Card>
           </motion.div>
 
-          {/* Premium Upgrade */}
-          <motion.div variants={itemVariants}>
-            <Card className="bg-[#D946EF] border-none text-white relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                 <Zap className="w-20 h-20" />
-              </div>
-              <CardContent className="p-8 space-y-4 relative z-10">
-                <div className="w-8 h-1 bg-white rounded-full" />
-                <h3 className="text-2xl font-black italic uppercase tracking-tighter leading-none">Limitless Access</h3>
-                <p className="text-sm font-bold opacity-90 uppercase leading-tight">Scale your outreach to the moon.</p>
-                <a
-                  href="/upgrades"
-                  className="inline-flex items-center justify-center w-full py-4 bg-white text-[#D946EF] font-black italic uppercase tracking-widest rounded-xl hover:scale-105 transition-transform shadow-xl"
-                >
-                  Upgrade Now
-                </a>
-              </CardContent>
-            </Card>
-          </motion.div>
 
           {/* Manager Support */}
           <motion.div variants={itemVariants}>
