@@ -21,6 +21,7 @@ interface ScraperAPIResponse {
   local_results?: GoogleMapsPlace[]
   businesses?: any[]
   local_packs?: any[]
+  organic_results?: any[]
   search_information?: Record<string, unknown>
 }
 
@@ -71,6 +72,14 @@ async function fetchRealLeads(industry: string, location: string, count: number)
       phone: null,
       website: null,
       rating: p.rating || null
+    }))
+  } else if (data.organic_results && data.organic_results.length > 0) {
+    places = data.organic_results.map((r: any) => ({
+      title: r.title,
+      address: location,
+      phone: null,
+      website: r.link || null,
+      rating: null
     }))
   }
   
