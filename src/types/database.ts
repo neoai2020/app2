@@ -120,6 +120,7 @@ export interface Database {
           link: string | null
           notes: string | null
           is_default: boolean
+          type: 'Affiliate Offer' | 'Service Offer' | 'Partnership'
           created_at: string
           updated_at: string
         }
@@ -131,6 +132,7 @@ export interface Database {
           link?: string | null
           notes?: string | null
           is_default?: boolean
+          type?: 'Affiliate Offer' | 'Service Offer' | 'Partnership'
           created_at?: string
           updated_at?: string
         }
@@ -142,6 +144,7 @@ export interface Database {
           link?: string | null
           notes?: string | null
           is_default?: boolean
+          type?: 'Affiliate Offer' | 'Service Offer' | 'Partnership'
           created_at?: string
           updated_at?: string
         }

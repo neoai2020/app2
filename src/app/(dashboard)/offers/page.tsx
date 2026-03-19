@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { Offer } from '@/types/database'
-import { Plus, Edit, Trash2, ExternalLink, Gift, FolderOpen, X } from 'lucide-react'
+import { Plus, Edit, Trash2, ExternalLink, Gift, FolderOpen, X, Briefcase, Handshake, DollarSign } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,16 +20,38 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
+export type OfferType = 'Affiliate Offer' | 'Service Offer' | 'Partnership'
+
+const NICHES = ['SaaS & Software', 'Real Estate', 'E-commerce', 'Digital Agencies', 'Coaching', 'Fitness', 'Crypto', 'Local Services']
+const SERVICES = ['Digital Marketing', 'SEO Optimization', 'Web Design', 'UI/UX Design', 'Email Marketing', 'Content Creation', 'Performance Ads (PPC)', 'App Development', 'Copywriting']
+
+
 export default function OffersPage() {
   const [offers, setOffers] = useState<Offer[]>([])
   const [showForm, setShowForm] = useState(false)
+  const [formStep, setFormStep] = useState<1 | 2>(1)
   const [editingOffer, setEditingOffer] = useState<Offer | null>(null)
+  
+  const [activeTab, setActiveTab] = useState<'All' | OfferType>('All')
+  const [type, setType] = useState<OfferType>('Affiliate Offer')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [link, setLink] = useState('')
   const [notes, setNotes] = useState('')
+  
+  const [selectedNiche, setSelectedNiche] = useState(NICHES[0])
+  const [selectedService, setSelectedService] = useState(SERVICES[0])
   const [loading, setLoading] = useState(false)
+  const [generating, setGenerating] = useState(false)
   const [error, setError] = useState('')
+
+  const editorRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (editorRef.current && editorRef.current.innerHTML !== description) {
+      editorRef.current.innerHTML = description || ''
+    }
+  }, [description])
 
   const fetchOffers = useCallback(async () => {
     try {
@@ -50,9 +72,49 @@ export default function OffersPage() {
     setDescription('')
     setLink('')
     setNotes('')
+    setType('Affiliate Offer')
+    setSelectedNiche(NICHES[0])
+    setSelectedService(SERVICES[0])
     setEditingOffer(null)
     setShowForm(false)
+    setFormStep(1)
     setError('')
+  }
+
+  const generateDescription = async () => {
+    setGenerating(true)
+    setError('')
+    try {
+      const res = await fetch('/api/offers/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service: selectedService,
+          niche: selectedNiche,
+          link: link,
+          type: type,
+          notes: notes
+        })
+      })
+      const data = await res.json()
+      // If AI fails or key is missing, throw to use fallback
+      if (!res.ok || !data.template) throw new Error(data.error || 'Failed to generate')
+      
+      setDescription(data.template)
+    } catch (err) {
+      console.error(err)
+      let text = ''
+      if (type === 'Affiliate Offer') {
+        text = `Hi there,\n\nI wanted to share a resource that has been incredibly helpful. I believe it can add massive value to your workflow.\n\nYou can check it out here: ${link || '[Your Link]'}\n\nLet me know if you have any questions!\n\nBest,\n[Your Name]`
+      } else if (type === 'Service Offer') {
+        text = `Hi there,\n\nI was reviewing some of the great work you're doing in the ${selectedNiche} space.\n\nI specialize in ${selectedService} and have helped similar businesses scale their operations and achieve exceptional results. I'd love to explore how we could potentially add value to your team.\n\nYou can see my details here: ${link || '[Your Link]'}\n\nWould you be open to a quick 5-minute chat next week?\n\nBest,\n[Your Name]`
+      } else if (type === 'Partnership') {
+        text = `Hi there,\n\nI've been following your company's growth in the ${selectedNiche} industry and I'm really impressed.\n\nI believe our services complement each other perfectly, and there could be a highly beneficial partnership opportunity for us to explore.\n\nHere is a link to what we do: ${link || '[Your Link]'}\n\nAre you open to a brief introductory call to discuss potential synergies?\n\nBest,\n[Your Name]`
+      }
+      setDescription(text)
+    } finally {
+      setGenerating(false)
+    }
   }
 
   const handleEdit = (offer: Offer) => {
@@ -61,7 +123,9 @@ export default function OffersPage() {
     setDescription(offer.description)
     setLink(offer.link || '')
     setNotes(offer.notes || '')
+    if (offer.type) setType(offer.type as OfferType)
     setShowForm(true)
+    setFormStep(2)
   }
 
   const handleSave = async () => {
@@ -76,8 +140,8 @@ export default function OffersPage() {
     try {
       const method = editingOffer ? 'PUT' : 'POST'
       const body = editingOffer
-        ? { id: editingOffer.id, name, description, link, notes }
-        : { name, description, link, notes }
+        ? { id: editingOffer.id, name, description, link, notes, type }
+        : { name, description, link, notes, type }
 
       const response = await fetch('/api/offers', {
         method,
@@ -114,20 +178,7 @@ export default function OffersPage() {
     }
   }
 
-  const templates = [
-    {
-      title: 'Affiliate Offer',
-      description: '"I\'d like to share a [product/service] that can help your business [benefit]. Many businesses like yours have seen [result]."'
-    },
-    {
-      title: 'Service Offer',
-      description: '"I noticed [observation]. I specialize in [service] and have helped similar businesses [achieve result]."'
-    },
-    {
-      title: 'Partnership',
-      description: '"I believe there\'s a great opportunity for us to collaborate on [topic]. Our services complement each other well."'
-    }
-  ]
+
 
   return (
     <motion.div
@@ -202,36 +253,150 @@ export default function OffersPage() {
                   </motion.div>
                 )}
 
-                <div className="space-y-4">
+                {formStep === 1 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <button
+                      onClick={() => { 
+                        setType('Affiliate Offer'); 
+                        setFormStep(2); 
+                      }}
+                      className="p-6 text-left rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/80 hover:border-indigo-500/50 transition-all flex flex-col gap-3 group"
+                    >
+                      <div className="p-3 bg-indigo-500/10 rounded-lg w-fit group-hover:bg-indigo-500/20 transition-colors">
+                        <DollarSign className="w-6 h-6 text-indigo-400" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-white mb-1">Affiliate Offer</h3>
+                        <p className="text-sm text-zinc-400">Promote products for a commission.</p>
+                      </div>
+                    </button>
+                    
+                    <button
+                      onClick={() => { 
+                        setType('Service Offer'); 
+                        setFormStep(2); 
+                      }}
+                      className="p-6 text-left rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/80 hover:border-emerald-500/50 transition-all flex flex-col gap-3 group"
+                    >
+                      <div className="p-3 bg-emerald-500/10 rounded-lg w-fit group-hover:bg-emerald-500/20 transition-colors">
+                        <Briefcase className="w-6 h-6 text-emerald-400" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-white mb-1">Service Offer</h3>
+                        <p className="text-sm text-zinc-400">Offer your own professional services.</p>
+                      </div>
+                    </button>
+
+                    <button
+                      onClick={() => { 
+                        setType('Partnership'); 
+                        setFormStep(2); 
+                      }}
+                      className="p-6 text-left rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/80 hover:border-[#D946EF]/50 transition-all flex flex-col gap-3 group"
+                    >
+                      <div className="p-3 bg-[#D946EF]/10 rounded-lg w-fit group-hover:bg-[#D946EF]/20 transition-colors">
+                        <Handshake className="w-6 h-6 text-[#D946EF]" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-white mb-1">Partnership</h3>
+                        <p className="text-sm text-zinc-400">Collaborate with other businesses.</p>
+                      </div>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {!editingOffer && (
+                      <button 
+                        onClick={() => setFormStep(1)} 
+                        className="text-sm text-zinc-400 hover:text-white transition-colors mb-2 flex items-center gap-1"
+                      >
+                        &larr; Back to Types
+                      </button>
+                    )}
+                    
                   <Input
-                    label="Template Name"
-                    placeholder="e.g., Web Design Services"
+                    label="Offer/Template Name"
+                    placeholder="e.g., Summer Outreach"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
 
-                  <Textarea
-                    label="Description"
-                    placeholder="Describe the offer value proposition..."
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
+                  {type === 'Service Offer' && (
+                    <>
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Service Offered</label>
+                        <select 
+                          value={selectedService}
+                          onChange={(e) => setSelectedService(e.target.value)}
+                          className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                        >
+                          {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+                        </select>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Target Niche</label>
+                        <select 
+                          value={selectedNiche}
+                          onChange={(e) => setSelectedNiche(e.target.value)}
+                          className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                        >
+                          {NICHES.map(n => <option key={n} value={n}>{n}</option>)}
+                        </select>
+                      </div>
+                    </>
+                  )}
+
+                  {type === 'Partnership' && (
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Target Niche</label>
+                      <select 
+                        value={selectedNiche}
+                        onChange={(e) => setSelectedNiche(e.target.value)}
+                        className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                      >
+                        {NICHES.map(n => <option key={n} value={n}>{n}</option>)}
+                      </select>
+                    </div>
+                  )}
 
                   <Input
-                    label="Link (Optional)"
-                    placeholder="https://example.com/offer"
+                    label="Your Link / Email / Website"
+                    placeholder="https://your-website.com"
                     value={link}
                     onChange={(e) => setLink(e.target.value)}
                   />
 
                   <Textarea
-                    label="Notes (Optional)"
-                    placeholder="Internal notes or instructions..."
+                    label="Notes & Custom Instructions (Optional)"
+                    placeholder="e.g. Please mention our recent award, write in a very casual tone, etc."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                   />
 
-                  <div className="flex gap-4 pt-4">
+                  <div className="space-y-1 pt-4 border-t border-white/5">
+                    <div className="flex justify-between items-center px-1">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Generated Email Template</label>
+                      <button 
+                        onClick={generateDescription}
+                        disabled={generating}
+                        className="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-colors disabled:opacity-50 flex items-center gap-1"
+                      >
+                        {generating ? '✨ Generating...' : '✨ Generate with AI'}
+                      </button>
+                    </div>
+                    <div
+                      ref={editorRef}
+                      contentEditable
+                      onBlur={() => {
+                        if (editorRef.current) {
+                          setDescription(editorRef.current.innerHTML)
+                        }
+                      }}
+                      className="min-h-[160px] p-4 text-sm leading-relaxed bg-[#111111] border border-white/10 rounded-xl text-zinc-300 focus:outline-none focus:border-indigo-500 overflow-y-auto w-full cursor-text [&_a]:text-blue-400 [&_a]:underline [&_p]:mb-4 last:[&_p]:mb-0"
+                    />
+                  </div>
+
+                  <div className="flex gap-4 pt-4 mt-4 border-t border-white/5">
                     <Button onClick={handleSave} loading={loading} glow>
                       {editingOffer ? 'Update Template' : 'Save Template'}
                     </Button>
@@ -240,47 +405,33 @@ export default function OffersPage() {
                     </Button>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
-      {/* Default Templates */}
-      <motion.div variants={itemVariants}>
-        <Card className="mb-6">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20">
-                <FolderOpen className="w-6 h-6 text-[#D946EF]" />
-              </div>
-              <div>
-                <CardTitle>System Templates</CardTitle>
-                <CardDescription>Pre-configured offer frameworks</CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4">
-              {templates.map((template, index) => (
-                <motion.div
-                  key={template.title}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-[#D946EF]/20 transition-colors"
-                >
-                  <h4 className="font-medium text-[#D946EF] mb-2">{template.title}</h4>
-                  <p className="text-sm text-zinc-500 italic">{template.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+
 
       {/* User's Offers */}
       <motion.div variants={itemVariants}>
+        <div className="mb-6 flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+          {(['All', 'Affiliate Offer', 'Service Offer', 'Partnership'] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                activeTab === t
+                  ? 'bg-zinc-100 text-zinc-900'
+                  : 'bg-zinc-800/50 text-zinc-400 hover:text-white hover:bg-zinc-800'
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -304,7 +455,7 @@ export default function OffersPage() {
               </div>
             ) : (
               <div className="divide-y divide-zinc-800/50">
-                {offers.map((offer, index) => (
+                {offers.filter(o => activeTab === 'All' || o.type === activeTab).map((offer, index) => (
                   <motion.div
                     key={offer.id}
                     initial={{ opacity: 0, x: -20 }}
@@ -314,7 +465,12 @@ export default function OffersPage() {
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-white text-lg mb-2">{offer.name}</h4>
+                        <div className="flex items-center gap-3 mb-2">
+                          <h4 className="font-semibold text-white text-lg">{offer.name}</h4>
+                          <span className="px-2 py-0.5 bg-zinc-800 border border-zinc-700 rounded text-xs text-zinc-300">
+                            {offer.type || 'Affiliate Offer'}
+                          </span>
+                        </div>
                         <p className="text-zinc-400">{offer.description}</p>
                         {offer.link && (
                           <a

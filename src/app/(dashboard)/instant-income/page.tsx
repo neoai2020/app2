@@ -19,53 +19,50 @@ export default function InstantIncomePage() {
         &larr; BACK TO DASHBOARD
       </div>
 
-      {/* Main Hero Card */}
-      <div className="relative overflow-hidden rounded-4xl border border-white/5 bg-[#111111] p-10 md:p-16 text-center">
-        {/* Abstract Background Gradient */}
-        <div className="absolute inset-0 bg-linear-to-b from-[#D946EF]/5 to-transparent pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#D946EF]/10 blur-[100px] rounded-full pointer-events-none" />
+      {/* Combined Hero & Video Section */}
+      <div className="rounded-4xl border border-white/5 bg-[#111111] overflow-hidden flex flex-col lg:flex-row shadow-2xl">
         
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#1877F2] flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(24,119,242,0.4)]">
-            <Facebook className="w-8 h-8 text-white" fill="currentColor" />
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase tracking-tighter text-white mb-2">
-            INSTANT INCOME: <span className="text-[#D946EF]">FACEBOOK POSTS</span>
-          </h1>
-          <h2 className="text-sm md:text-base font-black uppercase text-[#D946EF] tracking-widest mb-6">
-            200+ READY-TO-POST MESSAGES FOR FACEBOOK GROUPS
-          </h2>
-          <p className="text-zinc-400 text-xs md:text-sm font-medium tracking-wide uppercase max-w-2xl mx-auto leading-relaxed">
-            COPY THESE PROVEN POSTS, PASTE THEM IN FACEBOOK GROUPS, AND START MAKING MONEY<br className="hidden md:block"/> TODAY. NO TECH SKILLS NEEDED!
-          </p>
+        {/* Left: Video */}
+        <div className="lg:w-1/2 relative min-h-[300px] lg:min-h-[450px] bg-[#0a0a0a] border-b lg:border-b-0 lg:border-r border-white/5 flex items-center justify-center p-8 group overflow-hidden">
+           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center opacity-20 group-hover:scale-105 transition-transform duration-700" />
+           <div className="absolute inset-0 bg-linear-to-tr from-[#D946EF]/20 via-[#111111]/80 to-[#111111] opacity-80" />
+           
+           <button className="relative z-10 w-20 h-20 bg-[#D946EF] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(217,70,239,0.4)] transform group-hover:scale-110 transition-all duration-300">
+             <Play className="w-8 h-8 text-black ml-1" fill="currentColor" />
+           </button>
+           
+           <div className="absolute bottom-8 left-0 right-0 text-center">
+             <span className="text-white text-xs font-black uppercase tracking-widest bg-black/60 py-2.5 px-6 rounded-full backdrop-blur-md border border-white/10 shadow-lg">
+               <Video className="w-3 h-3 inline-block mr-2 -mt-0.5" /> WATCH TUTORIAL
+             </span>
+           </div>
         </div>
-      </div>
 
-      {/* Video Tutorial Section */}
-      <div className="rounded-3xl border border-white/5 bg-[#111111] flex flex-col md:flex-row overflow-hidden">
-        {/* Thumbnail Replacement */}
-        <div className="md:w-1/2 min-h-[250px] relative bg-[#0a0a0a] border-r border-white/5 flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center opacity-30" />
-          <div className="absolute inset-0 bg-linear-to-r from-black/80 to-transparent" />
-          <button className="relative z-10 w-16 h-16 bg-[#D946EF] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(217,70,239,0.5)] transform hover:scale-105 transition-transform group">
-             <Play className="w-6 h-6 text-black ml-1 group-hover:scale-110 transition-transform" fill="currentColor" />
-          </button>
-          <div className="absolute bottom-4 left-4 right-4 text-center">
-            <p className="text-white text-xs font-bold uppercase tracking-widest">WATCH INSTANT INCOME TUTORIAL</p>
+        {/* Right: Content */}
+        <div className="lg:w-1/2 p-10 md:p-14 flex flex-col justify-center relative">
+          <div className="absolute inset-0 bg-linear-to-b from-[#D946EF]/5 to-transparent pointer-events-none" />
+          
+          <div className="w-14 h-14 rounded-2xl bg-[#1877F2]/10 border border-[#1877F2]/20 flex items-center justify-center mb-6">
+            <Facebook className="w-7 h-7 text-[#1877F2]" fill="currentColor" />
           </div>
-        </div>
-        
-        {/* Description */}
-        <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-          <div className="flex items-center gap-2 text-[#D946EF] font-bold text-xs uppercase tracking-widest mb-3">
-            <Video className="w-4 h-4" /> WATCH FIRST
-          </div>
-          <h3 className="text-2xl font-black italic uppercase tracking-tighter text-white mb-4">
-            HOW TO USE INSTANT INCOME
-          </h3>
-          <p className="text-zinc-400 text-sm leading-relaxed">
-            Watch this quick tutorial to learn how to copy these Facebook posts and start making money instantly. Simple and easy!
+          
+          <h1 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white mb-2 leading-tight">
+            INSTANT INCOME:<br/> <span className="text-[#D946EF]">FACEBOOK POSTS</span>
+          </h1>
+          
+          <h2 className="text-xs md:text-sm font-black uppercase text-[#D946EF] tracking-widest mb-6">
+            200+ READY-TO-POST MESSAGES
+          </h2>
+          
+          <p className="text-zinc-400 text-sm font-medium tracking-wide leading-relaxed mb-8 max-w-md">
+            Copy proven posts, paste them in Facebook groups, and start generating income today. No tech skills needed. Watch the quick tutorial to learn exactly how it works!
           </p>
+
+          <div className="flex items-center gap-4">
+            <button className="bg-white text-black font-black uppercase italic tracking-widest text-xs py-4 px-8 rounded-xl hover:bg-zinc-200 transition-transform hover:scale-105 active:scale-95 shadow-xl">
+              Start Earning
+            </button>
+          </div>
         </div>
       </div>
 

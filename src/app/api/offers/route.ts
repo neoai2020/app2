@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    const { name, description, link, notes } = body
+    const { name, description, link, notes, type } = body
 
     if (!name || !description) {
       return NextResponse.json({ error: 'Name and description are required' }, { status: 400 })
@@ -50,7 +50,8 @@ export async function POST(request: Request) {
         name,
         description,
         link: link || null,
-        notes: notes || null
+        notes: notes || null,
+        type: type || 'Affiliate Offer'
       })
       .select()
       .single()
@@ -83,7 +84,7 @@ export async function PUT(request: Request) {
     }
 
     const body = await request.json()
-    const { id, name, description, link, notes } = body
+    const { id, name, description, link, notes, type } = body
 
     if (!id || !name || !description) {
       return NextResponse.json({ error: 'ID, name, and description are required' }, { status: 400 })
@@ -95,7 +96,8 @@ export async function PUT(request: Request) {
         name,
         description,
         link: link || null,
-        notes: notes || null
+        notes: notes || null,
+        type: type || 'Affiliate Offer'
       })
       .eq('id', id)
       .eq('user_id', user.id)

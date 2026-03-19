@@ -2,16 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { DAILY_EMAIL_LIMIT } from '@/lib/constants'
 import { Lead, Offer, UsageLimit } from '@/types/database'
-import OpenAI from 'openai'
-
-function getOpenAIClient() {
-  if (!process.env.OPENAI_API_KEY) {
-    return null
-  }
-  return new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-  })
-}
+// Use RapidAPI endpoint
+const RAPIDAPI_HOST = 'chatgpt-42.p.rapidapi.com'
+const RAPIDAPI_URL = `https://${RAPIDAPI_HOST}/gpt4`
 
 export async function POST(request: Request) {
   try {
@@ -137,29 +130,49 @@ Format your response as JSON:
       followUp: ''
     }
 
-    const openai = getOpenAIClient()
-    if (openai) {
+    const rapidApiKey = process.env.RAPIDAPI_KEY
+    if (rapidApiKey) {
       try {
-        const completion = await openai.chat.completions.create({
-          model: 'gpt-3.5-turbo',
-          messages: [
-            {
-              role: 'system',
-              content: 'You are a professional email copywriter who creates compliant, human-sounding business outreach emails. Never use spammy language or make unrealistic promises.'
-            },
-            {
-              role: 'user',
-              content: prompt
-            }
-          ],
-          temperature: 0.7,
-          max_tokens: 1000
+        const response = await fetch(RAPIDAPI_URL, {
+          method: 'POST',
+          headers: {
+            'x-rapidapi-key': rapidApiKey,
+            'x-rapidapi-host': RAPIDAPI_HOST,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: 'system',
+                content: 'You are a professional email copywriter who creates compliant, human-sounding business outreach emails. Never use spammy language or make unrealistic promises.'
+              },
+              {
+                role: 'user',
+                content: prompt
+              }
+            ],
+            web_access: false
+          })
         })
 
-        const content = completion.choices[0]?.message?.content
+        if (!response.ok) {
+          throw new Error(`RapidAPI Error: ${response.status} ${response.statusText}`)
+        }
+
+        const data = await response.json()
+        let content = ''
+        if (data.result) content = data.result
+        else if (data.answer) content = data.answer
+        else if (data.choices && data.choices[0] && data.choices[0].message) content = data.choices[0].message.content
+        else if (typeof data === 'string') content = data
+        else content = JSON.stringify(data)
+
         if (content) {
           try {
-            generatedEmail = JSON.parse(content)
+            // Strip any code block backticks if AI returns markdown
+            const jsonMatch = content.match(/```json\n([\s\S]*)\n```/) || content.match(/```([\s\S]*?)```/)
+            const jsonStr = jsonMatch ? jsonMatch[1] : content
+            generatedEmail = JSON.parse(jsonStr)
           } catch {
             // If JSON parsing fails, extract content manually
             generatedEmail = {
@@ -169,8 +182,8 @@ Format your response as JSON:
             }
           }
         }
-      } catch (openaiError) {
-        console.error('OpenAI error:', openaiError)
+      } catch (apiError) {
+        console.error('RapidAPI error:', apiError)
         // Fall back to template
         generatedEmail = generateFallbackEmail(lead, offerDescription, tone)
       }

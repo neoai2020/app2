@@ -1,8 +1,42 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Diamond, Mail, Copy, CheckCircle2, Download, Search } from 'lucide-react'
-import { useState } from 'react'
+import { Diamond, Mail, Copy, CheckCircle2, Search, Link as LinkIcon, CheckSquare } from 'lucide-react'
+import { useState, useMemo } from 'react'
+
+const getRealisticLeads = (nicheId: string, count: number = 5) => {
+  const domains = {
+    saas: ['Tech', 'IO', 'AI', 'Software'],
+    realestate: ['Realty', 'Properties', 'Homes', 'Estate'],
+    ecommerce: ['Shop', 'Store', 'Commerce', 'Apparel'],
+    agencies: ['Digital', 'Media', 'Marketing', 'Creative'],
+    coaching: ['Coaching', 'Consulting', 'Success', 'Growth'],
+    fitness: ['Fit', 'Gym', 'Wellness', 'Health'],
+    crypto: ['Crypto', 'Web3', 'Chain', 'Labs'],
+    local: ['Plumbing', 'Services', 'Electric', 'Repairs']
+  };
+  const firstNames = ['James', 'Sarah', 'Michael', 'Emma', 'David', 'Jessica', 'Daniel', 'Olivia', 'Matthew', 'Sophia'];
+  const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'];
+  
+  const ext = domains[nicheId as keyof typeof domains] || ['Corp', 'Inc', 'LLC', 'Group'];
+  
+  return Array.from({ length: count }).map((_, i) => {
+    const fName = firstNames[(i + nicheId.length) % firstNames.length];
+    const lName = lastNames[(i * 3 + nicheId.length) % lastNames.length];
+    const company = `${lName} ${ext[i % ext.length]}`;
+    const domain = company.toLowerCase().replace(/[^a-z0-9]/g, '') + '.com';
+    const email = `${fName.toLowerCase()}.${lName.toLowerCase()}@${domain}`;
+    
+    return {
+      id: i,
+      firstName: fName,
+      lastName: lName,
+      email,
+      company: company + (nicheId === 'saas' ? ' Inc.' : ''),
+      status: 'Verified'
+    }
+  });
+}
 
 const niches = [
   { id: 'saas', name: 'SaaS & Software', count: 200, icon: '💻' },
@@ -18,10 +52,39 @@ const niches = [
 export default function DFYPage() {
   const [selectedNiche, setSelectedNiche] = useState(niches[0].id)
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+  const [userLink, setUserLink] = useState('')
+  const [copiedAll, setCopiedAll] = useState(false)
 
-  const handleCopy = (index: number) => {
+  const currentLeads = useMemo(() => getRealisticLeads(selectedNiche, 5), [selectedNiche])
+
+  const getEmailContent = (lead: { firstName: string; company: string }, link: string, nicheName: string) => {
+    return `Subject: Special strategy for ${nicheName}
+
+Hi ${lead.firstName},
+
+I noticed ${lead.company} is doing great work in the ${nicheName} space. We have an exclusive offer that perfectly aligns with your current trajectory and could help scale your operations significantly.
+
+${link ? `You can check out our solution here: ${link}\n\n` : ''}Would you be open to a quick 5-minute chat this week?
+
+Best regards,
+[Your Name]`;
+  }
+
+  const handleCopy = (index: number, content: string) => {
+    navigator.clipboard.writeText(content)
     setCopiedIndex(index)
     setTimeout(() => setCopiedIndex(null), 2000)
+  }
+
+  const handleCopyAll = () => {
+    const nicheName = niches.find(n => n.id === selectedNiche)?.name || ''
+    const allEmails = currentLeads.map(lead => 
+      `--- To: ${lead.email} ---\n${getEmailContent(lead, userLink, nicheName)}`
+    ).join('\n\n=========================================\n\n')
+    
+    navigator.clipboard.writeText(allEmails)
+    setCopiedAll(true)
+    setTimeout(() => setCopiedAll(false), 2000)
   }
 
   return (
@@ -87,7 +150,7 @@ export default function DFYPage() {
         {/* Leads Content */}
         <div className="xl:col-span-3">
           <div className="glass-card p-6 md:p-8 min-h-[700px]">
-            <div className="flex justify-between items-center mb-8 pb-6 border-b border-white/5">
+            <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 pb-6 border-b border-white/5 gap-4">
               <div>
                 <h2 className="text-2xl font-black text-white flex items-center gap-3">
                   {niches.find(n => n.id === selectedNiche)?.icon}
@@ -97,15 +160,34 @@ export default function DFYPage() {
                   200 Verified Leads & Pre-written Emails
                 </p>
               </div>
-              <button className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-sm font-medium transition-colors border border-white/10">
-                <Download className="w-4 h-4" />
-                Export CSV
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
+                <div className="relative">
+                  <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                  <input
+                    type="url"
+                    placeholder="Your Affiliate Link / Website"
+                    value={userLink}
+                    onChange={(e) => setUserLink(e.target.value)}
+                    className="w-full sm:w-72 bg-[#111111] border border-white/10 rounded-lg py-2 pl-9 pr-4 text-sm text-white focus:outline-none focus:border-[#D946EF]/50 transition-colors"
+                  />
+                </div>
+                <button 
+                  onClick={handleCopyAll}
+                  className="flex items-center justify-center gap-2 px-6 py-2 bg-[#D946EF] hover:bg-[#D946EF]/90 text-white rounded-lg text-sm font-bold transition-colors shadow-[0_0_15px_rgba(217,70,239,0.3)] whitespace-nowrap"
+                >
+                  {copiedAll ? <CheckSquare className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  {copiedAll ? 'Copied All!' : 'Copy All Emails'}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-6">
-              {/* Dummy data to represent the 200 emails */}
-              {[1, 2, 3, 4, 5].map((item, index) => (
+              {/* Data representing the emails */}
+              {currentLeads.map((lead, index) => {
+                const nicheName = niches.find(n => n.id === selectedNiche)?.name || ''
+                const emailContent = getEmailContent(lead, userLink, nicheName)
+                
+                return (
                 <motion.div 
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
@@ -116,15 +198,15 @@ export default function DFYPage() {
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="md:w-1/3 space-y-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-[#D946EF]/20 flex items-center justify-center text-[#D946EF] font-bold text-xs ring-1 ring-[#D946EF]/30">
-                          {item}
+                        <div className="w-8 h-8 rounded-full bg-[#D946EF]/20 flex items-center justify-center text-[#D946EF] font-bold text-xs ring-1 ring-[#D946EF]/30 uppercase">
+                          {lead.firstName.charAt(0)}{lead.lastName.charAt(0)}
                         </div>
-                        <h3 className="text-white font-semibold">Lead Contact {item}</h3>
+                        <h3 className="text-white font-semibold">{lead.firstName} {lead.lastName}</h3>
                       </div>
                       <div className="text-sm text-zinc-400 space-y-1 bg-black/50 p-3 rounded-lg">
-                        <p><span className="text-zinc-600">Email:</span> contact{item}@example.com</p>
-                        <p><span className="text-zinc-600">Company:</span> Agency Pro {item}</p>
-                        <p><span className="text-zinc-600">Status:</span> <span className="text-green-400">Verified</span></p>
+                        <p className="truncate"><span className="text-zinc-600">Email:</span> {lead.email}</p>
+                        <p><span className="text-zinc-600">Company:</span> {lead.company}</p>
+                        <p><span className="text-zinc-600">Status:</span> <span className="text-green-400">{lead.status}</span></p>
                       </div>
                     </div>
                     
@@ -134,7 +216,7 @@ export default function DFYPage() {
                           <Mail className="w-3 h-3" /> Pre-written Email
                         </span>
                         <button 
-                          onClick={() => handleCopy(index)}
+                          onClick={() => handleCopy(index, emailContent)}
                           className="text-zinc-500 hover:text-white transition-colors"
                         >
                           {copiedIndex === index ? (
@@ -144,17 +226,13 @@ export default function DFYPage() {
                           )}
                         </button>
                       </div>
-                      <div className="text-sm text-zinc-300 space-y-2 font-mono">
-                        <p className="text-white">Subject: Special strategy for {niches.find(n => n.id === selectedNiche)?.name}</p>
-                        <p>Hi there,</p>
-                        <p>I noticed your company is doing great work in the {niches.find(n => n.id === selectedNiche)?.name} space. We have an exclusive offer that perfectly aligns with your current trajectory and could help scale your operations significantly.</p>
-                        <p>Would you be open to a quick 5-minute chat this week?</p>
-                        <p>Best regards,<br/>[Your Name]</p>
+                      <div className="text-sm text-zinc-300 space-y-2 font-mono whitespace-pre-wrap">
+                        {emailContent}
                       </div>
                     </div>
                   </div>
                 </motion.div>
-              ))}
+              )})}
               
               <div className="py-6 flex justify-center">
                 <button className="px-6 py-3 bg-[#D946EF]/10 text-[#D946EF] rounded-xl font-bold uppercase tracking-wider text-sm hover:bg-[#D946EF]/20 transition-colors border border-[#D946EF]/30">
