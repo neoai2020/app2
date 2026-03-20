@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { Offer } from '@/types/database'
-import { Plus, Edit, Trash2, ExternalLink, Gift, X, Briefcase, Handshake, DollarSign, Sparkles, RefreshCw, Save, Zap } from 'lucide-react'
+import { Plus, Edit, Trash2, ExternalLink, Gift, X, Briefcase, Handshake, DollarSign, Sparkles, RefreshCw, Save, Zap, Brain } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -24,6 +24,16 @@ export type OfferType = 'Affiliate Offer' | 'Service Offer' | 'Partnership'
 
 const NICHES = ['SaaS & Software', 'Real Estate', 'E-commerce', 'Digital Agencies', 'Coaching', 'Fitness', 'Crypto', 'Local Services']
 const SERVICES = ['Digital Marketing', 'SEO Optimization', 'Web Design', 'UI/UX Design', 'Email Marketing', 'Content Creation', 'Performance Ads (PPC)', 'App Development', 'Copywriting']
+
+const LOADING_PHRASES = [
+  'AI is analyzing your niche...',
+  'Researching top-converting offer angles...',
+  'Crafting a high-impact email template...',
+  'Optimizing for maximum engagement...',
+  'Fine-tuning the copy for conversions...',
+  'Adding professional finishing touches...',
+  'Almost there — polishing your offer...',
+]
 
 const MAX_DAILY_GENERATIONS = 5
 const GENERATION_RESET_MS = 24 * 60 * 60 * 1000
@@ -71,6 +81,9 @@ export default function OffersPage() {
   const [genCount, setGenCount] = useState(0)
   const [genResetAt, setGenResetAt] = useState(0)
 
+  const [loadingPhrase, setLoadingPhrase] = useState(0)
+  const [loadingProgress, setLoadingProgress] = useState(0)
+
   const editorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -78,6 +91,29 @@ export default function OffersPage() {
     setGenCount(state.count)
     setGenResetAt(state.resetAt)
   }, [])
+
+  useEffect(() => {
+    if (!generating) {
+      setLoadingPhrase(0)
+      setLoadingProgress(0)
+      return
+    }
+    setLoadingProgress(0)
+    const phraseInterval = setInterval(() => {
+      setLoadingPhrase(prev => (prev + 1) % LOADING_PHRASES.length)
+    }, 2800)
+    const progressInterval = setInterval(() => {
+      setLoadingProgress(prev => {
+        if (prev >= 92) return prev
+        const increment = prev < 30 ? 3 : prev < 60 ? 2 : prev < 80 ? 1 : 0.5
+        return Math.min(prev + increment, 92)
+      })
+    }, 300)
+    return () => {
+      clearInterval(phraseInterval)
+      clearInterval(progressInterval)
+    }
+  }, [generating])
 
   const remaining = MAX_DAILY_GENERATIONS - genCount
 
@@ -482,8 +518,68 @@ export default function OffersPage() {
                     onChange={(e) => setNotes(e.target.value)}
                   />
 
+                  {/* AI Generation Loading State */}
+                  <AnimatePresence>
+                    {generating && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="pt-4 border-t border-white/5"
+                      >
+                        <div className="rounded-xl bg-gradient-to-br from-[#D946EF]/5 via-zinc-900/50 to-indigo-500/5 border border-[#D946EF]/20 p-6">
+                          <div className="flex items-center gap-3 mb-4">
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                            >
+                              <Brain className="w-6 h-6 text-[#D946EF]" />
+                            </motion.div>
+                            <div>
+                              <p className="text-sm font-semibold text-white">AI is working its magic</p>
+                              <p className="text-xs text-zinc-500">This usually takes 10–20 seconds</p>
+                            </div>
+                          </div>
+
+                          {/* Progress bar */}
+                          <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden mb-4">
+                            <motion.div
+                              className="h-full rounded-full bg-gradient-to-r from-[#D946EF] via-indigo-500 to-[#D946EF]"
+                              style={{ backgroundSize: '200% 100%' }}
+                              animate={{
+                                width: `${loadingProgress}%`,
+                                backgroundPosition: ['0% 0%', '100% 0%'],
+                              }}
+                              transition={{
+                                width: { duration: 0.5, ease: 'easeOut' },
+                                backgroundPosition: { duration: 2, repeat: Infinity, ease: 'linear' },
+                              }}
+                            />
+                          </div>
+
+                          {/* Cycling phrases */}
+                          <div className="h-6 overflow-hidden relative">
+                            <AnimatePresence mode="wait">
+                              <motion.p
+                                key={loadingPhrase}
+                                initial={{ opacity: 0, y: 12 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -12 }}
+                                transition={{ duration: 0.3 }}
+                                className="text-sm text-[#D946EF]/80 flex items-center gap-2"
+                              >
+                                <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
+                                {LOADING_PHRASES[loadingPhrase]}
+                              </motion.p>
+                            </AnimatePresence>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
                   {/* Generated Preview */}
-                  {generated && description && (
+                  {!generating && generated && description && (
                     <div className="space-y-1 pt-4 border-t border-white/5">
                       <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 px-1">Generated Email Template</label>
                       <div
@@ -500,6 +596,7 @@ export default function OffersPage() {
                   )}
 
                   {/* CTAs */}
+                  {!generating && (
                   <div className="flex flex-wrap gap-3 pt-4 mt-4 border-t border-white/5">
                     {editingOffer ? (
                       <>
@@ -513,9 +610,9 @@ export default function OffersPage() {
                       </>
                     ) : !generated ? (
                       <>
-                        <Button onClick={generateDescription} loading={generating} glow disabled={remaining <= 0}>
+                        <Button onClick={generateDescription} glow disabled={remaining <= 0}>
                           <Sparkles className="w-4 h-4 mr-2" />
-                          {generating ? 'Generating...' : `Generate with AI (${remaining} left)`}
+                          Generate with AI ({remaining} left)
                         </Button>
                         <Button variant="outline" onClick={resetForm}>
                           Cancel
@@ -530,10 +627,10 @@ export default function OffersPage() {
                         <Button
                           variant="outline"
                           onClick={generateDescription}
-                          disabled={generating || remaining <= 0}
+                          disabled={remaining <= 0}
                         >
-                          <RefreshCw className={`w-4 h-4 mr-2 ${generating ? 'animate-spin' : ''}`} />
-                          {generating ? 'Regenerating...' : `Regenerate (${remaining} left)`}
+                          <RefreshCw className="w-4 h-4 mr-2" />
+                          Regenerate ({remaining} left)
                         </Button>
                         <Button variant="outline" onClick={resetForm}>
                           Cancel
@@ -541,6 +638,7 @@ export default function OffersPage() {
                       </>
                     )}
                   </div>
+                  )}
                 </div>
               )}
             </CardContent>
