@@ -7,8 +7,6 @@ import {
   LayoutDashboard,
   Users,
   Mail,
-  Send,
-  FileText,
   Gift,
   Archive,
   HelpCircle,
@@ -27,11 +25,9 @@ import { useRouter } from 'next/navigation'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/offers', label: 'Offer Library', icon: Gift },
   { href: '/leads', label: 'Lead Allocation', icon: Users },
   { href: '/email-builder', label: 'Email Builder', icon: Mail },
-  { href: '/send-instructions', label: 'Send Protocol', icon: Send },
-  { href: '/activity', label: 'Activity Log', icon: FileText },
-  { href: '/offers', label: 'Offer Library', icon: Gift },
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive },
   { href: '/scale', label: 'Scale to $1,000+/Day', icon: TrendingUp },
   { href: '/support', label: 'Support', icon: HelpCircle }
