@@ -37,21 +37,9 @@ export const LEAD_STATUS = {
 
 // Activity Actions
 export const ACTIVITY_ACTIONS = {
-  lead_allocated: { label: 'Lead Allocated', icon: 'UserPlus' },
+  lead_allocated: { label: 'Lead Acquired', icon: 'UserPlus' },
   email_generated: { label: 'Email Generated', icon: 'Mail' },
   email_saved: { label: 'Email Saved', icon: 'Save' },
   offer_created: { label: 'Offer Created', icon: 'Plus' },
   offer_updated: { label: 'Offer Updated', icon: 'Edit' }
 } as const
-
-// Navigation Items
-export const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
-  { href: '/leads', label: 'Lead Magnet', icon: 'Users' },
-  { href: '/email-builder', label: 'Email Blast', icon: 'Mail' },
-  { href: '/send-instructions', label: 'Send Instructions', icon: 'Send' },
-  { href: '/activity', label: 'Activity Log', icon: 'FileText' },
-  { href: '/offers', label: 'Offer Library', icon: 'Gift' },
-  { href: '/saved-emails', label: 'Saved Emails', icon: 'Archive' },
-  { href: '/support', label: 'Support', icon: 'HelpCircle' }
-] as const

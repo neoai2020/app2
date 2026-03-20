@@ -276,12 +276,12 @@ export default function DashboardPage() {
                   </a>
                   
                   <a
-                    href="/activity"
+                    href="/offers"
                     className="group p-6 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/5 hover:border-white/20 transition-all duration-300"
                   >
                     <Activity className="w-8 h-8 text-white mb-4 group-hover:scale-110 transition-transform" />
-                    <h3 className="font-black italic uppercase tracking-tighter text-lg text-white mb-1">View Activity</h3>
-                    <p className="text-xs text-zinc-500 font-bold uppercase">Monitor system logs</p>
+                    <h3 className="font-black italic uppercase tracking-tighter text-lg text-white mb-1">Offer Library</h3>
+                    <p className="text-xs text-zinc-500 font-bold uppercase">Manage offer templates</p>
                   </a>
                 </div>
               </CardContent>

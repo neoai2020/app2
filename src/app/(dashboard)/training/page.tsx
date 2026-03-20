@@ -46,7 +46,7 @@ const trainingVideos: Video[] = [
   {
     id: '3',
     title: 'Lead Magnet Masterclass',
-    description: 'Learn how to allocate leads by niche and location, and maximize your daily allocation limit for the best results.',
+    description: 'Learn how to pull leads by niche and location using Lead Magnet, and maximize your daily limit for the best results.',
     duration: '7:42',
     thumbnail: '',
     videoUrl: '#',
@@ -54,7 +54,7 @@ const trainingVideos: Video[] = [
   {
     id: '4',
     title: 'Email Blast Deep Dive',
-    description: 'Master the AI email builder — choose the right tone, pair offers with leads, and generate emails that get responses.',
+    description: 'Master Email Blast — choose the right tone, pair offers with leads, and generate AI emails that get responses.',
     duration: '9:10',
     thumbnail: '',
     videoUrl: '#',
@@ -96,7 +96,7 @@ const trainingVideos: Video[] = [
   {
     id: '9',
     title: 'Autopilot System Configuration',
-    description: 'Set up the Autopilot system to run your outreach on cruise control. Automate lead allocation, email generation, and follow-ups.',
+    description: 'Set up the Autopilot system to submit your link to 100+ free traffic sources and get automated traffic on cruise control.',
     duration: '13:45',
     thumbnail: '',
     videoUrl: '#',
@@ -106,44 +106,52 @@ const trainingVideos: Video[] = [
 
 const faqs = [
   {
-    question: 'What is the daily lead allocation limit?',
-    answer: 'Your allocation is capped at 25 leads per 24-hour cycle. This resets at midnight local time. Limits ensure lead quality and prevent system abuse.'
+    question: 'How do I get started with Inbox Vault?',
+    answer: 'Start by creating an offer template in the Offer Library. Then go to Lead Magnet to pull leads for your niche. Finally, use Email Blast to generate personalized outreach emails using AI. Save your emails and send them through your own email client.'
   },
   {
-    question: 'How many emails can I generate daily?',
-    answer: 'The system allows 10 AI-generated emails per cycle. Each generation includes subject, body, and optional follow-up content.'
+    question: 'What is the Offer Library?',
+    answer: 'The Offer Library is where you create and manage reusable offer templates. You can generate templates with AI (5 per day) for Affiliate Offers, Service Offers, or Partnership proposals. These templates are used when generating emails in Email Blast.'
   },
   {
-    question: 'How many AI offer generations do I get per day?',
-    answer: 'You get 5 AI offer template generations per day in the Offer Library. The counter resets every 24 hours.'
+    question: 'How does Lead Magnet work?',
+    answer: 'Lead Magnet lets you pull real business leads by selecting an industry and location. You get up to 25 leads per day. Each lead includes the business name, email, and industry — ready for outreach.'
   },
   {
-    question: 'Why are some business emails unavailable?',
-    answer: 'We only surface publicly available business contact information. Personal emails are never collected, ensuring regulatory compliance.'
+    question: 'How does Email Blast work?',
+    answer: 'Select a lead from Lead Magnet, choose an offer template (or write a custom one), pick a tone, and hit Generate. The AI creates a personalized subject line, email body, and follow-up. You get 10 email generations per day.'
   },
   {
-    question: 'Does the system send emails automatically?',
-    answer: 'No. This system generates content only. You maintain full control over transmission through your personal email infrastructure.'
+    question: 'What are the daily limits?',
+    answer: 'Lead Magnet: 25 leads/day. Email Blast: 10 email generations/day. Offer Library: 5 AI offer generations/day. All limits reset every 24 hours.'
   },
   {
-    question: 'How do I send generated emails?',
-    answer: 'Copy the generated content from the Email Blast or Saved Emails page, paste it into your email client (Gmail, Outlook, etc.), and send manually.'
+    question: 'Does the platform send emails for me?',
+    answer: 'No. Inbox Vault generates email content only. You copy the generated email from Email Blast or Saved Emails, paste it into your email client (Gmail, Outlook, etc.), and send it yourself. This keeps you in full control.'
   },
   {
-    question: 'Are allocated leads validated?',
-    answer: 'Yes. All email addresses undergo format validation and deliverability checks. However, 100% deliverability cannot be guaranteed due to dynamic server configurations.'
+    question: 'What is Saved Emails?',
+    answer: 'After generating an email in Email Blast, you can click "Save Email for Later" to store it. The Saved Emails page lets you view, copy, and manage all your previously generated emails.'
   },
   {
     question: 'What are Premium Features?',
-    answer: 'Premium Features include DFY (Done-For-You), Instant Income, and Autopilot. These are advanced tools designed to accelerate your results with pre-built systems and automation.'
+    answer: 'Premium Features are advanced tools: DFY (Done-For-You) provides pre-built campaigns, Instant Income gives you ready-to-post Facebook messages with affiliate links, and Autopilot lets you submit your link to 100+ free traffic sources for ongoing automated traffic.'
+  },
+  {
+    question: 'How does Instant Income work?',
+    answer: 'Choose a niche, paste your affiliate link (e.g. from DigiStore24), and get ready-made Facebook posts you can copy and paste into Facebook groups. Posts are written as personal stories to maximize engagement.'
+  },
+  {
+    question: 'How does Autopilot work?',
+    answer: 'Enter the URL you want to promote, pick your niche, and get access to 100+ free traffic sources. Each source has step-by-step instructions, a ready-to-copy submission text with your link, and a direct link to the site. Track your progress as you complete each one.'
   },
   {
     question: 'Can I use multiple offer templates?',
-    answer: 'Absolutely. We recommend creating different templates for different industries and offer types. Tailored offers convert significantly better than generic ones.'
+    answer: 'Yes, and we strongly recommend it. Create different templates for different industries and offer types. Tailored offers convert significantly better than generic ones.'
   },
   {
     question: 'How do I get the best results from AI emails?',
-    answer: 'Use the Professional tone for first-time outreach, fill in detailed notes and custom instructions in your offer template, and always select a specific lead target for personalization.'
+    answer: 'Use the Professional tone for first-time outreach. Add detailed notes and custom instructions in your offer template for more personalized results. Always select a specific lead target so the AI can tailor the email.'
   },
 ]
 
