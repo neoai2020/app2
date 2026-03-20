@@ -9,6 +9,7 @@ import {
   Mail,
   Gift,
   Archive,
+  GraduationCap,
   HelpCircle,
   LogOut,
   Menu,
@@ -30,6 +31,7 @@ const navItems = [
   { href: '/email-builder', label: 'Email Builder', icon: Mail },
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive },
   { href: '/scale', label: 'Scale to $1,000+/Day', icon: TrendingUp },
+  { href: '/training', label: 'Training', icon: GraduationCap },
   { href: '/support', label: 'Support', icon: HelpCircle }
 ]
 
