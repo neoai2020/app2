@@ -368,6 +368,12 @@ export default function AutopilotPage() {
                           <ExternalLink className="w-3 h-3" /> GO TO {source.name}
                         </a>
 
+                        {/* Submission text preview */}
+                        <div className="rounded-lg bg-[#0a0a0a] border border-white/5 p-4">
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Submission Text</p>
+                          <p className="text-xs text-zinc-400 leading-relaxed whitespace-pre-line">{submissionText}</p>
+                        </div>
+
                         {/* Copy submission text */}
                         <button
                           onClick={() => handleCopyDesc(source.id, submissionText)}
