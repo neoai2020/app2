@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { Offer } from '@/types/database'
-import { Plus, Edit, Trash2, ExternalLink, Gift, FolderOpen, X, Briefcase, Handshake, DollarSign } from 'lucide-react'
+import { Plus, Edit, Trash2, ExternalLink, Gift, X, Briefcase, Handshake, DollarSign, Sparkles, RefreshCw, Save, Zap } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,6 +25,28 @@ export type OfferType = 'Affiliate Offer' | 'Service Offer' | 'Partnership'
 const NICHES = ['SaaS & Software', 'Real Estate', 'E-commerce', 'Digital Agencies', 'Coaching', 'Fitness', 'Crypto', 'Local Services']
 const SERVICES = ['Digital Marketing', 'SEO Optimization', 'Web Design', 'UI/UX Design', 'Email Marketing', 'Content Creation', 'Performance Ads (PPC)', 'App Development', 'Copywriting']
 
+const MAX_DAILY_GENERATIONS = 5
+const GENERATION_RESET_MS = 24 * 60 * 60 * 1000
+
+function getGenerationState(): { count: number; resetAt: number } {
+  if (typeof window === 'undefined') return { count: 0, resetAt: 0 }
+  try {
+    const raw = localStorage.getItem('offer_gen_state')
+    if (raw) {
+      const state = JSON.parse(raw)
+      if (Date.now() >= state.resetAt) {
+        return { count: 0, resetAt: Date.now() + GENERATION_RESET_MS }
+      }
+      return state
+    }
+  } catch {}
+  return { count: 0, resetAt: Date.now() + GENERATION_RESET_MS }
+}
+
+function saveGenerationState(state: { count: number; resetAt: number }) {
+  if (typeof window === 'undefined') return
+  localStorage.setItem('offer_gen_state', JSON.stringify(state))
+}
 
 export default function OffersPage() {
   const [offers, setOffers] = useState<Offer[]>([])
@@ -43,9 +65,21 @@ export default function OffersPage() {
   const [selectedService, setSelectedService] = useState(SERVICES[0])
   const [loading, setLoading] = useState(false)
   const [generating, setGenerating] = useState(false)
+  const [generated, setGenerated] = useState(false)
   const [error, setError] = useState('')
 
+  const [genCount, setGenCount] = useState(0)
+  const [genResetAt, setGenResetAt] = useState(0)
+
   const editorRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const state = getGenerationState()
+    setGenCount(state.count)
+    setGenResetAt(state.resetAt)
+  }, [])
+
+  const remaining = MAX_DAILY_GENERATIONS - genCount
 
   useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== description) {
@@ -78,10 +112,17 @@ export default function OffersPage() {
     setEditingOffer(null)
     setShowForm(false)
     setFormStep(1)
+    setGenerated(false)
     setError('')
   }
 
   const generateDescription = async () => {
+    let state = getGenerationState()
+    if (state.count >= MAX_DAILY_GENERATIONS) {
+      setError(`You've used all ${MAX_DAILY_GENERATIONS} daily generations. Resets in ${getTimeUntilReset(state.resetAt)}.`)
+      return
+    }
+
     setGenerating(true)
     setError('')
     try {
@@ -97,10 +138,16 @@ export default function OffersPage() {
         })
       })
       const data = await res.json()
-      // If AI fails or key is missing, throw to use fallback
       if (!res.ok || !data.template) throw new Error(data.error || 'Failed to generate')
       
       setDescription(data.template)
+      setGenerated(true)
+
+      state = getGenerationState()
+      const newState = { count: state.count + 1, resetAt: state.resetAt }
+      saveGenerationState(newState)
+      setGenCount(newState.count)
+      setGenResetAt(newState.resetAt)
     } catch (err) {
       console.error(err)
       let text = ''
@@ -112,6 +159,13 @@ export default function OffersPage() {
         text = `Hi there,\n\nI've been following your company's growth in the ${selectedNiche} industry and I'm really impressed.\n\nI believe our services complement each other perfectly, and there could be a highly beneficial partnership opportunity for us to explore.\n\nHere is a link to what we do: ${link || '[Your Link]'}\n\nAre you open to a brief introductory call to discuss potential synergies?\n\nBest,\n[Your Name]`
       }
       setDescription(text)
+      setGenerated(true)
+
+      state = getGenerationState()
+      const newState = { count: state.count + 1, resetAt: state.resetAt }
+      saveGenerationState(newState)
+      setGenCount(newState.count)
+      setGenResetAt(newState.resetAt)
     } finally {
       setGenerating(false)
     }
@@ -126,6 +180,7 @@ export default function OffersPage() {
     if (offer.type) setType(offer.type as OfferType)
     setShowForm(true)
     setFormStep(2)
+    setGenerated(true)
   }
 
   const handleSave = async () => {
@@ -178,8 +233,6 @@ export default function OffersPage() {
     }
   }
 
-
-
   return (
     <motion.div
       variants={containerVariants}
@@ -201,14 +254,70 @@ export default function OffersPage() {
           </div>
           <p className="text-zinc-500 mt-2">Manage reusable offer templates for campaigns</p>
         </div>
-        {!showForm && (
-          <Button onClick={() => setShowForm(true)} glow>
-            <Plus className="w-4 h-4 mr-2" />
-            New Template
-          </Button>
-        )}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
+            <Zap className="w-4 h-4 text-[#D946EF]" />
+            <span className="text-sm font-medium text-zinc-300">
+              <span className={`font-bold ${remaining <= 1 ? 'text-red-400' : 'text-[#D946EF]'}`}>{remaining}</span>
+              <span className="text-zinc-500">/{MAX_DAILY_GENERATIONS} AI generations left</span>
+            </span>
+          </div>
+          {!showForm && (
+            <Button onClick={() => setShowForm(true)} glow>
+              <Plus className="w-4 h-4 mr-2" />
+              New Template
+            </Button>
+          )}
+        </div>
       </motion.div>
-      
+
+      {/* How to Generate an Offer - Step by Step */}
+      <motion.div variants={itemVariants} className="mb-4">
+        <Card>
+          <CardContent className="p-5">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#D946EF] mb-4">How to Generate an Offer</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#D946EF]/10 border border-[#D946EF]/30 flex items-center justify-center">
+                  <span className="text-xs font-bold text-[#D946EF]">1</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">Click &quot;New Template&quot;</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">Choose your offer type</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#D946EF]/10 border border-[#D946EF]/30 flex items-center justify-center">
+                  <span className="text-xs font-bold text-[#D946EF]">2</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">Fill in the details</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">Name, link, and any notes</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#D946EF]/10 border border-[#D946EF]/30 flex items-center justify-center">
+                  <span className="text-xs font-bold text-[#D946EF]">3</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">Generate with AI</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">AI crafts your email template</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#D946EF]/10 border border-[#D946EF]/30 flex items-center justify-center">
+                  <span className="text-xs font-bold text-[#D946EF]">4</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">Review &amp; Save</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">Edit if needed, then save</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
       <motion.div variants={itemVariants}>
         <QuickTip tip="Create multiple offer templates for different industries. A generic offer converts less than one tailored to specific business needs." />
       </motion.div>
@@ -307,7 +416,7 @@ export default function OffersPage() {
                   <div className="space-y-4">
                     {!editingOffer && (
                       <button 
-                        onClick={() => setFormStep(1)} 
+                        onClick={() => { setFormStep(1); setGenerated(false); setDescription(''); }} 
                         className="text-sm text-zinc-400 hover:text-white transition-colors mb-2 flex items-center gap-1"
                       >
                         &larr; Back to Types
@@ -373,36 +482,64 @@ export default function OffersPage() {
                     onChange={(e) => setNotes(e.target.value)}
                   />
 
-                  <div className="space-y-1 pt-4 border-t border-white/5">
-                    <div className="flex justify-between items-center px-1">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Generated Email Template</label>
-                      <button 
-                        onClick={generateDescription}
-                        disabled={generating}
-                        className="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-colors disabled:opacity-50 flex items-center gap-1"
-                      >
-                        {generating ? '✨ Generating...' : '✨ Generate with AI'}
-                      </button>
+                  {/* Generated Preview */}
+                  {generated && description && (
+                    <div className="space-y-1 pt-4 border-t border-white/5">
+                      <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 px-1">Generated Email Template</label>
+                      <div
+                        ref={editorRef}
+                        contentEditable
+                        onBlur={() => {
+                          if (editorRef.current) {
+                            setDescription(editorRef.current.innerHTML)
+                          }
+                        }}
+                        className="min-h-[160px] p-4 text-sm leading-relaxed bg-[#111111] border border-white/10 rounded-xl text-zinc-300 focus:outline-none focus:border-indigo-500 overflow-y-auto w-full cursor-text [&_a]:text-blue-400 [&_a]:underline [&_p]:mb-4 last:[&_p]:mb-0"
+                      />
                     </div>
-                    <div
-                      ref={editorRef}
-                      contentEditable
-                      onBlur={() => {
-                        if (editorRef.current) {
-                          setDescription(editorRef.current.innerHTML)
-                        }
-                      }}
-                      className="min-h-[160px] p-4 text-sm leading-relaxed bg-[#111111] border border-white/10 rounded-xl text-zinc-300 focus:outline-none focus:border-indigo-500 overflow-y-auto w-full cursor-text [&_a]:text-blue-400 [&_a]:underline [&_p]:mb-4 last:[&_p]:mb-0"
-                    />
-                  </div>
+                  )}
 
-                  <div className="flex gap-4 pt-4 mt-4 border-t border-white/5">
-                    <Button onClick={handleSave} loading={loading} glow>
-                      {editingOffer ? 'Update Template' : 'Save Template'}
-                    </Button>
-                    <Button variant="outline" onClick={resetForm}>
-                      Cancel
-                    </Button>
+                  {/* CTAs */}
+                  <div className="flex flex-wrap gap-3 pt-4 mt-4 border-t border-white/5">
+                    {editingOffer ? (
+                      <>
+                        <Button onClick={handleSave} loading={loading} glow>
+                          <Save className="w-4 h-4 mr-2" />
+                          Update Template
+                        </Button>
+                        <Button variant="outline" onClick={resetForm}>
+                          Cancel
+                        </Button>
+                      </>
+                    ) : !generated ? (
+                      <>
+                        <Button onClick={generateDescription} loading={generating} glow disabled={remaining <= 0}>
+                          <Sparkles className="w-4 h-4 mr-2" />
+                          {generating ? 'Generating...' : `Generate with AI (${remaining} left)`}
+                        </Button>
+                        <Button variant="outline" onClick={resetForm}>
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button onClick={handleSave} loading={loading} glow>
+                          <Save className="w-4 h-4 mr-2" />
+                          Save Template
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={generateDescription}
+                          disabled={generating || remaining <= 0}
+                        >
+                          <RefreshCw className={`w-4 h-4 mr-2 ${generating ? 'animate-spin' : ''}`} />
+                          {generating ? 'Regenerating...' : `Regenerate (${remaining} left)`}
+                        </Button>
+                        <Button variant="outline" onClick={resetForm}>
+                          Cancel
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -411,8 +548,6 @@ export default function OffersPage() {
         </motion.div>
       )}
     </AnimatePresence>
-
-
 
       {/* User's Offers */}
       <motion.div variants={itemVariants}>
@@ -464,20 +599,23 @@ export default function OffersPage() {
                     className="p-6 hover:bg-zinc-800/20 transition-colors"
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2">
                           <h4 className="font-semibold text-white text-lg">{offer.name}</h4>
                           <span className="px-2 py-0.5 bg-zinc-800 border border-zinc-700 rounded text-xs text-zinc-300">
                             {offer.type || 'Affiliate Offer'}
                           </span>
                         </div>
-                        <p className="text-zinc-400">{offer.description}</p>
+                        <div
+                          className="text-zinc-400 text-sm leading-relaxed [&_a]:text-blue-400 [&_a]:underline [&_p]:mb-3 last:[&_p]:mb-0 prose-sm max-w-none"
+                          dangerouslySetInnerHTML={{ __html: offer.description }}
+                        />
                         {offer.link && (
                           <a
                             href={offer.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#D946EF] hover:text-[#e879f9] text-sm flex items-center gap-1 mt-2"
+                            className="text-[#D946EF] hover:text-[#e879f9] text-sm flex items-center gap-1 mt-3"
                           >
                             <ExternalLink size={12} />
                             <span className="font-mono">{offer.link}</span>
@@ -515,4 +653,13 @@ export default function OffersPage() {
       </motion.div>
     </motion.div>
   )
+}
+
+function getTimeUntilReset(resetAt: number): string {
+  const diff = resetAt - Date.now()
+  if (diff <= 0) return 'now'
+  const hours = Math.floor(diff / (1000 * 60 * 60))
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+  if (hours > 0) return `${hours}h ${minutes}m`
+  return `${minutes}m`
 }
