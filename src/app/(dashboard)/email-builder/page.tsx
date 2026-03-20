@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
@@ -13,7 +13,7 @@ import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { createClient } from '@/lib/supabase/client'
 import { EMAIL_TONES, DAILY_EMAIL_LIMIT } from '@/lib/constants'
 import { Lead, Offer } from '@/types/database'
-import { Sparkles, Copy, Save, RefreshCw, Mail, Cpu, CheckCircle } from 'lucide-react'
+import { Sparkles, Copy, Save, RefreshCw, Mail, Cpu, CheckCircle, Brain } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -24,6 +24,17 @@ const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 }
 }
+
+const EMAIL_LOADING_PHRASES = [
+  'AI is analyzing the lead profile...',
+  'Matching your offer to the prospect...',
+  'Crafting a personalized subject line...',
+  'Writing a high-converting email body...',
+  'Optimizing tone for maximum response rate...',
+  'Generating a strategic follow-up...',
+  'Adding professional finishing touches...',
+  'Almost done — finalizing your email...',
+]
 
 function EmailBuilderContent() {
   const searchParams = useSearchParams()
@@ -44,6 +55,8 @@ function EmailBuilderContent() {
   const [success, setSuccess] = useState('')
   const [copied, setCopied] = useState<string | null>(null)
   const [emailsRemaining, setEmailsRemaining] = useState(DAILY_EMAIL_LIMIT)
+  const [loadingPhrase, setLoadingPhrase] = useState(0)
+  const [loadingProgress, setLoadingProgress] = useState(0)
   const supabase = createClient()
 
   const fetchData = useCallback(async () => {
@@ -87,6 +100,29 @@ function EmailBuilderContent() {
   useEffect(() => {
     if (leadId) setSelectedLead(leadId)
   }, [leadId])
+
+  useEffect(() => {
+    if (!loading) {
+      setLoadingPhrase(0)
+      setLoadingProgress(0)
+      return
+    }
+    setLoadingProgress(0)
+    const phraseInterval = setInterval(() => {
+      setLoadingPhrase(prev => (prev + 1) % EMAIL_LOADING_PHRASES.length)
+    }, 2800)
+    const progressInterval = setInterval(() => {
+      setLoadingProgress(prev => {
+        if (prev >= 92) return prev
+        const increment = prev < 30 ? 3 : prev < 60 ? 2 : prev < 80 ? 1 : 0.5
+        return Math.min(prev + increment, 92)
+      })
+    }, 300)
+    return () => {
+      clearInterval(phraseInterval)
+      clearInterval(progressInterval)
+    }
+  }, [loading])
 
   const handleGenerate = async () => {
     if (!selectedLead) {
@@ -319,17 +355,64 @@ function EmailBuilderContent() {
                 }))}
               />
 
-              <Button
-                onClick={handleGenerate}
-                loading={loading}
-                disabled={emailsRemaining <= 0}
-                size="lg"
-                className="w-full"
-                glow
-              >
-                <Sparkles className="w-4 h-4 mr-2" />
-                Generate Content
-              </Button>
+              {!loading ? (
+                <Button
+                  onClick={handleGenerate}
+                  disabled={emailsRemaining <= 0}
+                  size="lg"
+                  className="w-full"
+                  glow
+                >
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Generate Email ({emailsRemaining} left today)
+                </Button>
+              ) : (
+                <div className="rounded-xl bg-gradient-to-br from-[#D946EF]/5 via-zinc-900/50 to-indigo-500/5 border border-[#D946EF]/20 p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                    >
+                      <Brain className="w-6 h-6 text-[#D946EF]" />
+                    </motion.div>
+                    <div>
+                      <p className="text-sm font-semibold text-white">AI is crafting your email</p>
+                      <p className="text-xs text-zinc-500">This usually takes 15–30 seconds</p>
+                    </div>
+                  </div>
+
+                  <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden mb-4">
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-[#D946EF] via-indigo-500 to-[#D946EF]"
+                      style={{ backgroundSize: '200% 100%' }}
+                      animate={{
+                        width: `${loadingProgress}%`,
+                        backgroundPosition: ['0% 0%', '100% 0%'],
+                      }}
+                      transition={{
+                        width: { duration: 0.5, ease: 'easeOut' },
+                        backgroundPosition: { duration: 2, repeat: Infinity, ease: 'linear' },
+                      }}
+                    />
+                  </div>
+
+                  <div className="h-6 overflow-hidden relative">
+                    <AnimatePresence mode="wait">
+                      <motion.p
+                        key={loadingPhrase}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -12 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-sm text-[#D946EF]/80 flex items-center gap-2"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
+                        {EMAIL_LOADING_PHRASES[loadingPhrase]}
+                      </motion.p>
+                    </AnimatePresence>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -421,7 +504,7 @@ function EmailBuilderContent() {
                   disabled={emailsRemaining <= 0}
                 >
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  Regenerate
+                  Regenerate ({emailsRemaining} left)
                 </Button>
                 <Button
                   onClick={handleSave}
