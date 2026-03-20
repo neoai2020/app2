@@ -371,7 +371,7 @@ export default function AutopilotPage() {
                         {/* Submission text preview */}
                         <div className="rounded-lg bg-[#0a0a0a] border border-white/5 p-4">
                           <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Submission Text</p>
-                          <p className="text-xs text-zinc-400 leading-relaxed whitespace-pre-line">{submissionText}</p>
+                          <p className="text-xs text-zinc-400 leading-relaxed whitespace-pre-line break-all">{submissionText}</p>
                         </div>
 
                         {/* Copy submission text */}
