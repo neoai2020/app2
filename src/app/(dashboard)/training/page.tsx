@@ -45,7 +45,7 @@ const trainingVideos: Video[] = [
   },
   {
     id: '3',
-    title: 'Lead Allocation Masterclass',
+    title: 'Lead Magnet Masterclass',
     description: 'Learn how to allocate leads by niche and location, and maximize your daily allocation limit for the best results.',
     duration: '7:42',
     thumbnail: '',
@@ -53,7 +53,7 @@ const trainingVideos: Video[] = [
   },
   {
     id: '4',
-    title: 'Email Builder Deep Dive',
+    title: 'Email Blast Deep Dive',
     description: 'Master the AI email builder — choose the right tone, pair offers with leads, and generate emails that get responses.',
     duration: '9:10',
     thumbnail: '',
@@ -127,7 +127,7 @@ const faqs = [
   },
   {
     question: 'How do I send generated emails?',
-    answer: 'Copy the generated content from the Email Builder or Saved Emails page, paste it into your email client (Gmail, Outlook, etc.), and send manually.'
+    answer: 'Copy the generated content from the Email Blast or Saved Emails page, paste it into your email client (Gmail, Outlook, etc.), and send manually.'
   },
   {
     question: 'Are allocated leads validated?',

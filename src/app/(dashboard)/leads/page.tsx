@@ -116,10 +116,10 @@ export default function LeadsPage() {
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold gradient-text">Lead Allocation</h1>
+          <h1 className="text-4xl font-bold gradient-text">Lead Magnet</h1>
           <HelpTooltip
             variant="info"
-            title="Lead Allocation"
+            title="Lead Magnet"
             content="This is where you generate new business leads. Select an industry and location, and the system will allocate verified business contacts for your outreach."
             learnMoreLink="/support#leads"
           />

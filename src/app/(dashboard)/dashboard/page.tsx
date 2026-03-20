@@ -148,7 +148,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <CardTitle className="text-sm text-zinc-500 uppercase tracking-widest font-black italic">
-                          Lead Allocation
+                          Lead Magnet
                         </CardTitle>
                       </div>
                     </div>

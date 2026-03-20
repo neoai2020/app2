@@ -237,7 +237,7 @@ function EmailBuilderContent() {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-4xl font-bold gradient-text">Email Builder</h1>
+              <h1 className="text-4xl font-bold gradient-text">Email Blast</h1>
               <HelpTooltip
                 variant="info"
                 title="AI Email Generator"

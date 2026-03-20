@@ -47,8 +47,8 @@ export const ACTIVITY_ACTIONS = {
 // Navigation Items
 export const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
-  { href: '/leads', label: 'Lead Allocation', icon: 'Users' },
-  { href: '/email-builder', label: 'Email Builder', icon: 'Mail' },
+  { href: '/leads', label: 'Lead Magnet', icon: 'Users' },
+  { href: '/email-builder', label: 'Email Blast', icon: 'Mail' },
   { href: '/send-instructions', label: 'Send Instructions', icon: 'Send' },
   { href: '/activity', label: 'Activity Log', icon: 'FileText' },
   { href: '/offers', label: 'Offer Library', icon: 'Gift' },
