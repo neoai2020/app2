@@ -512,7 +512,7 @@ function EmailBuilderContent() {
                   glow
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  Archive Email
+                  Save Email for Later
                 </Button>
               </div>
             </CardContent>
