@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp, HelpCircle, Mail, FileText, CheckCircle, MessageSquare } from 'lucide-react'
+import { ChevronDown, ChevronUp, HelpCircle, Mail, FileText, CheckCircle, MessageSquare, ExternalLink, Headphones } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -85,6 +85,47 @@ export default function SupportPage() {
         <p className="text-zinc-500 mt-2">Documentation and assistance resources</p>
       </motion.div>
 
+      {/* Support Channels */}
+      <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <a
+          href="https://neoaifreshdesk.freshdesk.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group"
+        >
+          <Card className="h-full hover:border-[#D946EF]/30 transition-colors">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20 group-hover:bg-[#D946EF]/20 transition-colors">
+                <Headphones className="w-6 h-6 text-[#D946EF]" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-white mb-1">Support Portal</h3>
+                <p className="text-zinc-500 text-sm">Open a ticket or check existing requests</p>
+              </div>
+              <ExternalLink className="w-5 h-5 text-zinc-600 group-hover:text-[#D946EF] transition-colors" />
+            </CardContent>
+          </Card>
+        </a>
+
+        <a
+          href="mailto:ProfitLoopAI@neoai.freshdesk.com"
+          className="group"
+        >
+          <Card className="h-full hover:border-green-400/30 transition-colors">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 rounded-lg bg-green-400/10 border border-green-400/20 group-hover:bg-green-400/20 transition-colors">
+                <Mail className="w-6 h-6 text-green-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-white mb-1">Email Support</h3>
+                <p className="text-zinc-500 text-sm">ProfitLoopAI@neoai.freshdesk.com</p>
+              </div>
+              <ExternalLink className="w-5 h-5 text-zinc-600 group-hover:text-green-400 transition-colors" />
+            </CardContent>
+          </Card>
+        </a>
+      </motion.div>
+
       {/* FAQ Section */}
       <motion.div variants={itemVariants}>
         <Card className="mb-6">
@@ -161,7 +202,7 @@ export default function SupportPage() {
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-2">Message Sent!</h3>
                 <p className="text-zinc-400">
-                  We&apos;ve received your message. Expect a response within 24–48 hours.
+                  We&apos;ve received your message. A support ticket has been created. Expect a response within 24–48 hours at your email address.
                 </p>
                 <Button
                   variant="outline"
@@ -231,7 +272,7 @@ export default function SupportPage() {
               <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
                 <h4 className="font-medium text-[#D946EF] mb-2 uppercase tracking-wider text-sm">Request Procedure</h4>
                 <p className="text-zinc-400 text-sm">
-                  Submit request via contact form above. Include account email and acquisition date.
+                  Submit a request via the contact form above, email us at ProfitLoopAI@neoai.freshdesk.com, or open a ticket on the support portal. Include your account email and purchase date.
                 </p>
               </div>
 
