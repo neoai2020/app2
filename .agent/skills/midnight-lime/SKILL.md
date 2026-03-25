@@ -1,6 +1,6 @@
 ---
 name: Midnight & Purple Design System
-description: Technical specification for the Midnight charcoal and Electric Purple UI/UX architecture used in the Control Hub.
+description: Technical specification for the Midnight charcoal and Electric Purple UI/UX architecture used in the Profit Loop Dashboard.
 ---
 
 # Midnight & Purple Design System
@@ -18,7 +18,7 @@ This documentation provides the core design tokens and implementation guidelines
 | **Border / Subtle White** | `rgba(255,255,255,0.05)` | `border-white/5` |
 | **Zinc Text** | `#71717a` | `text-zinc-500` |
 
-## 📐 Layout: Control Hub (Dashboard)
+## 📐 Layout: Profit Loop Dashboard (Dashboard)
 
 - **Container**: `max-w-[1700px]` centered.
 - **Grid Structure**: 4-column master grid (`xl:grid-cols-4`).

@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     question: 'Does the platform send emails for me?',
-    answer: 'No. Inbox Vault generates email content only. Copy your email from Email Blast or Saved Emails, paste it into your email client (Gmail, Outlook, etc.), and send it yourself.'
+    answer: 'No. Profit Loop generates email content only. Copy your email from Email Blast or Saved Emails, paste it into your email client (Gmail, Outlook, etc.), and send it yourself.'
   },
   {
     question: 'Why are some business emails unavailable?',

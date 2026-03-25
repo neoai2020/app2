@@ -127,8 +127,8 @@ export default function DashboardPage() {
           {/* Welcome Video */}
           <motion.div variants={itemVariants}>
             <VideoCard
-              title="Welcome to Inbox Money Vault - Start Here"
-              description="Watch this essential training to understand exactly how to use Inbox Money Vault to generate your first profitable leads and start making money with email outreach."
+              title="Welcome to Profit Loop - Start Here"
+              description="Watch this essential training to understand exactly how to use Profit Loop to generate your first profitable leads and start making money with email outreach."
               duration="12:34"
               views="2,847"
               thumbnailText="START HERE"
@@ -316,7 +316,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <p className="text-[10px] text-zinc-500 font-medium leading-relaxed italic">
-                  The IMV community is currently at 68% of the weekly target.
+                  The Profit Loop community is currently at 68% of the weekly target.
                 </p>
               </CardContent>
             </Card>

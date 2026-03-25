@@ -1,4 +1,4 @@
--- Inbox Money Vault Database Schema (RESET VERSION)
+-- Profit Loop Database Schema (RESET VERSION)
 -- This will DROP all existing tables and recreate them
 -- WARNING: This will delete all data!
 

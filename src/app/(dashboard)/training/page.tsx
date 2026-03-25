@@ -29,7 +29,7 @@ interface Video {
 const trainingVideos: Video[] = [
   {
     id: '1',
-    title: 'Getting Started with Inbox Vault',
+    title: 'Getting Started with Profit Loop',
     description: 'A complete walkthrough of the platform — learn how to navigate the dashboard, understand each feature, and set up your account for success.',
     duration: '8:24',
     thumbnail: '',
@@ -106,7 +106,7 @@ const trainingVideos: Video[] = [
 
 const faqs = [
   {
-    question: 'How do I get started with Inbox Vault?',
+    question: 'How do I get started with Profit Loop?',
     answer: 'Start by creating an offer template in the Offer Library. Then go to Lead Magnet to pull leads for your niche. Finally, use Email Blast to generate personalized outreach emails using AI. Save your emails and send them through your own email client.'
   },
   {
@@ -127,7 +127,7 @@ const faqs = [
   },
   {
     question: 'Does the platform send emails for me?',
-    answer: 'No. Inbox Vault generates email content only. You copy the generated email from Email Blast or Saved Emails, paste it into your email client (Gmail, Outlook, etc.), and send it yourself. This keeps you in full control.'
+    answer: 'No. Profit Loop generates email content only. You copy the generated email from Email Blast or Saved Emails, paste it into your email client (Gmail, Outlook, etc.), and send it yourself. This keeps you in full control.'
   },
   {
     question: 'What is Saved Emails?',

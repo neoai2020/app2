@@ -1,4 +1,4 @@
--- Inbox Money Vault Database Schema
+-- Profit Loop Database Schema
 -- Run this in your Supabase SQL Editor
 
 -- Enable UUID extension

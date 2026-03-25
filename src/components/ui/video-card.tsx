@@ -15,7 +15,7 @@ interface VideoCardProps {
 
 export function VideoCard({
   title = "Getting Started: Your First $100 Day",
-  description = "Watch this essential training to understand exactly how to use Inbox Money Vault to generate your first profitable leads and close your first deals.",
+  description = "Watch this essential training to understand exactly how to use Profit Loop to generate your first profitable leads and close your first deals.",
   duration = "12:34",
   views = "2,847",
   thumbnailText = "WATCH NOW",

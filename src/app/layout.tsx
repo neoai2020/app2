@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Inbox Money Vault",
+  title: "Profit Loop AI",
   description: "Email lead allocation and outreach preparation system",
 };
 

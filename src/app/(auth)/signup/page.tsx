@@ -81,8 +81,8 @@ export default function SignupPage() {
         >
           <Hexagon className="w-16 h-16 text-[#D946EF]" strokeWidth={1} />
         </motion.div>
-        <h1 className="text-3xl font-bold gradient-text mb-2">INBOX VAULT</h1>
-        <p className="text-zinc-500 text-sm uppercase tracking-widest">Lead Allocation System</p>
+        <h1 className="text-3xl font-bold gradient-text mb-2">PROFIT LOOP</h1>
+        <p className="text-zinc-500 text-sm uppercase tracking-widest">AI-Powered Outreach Platform</p>
       </div>
 
       <Card glow>

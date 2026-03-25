@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -14,7 +15,6 @@ import {
   LogOut,
   Menu,
   X,
-  Hexagon,
   TrendingUp,
   Diamond,
   Sparkles,
@@ -57,18 +57,13 @@ export function Sidebar() {
       {/* Logo */}
       <div className="p-6 border-b border-white/5">
         <div className="flex items-center gap-3">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            <Hexagon className="w-10 h-10 text-[#D946EF]" strokeWidth={1.5} />
-          </motion.div>
+          <Image src="/logo.png" alt="Profit Loop" width={40} height={40} className="rounded-lg" />
           <div>
             <h1 className="text-xl font-black italic uppercase tracking-tighter text-white">
-              INBOX VAULT
+              PROFIT LOOP
             </h1>
             <p className="text-[10px] text-[#D946EF]/50 uppercase tracking-[0.2em] font-bold">
-              Control Hub v2.0
+              AI
             </p>
           </div>
         </div>
