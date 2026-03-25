@@ -37,7 +37,7 @@ export default function ScalePage() {
           </motion.div>
           
           <h1 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter text-white leading-[0.9]">
-            Scale Your <span className="text-[#D946EF]">Robinhood</span> To <br />
+            Scale Your <span className="text-[#D946EF]">Profit Loop</span> To <br />
             <span className="text-white">$1,000+ Per Day</span>
           </h1>
           

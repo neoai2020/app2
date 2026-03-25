@@ -13,8 +13,8 @@ interface PromoBannerProps {
 
 export function PromoBanner({
   title = "Want To Multiply Your Earnings To $1,000 - $5,000 A Day?",
-  description = "AI Wealth OS is powerful, but if you want to scale to truly life-changing income, you need to watch this training which shows how to automate your entire workflow. And guess what?",
-  extraLine = "This training is free for all AI Wealth members. So, if you want to unlock your full potential, just tap the yellow button below.",
+  description = "Profit Loop is powerful, but if you want to scale to truly life-changing income, you need to watch this training which shows how to automate your entire workflow. And guess what?",
+  extraLine = "This training is free for all Profit Loop members. So, if you want to unlock your full potential, just tap the yellow button below.",
   ctaText = "Click Here To Learn How",
   ctaLink = "https://www.jvzoo.com/c/86517/415009"
 }: PromoBannerProps) {
