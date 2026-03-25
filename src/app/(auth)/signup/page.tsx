@@ -8,7 +8,8 @@ import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Hexagon, ArrowRight, UserPlus } from 'lucide-react'
+import { ArrowRight, UserPlus } from 'lucide-react'
+import Image from 'next/image'
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState('')
@@ -74,13 +75,9 @@ export default function SignupPage() {
     >
       {/* Logo */}
       <div className="text-center mb-8">
-        <motion.div 
-          className="inline-flex items-center justify-center mb-4"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        >
-          <Hexagon className="w-16 h-16 text-[#D946EF]" strokeWidth={1} />
-        </motion.div>
+        <div className="inline-flex items-center justify-center mb-4">
+          <Image src="/logo.png" alt="Profit Loop" width={64} height={64} />
+        </div>
         <h1 className="text-3xl font-bold gradient-text mb-2">PROFIT LOOP</h1>
         <p className="text-zinc-500 text-sm uppercase tracking-widest">AI-Powered Outreach Platform</p>
       </div>
