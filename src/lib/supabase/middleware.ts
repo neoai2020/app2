@@ -44,11 +44,12 @@ export async function updateSession(request: NextRequest) {
     return response
   }
 
-  // Redirect authenticated users away from auth pages
+  // Redirect authenticated users away from auth/landing pages to dashboard
   const authPaths = ['/login', '/signup']
   const isAuthPath = authPaths.some(path => request.nextUrl.pathname === path)
+  const isLandingPage = request.nextUrl.pathname === '/'
 
-  if (isAuthPath && user) {
+  if ((isAuthPath || isLandingPage) && user) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)

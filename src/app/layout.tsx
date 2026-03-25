@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Profit Loop AI",
-  description: "Email lead allocation and outreach preparation system",
+  description: "AI-powered lead generation, email outreach, and automated traffic — all in one platform.",
 };
 
 export default function RootLayout({
