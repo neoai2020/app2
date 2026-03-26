@@ -92,12 +92,34 @@ export default function SupportPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setSubmitted(true)
-    setLoading(false)
-    setName('')
-    setEmail('')
-    setMessage('')
+
+    try {
+      const res = await fetch('/api/support', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      })
+
+      const data = await res.json()
+
+      if (data.method === 'mailto' && data.mailtoUrl) {
+        window.open(data.mailtoUrl, '_blank')
+      }
+
+      if (res.ok) {
+        setSubmitted(true)
+        setName('')
+        setEmail('')
+        setMessage('')
+      }
+    } catch {
+      setSubmitted(true)
+      setName('')
+      setEmail('')
+      setMessage('')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
