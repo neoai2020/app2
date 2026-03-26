@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
-import { Play, GraduationCap, ChevronDown, ChevronUp, Diamond, Lock } from 'lucide-react'
+import { Play, GraduationCap, ChevronDown, ChevronUp, Diamond } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -162,7 +162,6 @@ const faqs = [
 export default function TrainingPage() {
   const [activeTab, setActiveTab] = useState<'videos' | 'faq'>('videos')
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
-  const [playingVideo, setPlayingVideo] = useState<string | null>(null)
 
   return (
     <motion.div
@@ -236,32 +235,16 @@ export default function TrainingPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Card className="h-full hover:border-[#D946EF]/30 transition-colors group cursor-pointer">
+                    <Card className="h-full hover:border-[#D946EF]/30 transition-colors">
                       <CardContent className="p-0">
-                        {/* Video Thumbnail / Player */}
-                        <div
-                          className="relative aspect-video bg-zinc-900 rounded-t-xl overflow-hidden"
-                          onClick={() => setPlayingVideo(playingVideo === video.id ? null : video.id)}
-                        >
-                          {playingVideo === video.id ? (
-                            <iframe
-                              src={`${video.videoUrl}?autoplay=1&title=0&byline=0&portrait=0`}
-                              className="w-full h-full"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-900 to-zinc-800">
-                              <div className="w-14 h-14 rounded-full bg-[#D946EF]/20 border border-[#D946EF]/40 flex items-center justify-center group-hover:bg-[#D946EF]/30 group-hover:scale-110 transition-all">
-                                <Play className="w-6 h-6 text-[#D946EF] ml-0.5" />
-                              </div>
-                              <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-xs text-zinc-300 font-mono">
-                                {video.duration}
-                              </span>
-                            </div>
-                          )}
+                        <div className="relative aspect-video bg-zinc-900 rounded-t-xl overflow-hidden">
+                          <iframe
+                            src={`${video.videoUrl}?title=0&byline=0&portrait=0`}
+                            className="w-full h-full"
+                            allow="autoplay; fullscreen; picture-in-picture"
+                            allowFullScreen
+                          />
                         </div>
-                        {/* Info */}
                         <div className="p-4">
                           <h3 className="font-semibold text-white text-sm mb-1">{video.title}</h3>
                           <p className="text-xs text-zinc-500 leading-relaxed">{video.description}</p>
@@ -287,37 +270,20 @@ export default function TrainingPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Card className="h-full hover:border-[#D946EF]/30 transition-colors group cursor-pointer relative overflow-hidden">
+                    <Card className="h-full hover:border-[#D946EF]/30 transition-colors relative overflow-hidden">
                       <CardContent className="p-0">
-                        {/* Premium Badge */}
                         <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#D946EF] text-black text-[10px] font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(217,70,239,0.5)]">
                           <Diamond className="w-3 h-3" />
                           Premium
                         </div>
-                        {/* Video Thumbnail / Player */}
-                        <div
-                          className="relative aspect-video bg-zinc-900 rounded-t-xl overflow-hidden"
-                          onClick={() => setPlayingVideo(playingVideo === video.id ? null : video.id)}
-                        >
-                          {playingVideo === video.id ? (
-                            <iframe
-                              src={`${video.videoUrl}?autoplay=1&title=0&byline=0&portrait=0`}
-                              className="w-full h-full"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#D946EF]/5 via-zinc-900 to-indigo-500/5">
-                              <div className="w-14 h-14 rounded-full bg-[#D946EF]/20 border border-[#D946EF]/40 flex items-center justify-center group-hover:bg-[#D946EF]/30 group-hover:scale-110 transition-all">
-                                <Lock className="w-5 h-5 text-[#D946EF]" />
-                              </div>
-                              <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-xs text-zinc-300 font-mono">
-                                {video.duration}
-                              </span>
-                            </div>
-                          )}
+                        <div className="relative aspect-video bg-zinc-900 rounded-t-xl overflow-hidden">
+                          <iframe
+                            src={`${video.videoUrl}?title=0&byline=0&portrait=0`}
+                            className="w-full h-full"
+                            allow="autoplay; fullscreen; picture-in-picture"
+                            allowFullScreen
+                          />
                         </div>
-                        {/* Info */}
                         <div className="p-4">
                           <h3 className="font-semibold text-white text-sm mb-1">{video.title}</h3>
                           <p className="text-xs text-zinc-500 leading-relaxed">{video.description}</p>
