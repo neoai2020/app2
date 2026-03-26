@@ -127,12 +127,13 @@ export default function AutopilotPage() {
 
       {/* Video Tutorial — Compact */}
       <div className="rounded-2xl border border-white/5 bg-[#111111] flex flex-col md:flex-row overflow-hidden">
-        <div className="md:w-2/5 min-h-[200px] relative bg-[#0a0a0a] border-b md:border-b-0 md:border-r border-white/5 flex items-center justify-center overflow-hidden group">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:scale-105 transition-transform duration-500" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />
-          <button className="relative z-10 w-14 h-14 bg-[#D946EF] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(217,70,239,0.5)] transform group-hover:scale-110 transition-transform">
-            <Play className="w-6 h-6 text-black ml-0.5" fill="currentColor" />
-          </button>
+        <div className="md:w-2/5 min-h-[200px] relative bg-[#0a0a0a] border-b md:border-b-0 md:border-r border-white/5 overflow-hidden">
+          <iframe
+            src="https://player.vimeo.com/video/1177396473?title=0&byline=0&portrait=0"
+            className="absolute inset-0 w-full h-full"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+          />
         </div>
         <div className="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
           <div className="flex items-center gap-2 text-[#D946EF] font-bold text-xs uppercase tracking-widest mb-2">

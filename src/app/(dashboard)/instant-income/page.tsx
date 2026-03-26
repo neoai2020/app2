@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Facebook, Play, Video, BookOpen, DollarSign, CheckCircle2, ExternalLink, Lightbulb, Copy, Check } from 'lucide-react'
+import { Facebook, BookOpen, DollarSign, CheckCircle2, ExternalLink, Lightbulb, Copy, Check } from 'lucide-react'
 import { useState } from 'react'
 
 const niches = [
@@ -59,19 +59,13 @@ export default function InstantIncomePage() {
       <motion.div variants={itemVariants}>
         <div className="rounded-2xl border border-white/5 bg-[#111111] overflow-hidden flex flex-col lg:flex-row shadow-2xl mb-8">
           {/* Left: Video */}
-          <div className="lg:w-1/2 relative min-h-[280px] lg:min-h-[380px] bg-[#0a0a0a] border-b lg:border-b-0 lg:border-r border-white/5 flex items-center justify-center p-8 group overflow-hidden">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center opacity-20 group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#D946EF]/20 via-[#111111]/80 to-[#111111] opacity-80" />
-
-            <button className="relative z-10 w-20 h-20 bg-[#D946EF] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(217,70,239,0.4)] transform group-hover:scale-110 transition-all duration-300">
-              <Play className="w-8 h-8 text-black ml-1" fill="currentColor" />
-            </button>
-
-            <div className="absolute bottom-6 left-0 right-0 text-center">
-              <span className="text-white text-xs font-black uppercase tracking-widest bg-black/60 py-2 px-5 rounded-full backdrop-blur-md border border-white/10">
-                <Video className="w-3 h-3 inline-block mr-2 -mt-0.5" /> WATCH TUTORIAL
-              </span>
-            </div>
+          <div className="lg:w-1/2 relative min-h-[280px] lg:min-h-[380px] bg-[#0a0a0a] border-b lg:border-b-0 lg:border-r border-white/5 overflow-hidden">
+            <iframe
+              src="https://player.vimeo.com/video/1177396575?title=0&byline=0&portrait=0"
+              className="absolute inset-0 w-full h-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+            />
           </div>
 
           {/* Right: Content */}
