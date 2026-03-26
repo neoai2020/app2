@@ -105,7 +105,7 @@ export default function SupportPage() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="max-w-4xl mx-auto"
+      className="max-w-6xl mx-auto"
     >
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
@@ -154,124 +154,127 @@ export default function SupportPage() {
         </a>
       </motion.div>
 
-      {/* FAQ Section */}
-      <motion.div variants={itemVariants}>
-        <Card className="mb-6">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20">
-                <HelpCircle className="w-6 h-6 text-[#D946EF]" />
-              </div>
-              <div>
-                <CardTitle>Frequently Asked Questions</CardTitle>
-                <CardDescription>Common queries and system documentation</CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-zinc-800/50">
-              {faqs.map((faq, index) => (
-                <div key={index}>
-                  <button
-                    className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-zinc-800/20 transition-colors"
-                    onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                  >
-                    <span className="font-medium text-zinc-200 pr-4">{faq.question}</span>
-                    {expandedFaq === index ? (
-                      <ChevronUp size={18} className="text-[#D946EF] shrink-0" />
-                    ) : (
-                      <ChevronDown size={18} className="text-zinc-500 shrink-0" />
-                    )}
-                  </button>
-                  <AnimatePresence>
-                    {expandedFaq === index && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="px-6 pb-4 text-zinc-400 text-sm leading-relaxed">
-                          {faq.answer}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+      {/* FAQ + Contact Form — Side by Side */}
+      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6">
+        {/* FAQ Section — Left (wider) */}
+        <div className="lg:col-span-3">
+          <Card className="h-full">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20">
+                  <HelpCircle className="w-6 h-6 text-[#D946EF]" />
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+                <div>
+                  <CardTitle>Frequently Asked Questions</CardTitle>
+                  <CardDescription>Common queries and system documentation</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="divide-y divide-zinc-800/50">
+                {faqs.map((faq, index) => (
+                  <div key={index}>
+                    <button
+                      className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-zinc-800/20 transition-colors"
+                      onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                    >
+                      <span className="font-medium text-zinc-200 pr-4 text-sm">{faq.question}</span>
+                      {expandedFaq === index ? (
+                        <ChevronUp size={18} className="text-[#D946EF] shrink-0" />
+                      ) : (
+                        <ChevronDown size={18} className="text-zinc-500 shrink-0" />
+                      )}
+                    </button>
+                    <AnimatePresence>
+                      {expandedFaq === index && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pb-4 text-zinc-400 text-sm leading-relaxed">
+                            {faq.answer}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      {/* Contact Form */}
-      <motion.div variants={itemVariants}>
-        <Card className="mb-6">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-green-400/10 border border-green-400/20">
-                <MessageSquare className="w-6 h-6 text-green-400" />
-              </div>
-              <div>
-                <CardTitle>Contact Support</CardTitle>
-                <CardDescription>Submit inquiry for human assistance</CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-8"
-              >
-                <div className="w-16 h-16 rounded-full bg-green-400/10 border border-green-400/30 flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="w-8 h-8 text-green-400" />
+        {/* Contact Form — Right */}
+        <div className="lg:col-span-2">
+          <Card className="h-full sticky top-6">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-lg bg-green-400/10 border border-green-400/20">
+                  <MessageSquare className="w-6 h-6 text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Message Sent!</h3>
-                <p className="text-zinc-400">
-                  We&apos;ve received your message. A support ticket has been created. Expect a response within 24–48 hours at your email address.
-                </p>
-                <Button
-                  variant="outline"
-                  className="mt-6"
-                  onClick={() => setSubmitted(false)}
+                <div>
+                  <CardTitle>Contact Support</CardTitle>
+                  <CardDescription>Submit inquiry for assistance</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {submitted ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-6"
                 >
-                  Submit Another Inquiry
-                </Button>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Input
-                  label="Your Name"
-                  placeholder="Your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-                <Input
-                  type="email"
-                  label="Email Address"
-                  placeholder="email@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <Textarea
-                  label="Message"
-                  placeholder="Describe your issue or question..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                />
-                <Button type="submit" loading={loading} glow>
-                  <Mail className="w-4 h-4 mr-2" />
-                  Send Message
-                </Button>
-              </form>
-            )}
-          </CardContent>
-        </Card>
+                  <div className="w-14 h-14 rounded-full bg-green-400/10 border border-green-400/30 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-7 h-7 text-green-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Message Sent!</h3>
+                  <p className="text-zinc-400 text-sm">
+                    A support ticket has been created. Expect a response within 24–48 hours.
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="mt-4"
+                    onClick={() => setSubmitted(false)}
+                  >
+                    Submit Another Inquiry
+                  </Button>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <Input
+                    label="Your Name"
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                  <Input
+                    type="email"
+                    label="Email Address"
+                    placeholder="email@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <Textarea
+                    label="Message"
+                    placeholder="Describe your issue or question..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                  />
+                  <Button type="submit" loading={loading} glow className="w-full">
+                    <Mail className="w-4 h-4 mr-2" />
+                    Send Message
+                  </Button>
+                </form>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </motion.div>
 
       {/* Refund Policy */}

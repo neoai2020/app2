@@ -1,46 +1,80 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Mail, CheckCircle2, ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState('')
   const supabase = createClient()
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleReset = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setLoading(true)
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      })
+      const { error } = await supabase.auth.resetPasswordForEmail(email)
 
       if (error) {
         setError(error.message)
       } else {
-        router.push('/dashboard')
-        router.refresh()
+        setSent(true)
       }
     } catch {
-      setError('An unexpected error occurred')
+      setError('An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
     }
+  }
+
+  if (sent) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center mb-4">
+            <Image src="/logo.png" alt="Profit Loop" width={64} height={64} />
+          </div>
+          <h1 className="text-3xl font-bold gradient-text mb-2">PROFIT LOOP</h1>
+          <p className="text-zinc-500 text-sm uppercase tracking-widest">AI-Powered Outreach Platform</p>
+        </div>
+
+        <Card glow>
+          <CardContent className="py-10 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 mb-6">
+              <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+            </div>
+            <h2 className="text-xl font-bold text-white mb-3">Check Your Email</h2>
+            <p className="text-zinc-400 text-sm mb-2">
+              We sent a password reset link to
+            </p>
+            <p className="text-white font-semibold mb-6">{email}</p>
+            <p className="text-zinc-500 text-xs mb-8">
+              Don&apos;t see it? Check your spam folder.
+            </p>
+            <Link href="/login">
+              <Button variant="outline" className="w-full group">
+                <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                Back to Login
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </motion.div>
+    )
   }
 
   return (
@@ -49,7 +83,6 @@ export default function LoginPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Logo */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center mb-4">
           <Image src="/logo.png" alt="Profit Loop" width={64} height={64} />
@@ -60,13 +93,16 @@ export default function LoginPage() {
 
       <Card glow>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl gradient-text">System Access</CardTitle>
+          <CardTitle className="text-xl gradient-text flex items-center justify-center gap-2">
+            <Mail className="w-5 h-5" />
+            Reset Password
+          </CardTitle>
           <CardDescription>
-            Enter your credentials to continue
+            Enter your email and we&apos;ll send you a reset link
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleReset} className="space-y-5">
             {error && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -90,26 +126,6 @@ export default function LoginPage() {
               autoComplete="email"
             />
 
-            <div>
-              <Input
-                type="password"
-                label="Password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-              />
-              <div className="flex justify-end mt-1.5">
-                <Link
-                  href="/forgot-password"
-                  className="text-xs text-zinc-500 hover:text-[#D946EF] transition-colors"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-            </div>
-
             <Button
               type="submit"
               className="w-full group"
@@ -117,7 +133,7 @@ export default function LoginPage() {
               loading={loading}
               glow
             >
-              <span>Initialize Session</span>
+              <span>Send Reset Link</span>
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
 
@@ -127,40 +143,21 @@ export default function LoginPage() {
               </div>
               <div className="relative flex justify-center">
                 <span className="px-4 text-xs text-zinc-600 bg-[#0a0a0f] uppercase tracking-widest">
-                  New User
+                  Remember your password?
                 </span>
               </div>
             </div>
 
-            <Link href="/signup">
-              <Button type="button" variant="outline" className="w-full">
-                Create Account
+            <Link href="/login">
+              <Button type="button" variant="outline" className="w-full group">
+                <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                Back to Login
               </Button>
             </Link>
           </form>
         </CardContent>
       </Card>
 
-      {/* Support Links */}
-      <div className="flex items-center justify-center gap-6 mt-6">
-        <a
-          href="https://help.explodely.com/support/tickets/new"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-zinc-500 hover:text-[#D946EF] text-xs uppercase tracking-wider transition-colors"
-        >
-          Billing Support
-        </a>
-        <span className="text-zinc-700">•</span>
-        <a
-          href="mailto:imv@neoai.freshdesk.com"
-          className="text-zinc-500 hover:text-[#D946EF] text-xs uppercase tracking-wider transition-colors"
-        >
-          Product Support
-        </a>
-      </div>
-
-      {/* Version info */}
       <p className="text-center text-zinc-600 text-xs mt-4 uppercase tracking-widest">
         Secure Connection • v2.0.1
       </p>

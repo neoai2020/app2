@@ -44,8 +44,15 @@ export async function updateSession(request: NextRequest) {
     return response
   }
 
+  // Allow password reset routes through without any redirect
+  const passwordResetPaths = ['/forgot-password', '/reset-password']
+  const isPasswordResetPath = passwordResetPaths.some(path => request.nextUrl.pathname.startsWith(path))
+  if (isPasswordResetPath) {
+    return supabaseResponse
+  }
+
   // Redirect authenticated users away from auth/landing pages to dashboard
-  const authPaths = ['/login', '/signup']
+  const authPaths = ['/login', '/signup', '/signup-pro']
   const isAuthPath = authPaths.some(path => request.nextUrl.pathname === path)
   const isLandingPage = request.nextUrl.pathname === '/'
 

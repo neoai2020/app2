@@ -8,33 +8,57 @@ import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, UserPlus } from 'lucide-react'
 import Image from 'next/image'
 
-export default function LoginPage() {
+export default function SignupProPage() {
+  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters')
+      return
+    }
+
     setLoading(true)
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email,
-        password
+        password,
+        options: {
+          data: {
+            full_name: fullName
+          },
+          emailRedirectTo: `${window.location.origin}/dashboard`
+        }
       })
 
       if (error) {
         setError(error.message)
-      } else {
+        return
+      }
+
+      if (data.session) {
         router.push('/dashboard')
         router.refresh()
+      } else if (data.user && !data.session) {
+        setError('Please check your email to confirm your account, then sign in.')
       }
     } catch {
       setError('An unexpected error occurred')
@@ -60,13 +84,16 @@ export default function LoginPage() {
 
       <Card glow>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl gradient-text">System Access</CardTitle>
+          <CardTitle className="text-xl gradient-text flex items-center justify-center gap-2">
+            <UserPlus className="w-5 h-5" />
+            Create Account
+          </CardTitle>
           <CardDescription>
-            Enter your credentials to continue
+            Initialize your access credentials
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleSignup} className="space-y-4">
             {error && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -81,6 +108,16 @@ export default function LoginPage() {
             )}
 
             <Input
+              type="text"
+              label="Full Name"
+              placeholder="John Smith"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+              autoComplete="name"
+            />
+
+            <Input
               type="email"
               label="Email Address"
               placeholder="user@example.com"
@@ -90,25 +127,25 @@ export default function LoginPage() {
               autoComplete="email"
             />
 
-            <div>
-              <Input
-                type="password"
-                label="Password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-              />
-              <div className="flex justify-end mt-1.5">
-                <Link
-                  href="/forgot-password"
-                  className="text-xs text-zinc-500 hover:text-[#D946EF] transition-colors"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-            </div>
+            <Input
+              type="password"
+              label="Password"
+              placeholder="Minimum 8 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+            />
+
+            <Input
+              type="password"
+              label="Confirm Password"
+              placeholder="Re-enter password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+            />
 
             <Button
               type="submit"
@@ -117,7 +154,7 @@ export default function LoginPage() {
               loading={loading}
               glow
             >
-              <span>Initialize Session</span>
+              <span>Initialize Account</span>
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
 
@@ -127,14 +164,14 @@ export default function LoginPage() {
               </div>
               <div className="relative flex justify-center">
                 <span className="px-4 text-xs text-zinc-600 bg-[#0a0a0f] uppercase tracking-widest">
-                  New User
+                  Existing User
                 </span>
               </div>
             </div>
 
-            <Link href="/signup">
+            <Link href="/login">
               <Button type="button" variant="outline" className="w-full">
-                Create Account
+                Access System
               </Button>
             </Link>
           </form>
