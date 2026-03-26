@@ -4,29 +4,34 @@ import { motion } from 'framer-motion'
 import { Diamond, Mail, Copy, CheckCircle2, Search, Link as LinkIcon, CheckSquare } from 'lucide-react'
 import { useState, useMemo } from 'react'
 
-const getRealisticLeads = (nicheId: string, count: number = 5) => {
-  const domains = {
-    saas: ['Tech', 'IO', 'AI', 'Software'],
-    realestate: ['Realty', 'Properties', 'Homes', 'Estate'],
-    ecommerce: ['Shop', 'Store', 'Commerce', 'Apparel'],
-    agencies: ['Digital', 'Media', 'Marketing', 'Creative'],
-    coaching: ['Coaching', 'Consulting', 'Success', 'Growth'],
-    fitness: ['Fit', 'Gym', 'Wellness', 'Health'],
-    crypto: ['Crypto', 'Web3', 'Chain', 'Labs'],
-    local: ['Plumbing', 'Services', 'Electric', 'Repairs']
-  };
-  const firstNames = ['James', 'Sarah', 'Michael', 'Emma', 'David', 'Jessica', 'Daniel', 'Olivia', 'Matthew', 'Sophia'];
-  const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'];
-  
-  const ext = domains[nicheId as keyof typeof domains] || ['Corp', 'Inc', 'LLC', 'Group'];
-  
-  return Array.from({ length: count }).map((_, i) => {
-    const fName = firstNames[(i + nicheId.length) % firstNames.length];
-    const lName = lastNames[(i * 3 + nicheId.length) % lastNames.length];
-    const company = `${lName} ${ext[i % ext.length]}`;
-    const domain = company.toLowerCase().replace(/[^a-z0-9]/g, '') + '.com';
-    const email = `${fName.toLowerCase()}.${lName.toLowerCase()}@${domain}`;
-    
+const LEADS_PER_PAGE = 10
+
+const getRealisticLeads = (nicheId: string) => {
+  const domains: Record<string, string[]> = {
+    saas: ['Tech', 'IO', 'AI', 'Software', 'Cloud', 'Systems', 'Data', 'Logic'],
+    realestate: ['Realty', 'Properties', 'Homes', 'Estate', 'Living', 'Residential', 'Land', 'Housing'],
+    ecommerce: ['Shop', 'Store', 'Commerce', 'Apparel', 'Market', 'Outlet', 'Goods', 'Retail'],
+    agencies: ['Digital', 'Media', 'Marketing', 'Creative', 'Agency', 'Studios', 'Lab', 'Works'],
+    coaching: ['Coaching', 'Consulting', 'Success', 'Growth', 'Academy', 'Institute', 'Edge', 'Peak'],
+    fitness: ['Fit', 'Gym', 'Wellness', 'Health', 'Active', 'Strong', 'Vital', 'Body'],
+    crypto: ['Crypto', 'Web3', 'Chain', 'Labs', 'Block', 'Token', 'Ledger', 'Node'],
+    local: ['Plumbing', 'Services', 'Electric', 'Repairs', 'Pro', 'Masters', 'Solutions', 'Expert']
+  }
+  const firstNames = ['James', 'Sarah', 'Michael', 'Emma', 'David', 'Jessica', 'Daniel', 'Olivia', 'Matthew', 'Sophia', 'Robert', 'Ashley', 'William', 'Megan', 'Christopher', 'Lauren', 'Andrew', 'Rachel', 'Brandon', 'Nicole']
+  const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Anderson', 'Taylor', 'Thomas', 'Moore', 'Jackson', 'Martin', 'Lee', 'Clark', 'Lewis', 'Walker']
+
+  const ext = domains[nicheId] || ['Corp', 'Inc', 'LLC', 'Group', 'Co', 'Hub', 'Global', 'Partners']
+  const seed = nicheId.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+
+  return Array.from({ length: 200 }).map((_, i) => {
+    const fIdx = (i * 7 + seed) % firstNames.length
+    const lIdx = (i * 13 + seed + 3) % lastNames.length
+    const fName = firstNames[fIdx]
+    const lName = lastNames[lIdx]
+    const company = `${lName} ${ext[i % ext.length]}`
+    const domain = company.toLowerCase().replace(/[^a-z0-9]/g, '') + '.com'
+    const email = `${fName.toLowerCase()}.${lName.toLowerCase()}@${domain}`
+
     return {
       id: i,
       firstName: fName,
@@ -35,7 +40,7 @@ const getRealisticLeads = (nicheId: string, count: number = 5) => {
       company: company + (nicheId === 'saas' ? ' Inc.' : ''),
       status: 'Verified'
     }
-  });
+  })
 }
 
 const niches = [
@@ -54,8 +59,20 @@ export default function DFYPage() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const [userLink, setUserLink] = useState('')
   const [copiedAll, setCopiedAll] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(LEADS_PER_PAGE)
 
-  const currentLeads = useMemo(() => getRealisticLeads(selectedNiche, 5), [selectedNiche])
+  const allLeads = useMemo(() => getRealisticLeads(selectedNiche), [selectedNiche])
+  const currentLeads = useMemo(() => allLeads.slice(0, visibleCount), [allLeads, visibleCount])
+  const remaining = 200 - visibleCount
+
+  const handleSelectNiche = (nicheId: string) => {
+    setSelectedNiche(nicheId)
+    setVisibleCount(LEADS_PER_PAGE)
+  }
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => Math.min(prev + LEADS_PER_PAGE, 200))
+  }
 
   const getEmailContent = (lead: { firstName: string; company: string }, link: string, nicheName: string) => {
     return `Subject: Special strategy for ${nicheName}
@@ -78,7 +95,7 @@ Best regards,
 
   const handleCopyAll = () => {
     const nicheName = niches.find(n => n.id === selectedNiche)?.name || ''
-    const allEmails = currentLeads.map(lead => 
+    const allEmails = allLeads.map(lead => 
       `--- To: ${lead.email} ---\n${getEmailContent(lead, userLink, nicheName)}`
     ).join('\n\n=========================================\n\n')
     
@@ -128,7 +145,7 @@ Best regards,
               {niches.map((niche) => (
                 <button
                   key={niche.id}
-                  onClick={() => setSelectedNiche(niche.id)}
+                  onClick={() => handleSelectNiche(niche.id)}
                   className={`w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center justify-between group ${
                     selectedNiche === niche.id 
                       ? 'bg-[#D946EF]/10 border border-[#D946EF]/30' 
@@ -234,11 +251,16 @@ Best regards,
                 </motion.div>
               )})}
               
-              <div className="py-6 flex justify-center">
-                <button className="px-6 py-3 bg-[#D946EF]/10 text-[#D946EF] rounded-xl font-bold uppercase tracking-wider text-sm hover:bg-[#D946EF]/20 transition-colors border border-[#D946EF]/30">
-                  Load More Leads (195 Remaining)
-                </button>
-              </div>
+              {remaining > 0 && (
+                <div className="py-6 flex justify-center">
+                  <button
+                    onClick={handleLoadMore}
+                    className="px-6 py-3 bg-[#D946EF]/10 text-[#D946EF] rounded-xl font-bold uppercase tracking-wider text-sm hover:bg-[#D946EF]/20 transition-colors border border-[#D946EF]/30"
+                  >
+                    Load More Leads ({remaining} Remaining)
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
