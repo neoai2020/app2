@@ -3,10 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp, HelpCircle, Mail, FileText, CheckCircle, MessageSquare, ExternalLink, Headphones } from 'lucide-react'
+import { ChevronDown, ChevronUp, HelpCircle, Mail, FileText, ExternalLink, Headphones, MessageCircle } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -83,38 +80,6 @@ const faqs = [
 
 export default function SupportPage() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
-  const [subject, setSubject] = useState('')
-  const [message, setMessage] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    try {
-      const res = await fetch('/api/support', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject, message }),
-      })
-
-      if (res.ok) {
-        setSubmitted(true)
-        setSubject('')
-        setMessage('')
-      } else {
-        const data = await res.json()
-        setError(data.error || 'Failed to send message. Please try again.')
-      }
-    } catch {
-      setError('Failed to send message. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
 
   return (
     <motion.div
@@ -170,9 +135,9 @@ export default function SupportPage() {
         </a>
       </motion.div>
 
-      {/* FAQ + Contact Form — Side by Side */}
+      {/* FAQ + Got a Question — Side by Side */}
       <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6">
-        {/* FAQ Section — Left (wider) */}
+        {/* FAQ Section — Left */}
         <div className="lg:col-span-3">
           <Card className="h-full">
             <CardHeader>
@@ -222,72 +187,24 @@ export default function SupportPage() {
           </Card>
         </div>
 
-        {/* Contact Form — Right */}
+        {/* Got a Question? — Right */}
         <div className="lg:col-span-2">
-          <Card className="h-full sticky top-6">
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-lg bg-green-400/10 border border-green-400/20">
-                  <MessageSquare className="w-6 h-6 text-green-400" />
-                </div>
-                <div>
-                  <CardTitle>Contact Support</CardTitle>
-                  <CardDescription>Submit inquiry for assistance</CardDescription>
-                </div>
+          <Card className="sticky top-6">
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 rounded-full bg-[#D946EF]/10 border border-[#D946EF]/20 flex items-center justify-center mx-auto mb-5">
+                <MessageCircle className="w-8 h-8 text-[#D946EF]" />
               </div>
-            </CardHeader>
-            <CardContent>
-              {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-6"
-                >
-                  <div className="w-14 h-14 rounded-full bg-green-400/10 border border-green-400/30 flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle className="w-7 h-7 text-green-400" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Message Sent!</h3>
-                  <p className="text-zinc-400 text-sm">
-                    A support ticket has been created. Expect a response within 24–48 hours.
-                  </p>
-                  <Button
-                    variant="outline"
-                    className="mt-4"
-                    onClick={() => setSubmitted(false)}
-                  >
-                    Submit Another Inquiry
-                  </Button>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  {error && (
-                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
-                      {error}
-                    </div>
-                  )}
-                  <Input
-                    label="Subject"
-                    placeholder="Brief description of your issue"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    required
-                  />
-                  <Textarea
-                    label="Message"
-                    placeholder="Describe your issue or question in detail..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    required
-                  />
-                  <p className="text-xs text-zinc-500">
-                    Email will be sent from your registered account email.
-                  </p>
-                  <Button type="submit" loading={loading} glow className="w-full">
-                    <Mail className="w-4 h-4 mr-2" />
-                    Send Message
-                  </Button>
-                </form>
-              )}
+              <h3 className="text-xl font-bold text-white mb-2">Got a Question?</h3>
+              <p className="text-zinc-400 text-sm mb-6 leading-relaxed">
+                Can&apos;t find what you&apos;re looking for? Our support team is here to help. Reach out and we&apos;ll get back to you within 24–48 hours.
+              </p>
+              <a href="mailto:ProfitLoopAI@neoai.freshdesk.com">
+                <button className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] text-white font-semibold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(217,70,239,0.3)]">
+                  <Mail className="w-4 h-4" />
+                  Message Us
+                </button>
+              </a>
+              <p className="text-zinc-600 text-xs mt-4">ProfitLoopAI@neoai.freshdesk.com</p>
             </CardContent>
           </Card>
         </div>
@@ -319,7 +236,7 @@ export default function SupportPage() {
               <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
                 <h4 className="font-medium text-[#D946EF] mb-2 uppercase tracking-wider text-sm">Request Procedure</h4>
                 <p className="text-zinc-400 text-sm">
-                  Submit a request via the contact form above, email us at ProfitLoopAI@neoai.freshdesk.com, or open a ticket on the support portal. Include your account email and purchase date.
+                  Email us at ProfitLoopAI@neoai.freshdesk.com or open a ticket on the support portal. Include your account email and purchase date.
                 </p>
               </div>
 
