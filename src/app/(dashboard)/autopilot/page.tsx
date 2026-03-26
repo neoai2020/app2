@@ -114,7 +114,7 @@ export default function AutopilotPage() {
             <TrendingUp className="w-7 h-7 text-black" strokeWidth={3} />
           </div>
           <h1 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-white mb-1 leading-tight">
-            AUTOMATED INCOME — <span className="text-[#D946EF]">TRAFFIC ON AUTOPILOT</span>
+            SOCIAL PAYOUTS — <span className="text-[#D946EF]">TRAFFIC ON AUTOPILOT</span>
           </h1>
           <h2 className="text-xs font-black uppercase text-[#D946EF] tracking-widest mt-3 mb-4">
             100+ FREE TRAFFIC SOURCES — SUBMIT ONCE, GET TRAFFIC FOREVER
@@ -140,7 +140,7 @@ export default function AutopilotPage() {
             <Video className="w-4 h-4" /> WATCH FIRST
           </div>
           <h3 className="text-xl font-black italic uppercase tracking-tighter text-white mb-2">
-            HOW TO USE AUTOMATED INCOME
+            HOW TO USE SOCIAL PAYOUTS
           </h3>
           <p className="text-zinc-400 text-sm leading-relaxed">
             Learn how to submit your link to 100+ traffic sources and get automated traffic forever.

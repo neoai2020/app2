@@ -77,7 +77,7 @@ export default function InstantIncomePage() {
             </div>
 
             <h1 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-white mb-1 leading-tight">
-              INSTANT INCOME:<br /> <span className="text-[#D946EF]">FACEBOOK POSTS</span>
+              RECURRING STREAMS:<br /> <span className="text-[#D946EF]">FACEBOOK POSTS</span>
             </h1>
 
             <h2 className="text-xs font-black uppercase text-[#D946EF] tracking-widest mb-4">

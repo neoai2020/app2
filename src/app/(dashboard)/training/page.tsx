@@ -61,8 +61,8 @@ const trainingVideos: Video[] = [
   },
   {
     id: '5',
-    title: 'DFY Setup & Walkthrough',
-    description: 'Complete guide to the Done-For-You system — 1,600 pre-built leads across 8 niches with pre-written emails ready to send.',
+    title: 'Accelerator Setup & Walkthrough',
+    description: 'Complete guide to the Accelerator system — 1,600 pre-built leads across 8 niches with pre-written emails ready to send.',
     duration: '4:38',
     thumbnail: '',
     videoUrl: 'https://player.vimeo.com/video/1177396681',
@@ -70,8 +70,8 @@ const trainingVideos: Video[] = [
   },
   {
     id: '6',
-    title: 'Instant Income Blueprint',
-    description: 'Learn the Instant Income method — copy-paste Facebook posts with your affiliate link to earn commissions from day one.',
+    title: 'Recurring Streams Blueprint',
+    description: 'Learn the Recurring Streams method — copy-paste Facebook posts with your affiliate link to earn commissions from day one.',
     duration: '4:28',
     thumbnail: '',
     videoUrl: 'https://player.vimeo.com/video/1177396575',
@@ -79,8 +79,8 @@ const trainingVideos: Video[] = [
   },
   {
     id: '7',
-    title: 'Autopilot System Configuration',
-    description: 'Set up the Autopilot system to submit your link to 100+ free traffic sources and get automated traffic on cruise control.',
+    title: 'Social Payouts Configuration',
+    description: 'Set up Social Payouts to submit your link to 100+ free traffic sources and get automated traffic on cruise control.',
     duration: '4:45',
     thumbnail: '',
     videoUrl: 'https://player.vimeo.com/video/1177396473',
@@ -123,23 +123,23 @@ const faqs = [
   },
   {
     question: 'What are Premium Features?',
-    answer: 'Premium Features include three advanced tools: DFY (Done-For-You) gives you 1,600 pre-built leads with pre-written emails across 8 niches. Instant Income provides ready-to-post Facebook messages with your affiliate link. Autopilot gives you 100+ free traffic sources with submission guides. Plus Profit Protector for account security monitoring.'
+    answer: 'Premium Features include four advanced tools: Accelerator gives you 1,600 pre-built leads with pre-written emails across 8 niches. Recurring Streams provides ready-to-post Facebook messages with your affiliate link. Social Payouts gives you 100+ free traffic sources with submission guides. Plus Protector for account security monitoring.'
   },
   {
-    question: 'How does DFY (Done For You) work?',
-    answer: 'DFY provides 1,600 verified leads across 8 niches (SaaS, Real Estate, E-commerce, Agencies, Coaching, Fitness, Crypto, Local Services) — 200 leads per niche. Each lead comes with a unique pre-written email. Paste your affiliate link, choose a niche, copy emails, and send. Use "Load More" to access all 200 leads per niche.'
+    question: 'How does Accelerator work?',
+    answer: 'Accelerator provides 1,600 verified leads across 8 niches (SaaS, Real Estate, E-commerce, Agencies, Coaching, Fitness, Crypto, Local Services) — 200 leads per niche. Each lead comes with a unique pre-written email. Paste your affiliate link, choose a niche, copy emails, and send. Use "Load More" to access all 200 leads per niche.'
   },
   {
-    question: 'How does Instant Income work?',
+    question: 'How does Recurring Streams work?',
     answer: 'Choose a niche (Weight Loss, Make Money Online, Health & Fitness, etc.), paste your affiliate link from DigiStore24 or similar, and click "Generate My Posts Now." You get 3 unique Facebook posts written as personal stories. Copy and paste them into Facebook groups (3-5 groups per day). Best posting times: 7-9 AM, 12-1 PM, 7-9 PM.'
   },
   {
-    question: 'How does Autopilot work?',
+    question: 'How does Social Payouts work?',
     answer: 'Enter your promotion URL and click "Save & Continue." Your link is auto-inserted into all 102 traffic source submissions. Filter by niche, then for each source: click "View Instructions" for step-by-step guidance, "Copy Submission Text" to grab your pre-written post with your link, and "Mark as Done" to track progress. Submit to all 102 sources for maximum traffic.'
   },
   {
-    question: 'What is Profit Protector?',
-    answer: 'Profit Protector is your account security dashboard. It shows real-time security checks (account verification, secure connection, session protection, data encryption, server status, API connectivity), your account info, and recent security activity. All systems are monitored continuously.'
+    question: 'What is Protector?',
+    answer: 'Protector is your account security dashboard. It shows real-time security checks (account verification, secure connection, session protection, data encryption, server status, API connectivity), your account info, and recent security activity. All systems are monitored continuously.'
   },
   {
     question: 'How do I get the best results from AI emails?',
@@ -147,10 +147,10 @@ const faqs = [
   },
   {
     question: 'What is the Scale to $1,000+/Day page?',
-    answer: 'The Scale page links to an exclusive training on how to multiply your results using Profit Loop. It covers advanced automation, workflow optimization, and strategies to consistently hit $1,000+ per day by combining email outreach, Instant Income, and Autopilot traffic sources.'
+    answer: 'The Scale page links to an exclusive training on how to multiply your results using Profit Loop. It covers advanced automation, workflow optimization, and strategies to consistently hit $1,000+ per day by combining email outreach, Recurring Streams, and Social Payouts traffic sources.'
   },
   {
-    question: 'Can I change my promotion link in Autopilot?',
+    question: 'Can I change my promotion link in Social Payouts?',
     answer: 'Yes. After saving your initial link, click "Change" to update it. Your new link will be used in all future submission text copies. Note: previously submitted sources will still have the old link — only new copies will reflect the change.'
   },
   {

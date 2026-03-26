@@ -45,32 +45,32 @@ const faqs = [
     answer: 'Professional — formal and polished, best for cold outreach. Friendly — warm and approachable, ideal for follow-ups. Direct — sharp and to the point, great for busy decision-makers. The AI adjusts word choice and structure based on your selection.'
   },
   {
-    question: 'How does DFY (Done For You) work?',
-    answer: 'DFY provides 1,600 verified leads across 8 niches with 200 leads each. Every lead includes a unique pre-written email. Paste your affiliate link, choose a niche, and start copying and sending. Click "Load More" to access all 200 leads per niche.'
+    question: 'How does Accelerator work?',
+    answer: 'Accelerator provides 1,600 verified leads across 8 niches with 200 leads each. Every lead includes a unique pre-written email. Paste your affiliate link, choose a niche, and start copying and sending. Click "Load More" to access all 200 leads per niche.'
   },
   {
-    question: 'How does Instant Income work?',
+    question: 'How does Recurring Streams work?',
     answer: 'Choose a niche, paste your affiliate link (e.g. from DigiStore24), and click "Generate My Posts Now." You get 3 unique Facebook posts written as personal stories. Copy and paste them into Facebook groups for affiliate commissions.'
   },
   {
-    question: 'How does Autopilot work?',
+    question: 'How does Social Payouts work?',
     answer: 'Enter your promotion URL, save it, and your link gets auto-inserted into all 102 traffic source submissions. Each source has step-by-step instructions, ready-to-copy text, and a direct link. Track progress as you complete each one.'
   },
   {
-    question: 'What is Profit Protector?',
-    answer: 'Profit Protector is your account security dashboard under Premium Features. It monitors account verification, connection security, session protection, data encryption, server status, and API connectivity in real time.'
+    question: 'What is Protector?',
+    answer: 'Protector is your account security dashboard under Premium Features. It monitors account verification, connection security, session protection, data encryption, server status, and API connectivity in real time.'
   },
   {
     question: 'Where can I find training videos?',
-    answer: 'Visit the Training page from the sidebar. It has video tutorials for every feature: Getting Started, Offer Library, Lead Magnet, Email Blast, plus premium tutorials for DFY, Instant Income, and Autopilot. There\'s also a comprehensive FAQ tab.'
+    answer: 'Visit the Training page from the sidebar. It has video tutorials for every feature: Getting Started, Offer Library, Lead Magnet, Email Blast, plus premium tutorials for Accelerator, Recurring Streams, and Social Payouts. There\'s also a comprehensive FAQ tab.'
   },
   {
     question: 'What are Premium Features?',
-    answer: 'Premium Features include: DFY (1,600 pre-built leads with emails), Instant Income (Facebook post generator), Autopilot (100+ free traffic sources), and Profit Protector (security dashboard). All accessible from the sidebar.'
+    answer: 'Premium Features include: Accelerator (1,600 pre-built leads with emails), Recurring Streams (Facebook post generator), Social Payouts (100+ free traffic sources), and Protector (security dashboard). All accessible from the sidebar.'
   },
   {
     question: 'How do I get the best results?',
-    answer: 'Use Professional tone for cold outreach. Create multiple offer templates for different niches. Add custom instructions in your offers for better AI output. Use all 25 daily leads and 10 email generations. Layer in Instant Income and Autopilot for additional revenue streams.'
+    answer: 'Use Professional tone for cold outreach. Create multiple offer templates for different niches. Add custom instructions in your offers for better AI output. Use all 25 daily leads and 10 email generations. Layer in Recurring Streams and Social Payouts for additional revenue streams.'
   },
   {
     question: 'How do refunds work?',

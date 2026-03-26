@@ -487,7 +487,7 @@ export default function DFYPage() {
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1.5 h-10 bg-[#D946EF] rounded-full shadow-[0_0_15px_rgba(217,70,239,0.5)]" />
             <h1 className="text-4xl font-black italic uppercase tracking-tighter text-white">
-              DONE FOR YOU (DFY)
+              ACCELERATOR
             </h1>
           </div>
           <p className="text-zinc-400 max-w-2xl pl-4">

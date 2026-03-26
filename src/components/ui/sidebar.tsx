@@ -37,10 +37,10 @@ const navItems = [
 ]
 
 const premiumFeatures = [
-  { href: '/dfy', label: 'DFY', icon: Diamond },
-  { href: '/instant-income', label: 'Instant Income', icon: Sparkles },
-  { href: '/autopilot', label: 'Autopilot', icon: Zap },
-  { href: '/protector', label: 'Profit Protector', icon: ShieldCheck }
+  { href: '/dfy', label: 'Accelerator', icon: Diamond },
+  { href: '/instant-income', label: 'Recurring Streams', icon: Sparkles },
+  { href: '/autopilot', label: 'Social Payouts', icon: Zap },
+  { href: '/protector', label: 'Protector', icon: ShieldCheck }
 ]
 
 export function Sidebar() {

@@ -102,7 +102,7 @@ export default function ProtectorPage() {
               <ShieldCheck className="w-8 h-8 text-green-400" />
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white">Profit Protector</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-white">Protector</h1>
               <p className="text-zinc-500 mt-1">Your account security overview. Everything is monitored in real time.</p>
             </div>
           </div>
