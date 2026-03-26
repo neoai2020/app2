@@ -1,8 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
-import { Resend } from 'resend'
 
-const SUPPORT_EMAIL = 'ProfitLoopAI@neoai.freshdesk.com'
+const FRESHDESK_DOMAIN = 'neoaifreshdesk.freshdesk.com'
 
 export async function POST(request: Request) {
   try {
@@ -21,20 +20,32 @@ export async function POST(request: Request) {
 
     const userEmail = user.email!
     const userName = user.user_metadata?.full_name || userEmail
+    const apiKey = process.env.FRESHDESK_API_KEY
 
-    const resend = new Resend(process.env.RESEND_API_KEY)
+    if (!apiKey) {
+      return NextResponse.json({ error: 'Support system is not configured' }, { status: 500 })
+    }
 
-    const { error } = await resend.emails.send({
-      from: `Profit Loop Support <${process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'}>`,
-      to: SUPPORT_EMAIL,
-      replyTo: userEmail,
-      subject: `[Support] ${subject}`,
-      text: `From: ${userName} (${userEmail})\n\nSubject: ${subject}\n\n${message}`,
+    const res = await fetch(`https://${FRESHDESK_DOMAIN}/api/v2/tickets`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + Buffer.from(`${apiKey}:X`).toString('base64'),
+      },
+      body: JSON.stringify({
+        name: userName,
+        email: userEmail,
+        subject,
+        description: message,
+        status: 2,
+        priority: 1,
+      }),
     })
 
-    if (error) {
-      console.error('Resend error:', error)
-      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
+    if (!res.ok) {
+      const err = await res.text()
+      console.error('Freshdesk error:', err)
+      return NextResponse.json({ error: 'Failed to send support request' }, { status: 500 })
     }
 
     return NextResponse.json({ success: true })
