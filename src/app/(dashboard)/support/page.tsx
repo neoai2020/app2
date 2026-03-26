@@ -89,37 +89,21 @@ export default function SupportPage() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
-    try {
-      const res = await fetch('/api/support', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
-      })
+    const subject = encodeURIComponent(`Support Request from ${name}`)
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)
+    window.location.href = `mailto:ProfitLoopAI@neoai.freshdesk.com?subject=${subject}&body=${body}`
 
-      const data = await res.json()
-
-      if (data.method === 'mailto' && data.mailtoUrl) {
-        window.open(data.mailtoUrl, '_blank')
-      }
-
-      if (res.ok) {
-        setSubmitted(true)
-        setName('')
-        setEmail('')
-        setMessage('')
-      }
-    } catch {
+    setTimeout(() => {
       setSubmitted(true)
+      setLoading(false)
       setName('')
       setEmail('')
       setMessage('')
-    } finally {
-      setLoading(false)
-    }
+    }, 500)
   }
 
   return (
