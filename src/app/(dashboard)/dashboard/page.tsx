@@ -129,9 +129,10 @@ export default function DashboardPage() {
             <VideoCard
               title="Welcome to Profit Loop - Start Here"
               description="Watch this essential training to understand exactly how to use Profit Loop to generate your first profitable leads and start making money with email outreach."
-              duration="12:34"
+              duration="4:32"
               views="2,847"
               thumbnailText="START HERE"
+              videoUrl="https://player.vimeo.com/video/1177396372"
             />
           </motion.div>
 

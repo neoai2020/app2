@@ -34,9 +34,9 @@ export function VideoCard({
         {isPlaying && videoUrl ? (
           <>
             <iframe
-              src={videoUrl}
+              src={`${videoUrl}?autoplay=1&title=0&byline=0&portrait=0`}
               className="absolute inset-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="autoplay; fullscreen; picture-in-picture"
               allowFullScreen
             />
             <button
