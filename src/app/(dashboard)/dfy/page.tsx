@@ -75,192 +75,391 @@ export default function DFYPage() {
   }
 
   const getEmailContent = (lead: { firstName: string; company: string; id: number }, link: string, nicheId: string, nicheName: string) => {
-    const templates: Record<string, { subjects: string[]; bodies: string[] }> = {
+    const nicheData: Record<string, { painPoints: string[]; results: string[]; methods: string[]; audiences: string[] }> = {
       saas: {
-        subjects: [
-          `Quick idea to boost {company}'s user retention`,
-          `{firstName}, a growth strategy for {company}`,
-          `Saw {company}'s product — had to reach out`,
-          `{company} + our solution = faster MRR growth`,
-          `How {company} can reduce churn by 30%`,
-          `A partnership opportunity for {company}`,
-          `{firstName}, one question about {company}'s roadmap`,
-          `What top SaaS companies are doing differently`,
-          `{company}'s next competitive advantage`,
-          `Quick win for {company}'s conversion funnel`,
+        painPoints: [
+          'trial-to-paid conversion rates are stalling',
+          'customer acquisition costs keep climbing',
+          'your sales pipeline has gaps that slow growth',
+          'churn is eating into your monthly recurring revenue',
+          'scaling outbound outreach takes too many resources',
+          'inbound leads alone aren\'t hitting your growth targets',
+          'your competitors are outpacing you in new signups',
+          'demo bookings have plateaued despite great product updates',
+          'your sales team is spending too much time on unqualified leads',
+          'enterprise deals are taking too long to close',
         ],
-        bodies: [
-          `I've been following {company}'s growth in the SaaS space and I'm impressed by what your team has built.\n\nI work with software companies to dramatically increase trial-to-paid conversions using a proven outreach system. On average, our partners see a 25-40% lift within the first 60 days.\n\n{link}I'd love to show you how this could work specifically for {company}. Are you free for a 10-minute call this week?`,
-          `Congrats on what {company} is building — your product clearly solves a real problem.\n\nI wanted to reach out because we help SaaS companies like yours acquire high-quality B2B leads without spending a fortune on ads. We've helped similar companies add $50K+ in new ARR within 90 days.\n\n{link}Would you be open to a quick conversation about how this could fit into {company}'s growth plan?`,
-          `I noticed {company} is scaling in a competitive market, and I think we can help you move faster.\n\nOur system generates qualified leads and personalized outreach at scale — something that typically takes a full sales team to execute. The best part: it works on autopilot.\n\n{link}If this sounds interesting, I'd love 5 minutes of your time to walk through the specifics.`,
-          `I came across {company} while researching top players in the SaaS space, and I had to reach out.\n\nWe specialize in helping software companies fill their pipeline with decision-makers who are actively looking for solutions like yours. No cold calling. No generic blasts.\n\n{link}Can we schedule a brief chat this week to see if there's a fit?`,
-          `{firstName}, I'll keep this short — I believe {company} is leaving revenue on the table.\n\nMost SaaS companies lose 60% of their leads due to slow or generic follow-up. Our AI-powered system fixes that by generating personalized, high-converting outreach in seconds.\n\n{link}Would it make sense to chat for 5 minutes? I think you'll find this valuable.`,
+        results: [
+          'a 35% increase in qualified demo bookings within 60 days',
+          '$50K+ in new ARR added in the first quarter alone',
+          'a 40% reduction in customer acquisition cost',
+          '25 new enterprise-level conversations per month',
+          'a 3x improvement in outbound response rates',
+          'pipeline growth of $200K+ in 90 days',
+          '18 new paying customers per month on average',
+          'a consistent flow of 30+ qualified leads every week',
+          'a 28% lift in trial-to-paid conversions',
+          'deal velocity improvements of 45% across the board',
         ],
+        methods: [
+          'AI-driven personalized outreach that targets decision-makers at companies actively searching for solutions like yours',
+          'automated lead generation that identifies high-intent prospects based on technographic and firmographic data',
+          'a done-for-you email campaign system that generates custom pitches for each prospect in your pipeline',
+          'precision targeting that finds companies using competitor products and positions your solution as the upgrade',
+          'an outreach engine that writes, sends, and follows up with prospects while your team focuses on closing',
+        ],
+        audiences: ['CTOs', 'product managers', 'VP of Engineering teams', 'startup founders', 'heads of growth'],
       },
       realestate: {
-        subjects: [
-          `{firstName}, a new way to get listing leads`,
-          `How top agents are getting 20+ leads/week`,
-          `{company} — ready for more qualified buyers?`,
-          `Quick strategy to fill {company}'s pipeline`,
-          `{firstName}, stop paying for cold leads`,
-          `The outreach system top realtors swear by`,
-          `{company} + automated lead gen = more closings`,
-          `{firstName}, one idea to double your showings`,
-          `What's working right now in real estate lead gen`,
-          `A proven way to get more seller leads for {company}`,
+        painPoints: [
+          'finding motivated sellers in your area has become harder than ever',
+          'the leads from Zillow and Realtor.com are shared with a dozen other agents',
+          'your pipeline is inconsistent — feast one month, famine the next',
+          'open houses aren\'t generating the buyer interest they used to',
+          'you\'re spending too much on advertising with unpredictable returns',
+          'expired listings in your market are being scooped up by competitors',
+          'FSBO homeowners in your area don\'t know you exist yet',
+          'referrals alone can\'t sustain the growth you\'re aiming for',
+          'your follow-up process is manual and leads are slipping through the cracks',
+          'new agents in your market are undercutting commissions and stealing clients',
         ],
-        bodies: [
-          `The real estate market is competitive, and I know {company} is always looking for an edge.\n\nI work with agents and brokers to generate a steady flow of qualified buyer and seller leads without relying on Zillow or Realtor.com. Our clients typically see 15-30 new leads per week within the first month.\n\n{link}Would you be interested in learning how this could work for {company}?`,
-          `{firstName}, I'll get straight to the point — I help real estate professionals like you fill their calendar with serious buyers and sellers.\n\nNo more chasing cold leads from generic platforms. Our system targets homeowners and buyers in your specific market area with personalized outreach that actually gets responses.\n\n{link}Do you have 5 minutes this week to see if this fits your business?`,
-          `I've been watching the market in your area, and I think {company} is perfectly positioned to dominate.\n\nThe agents we work with are closing 3-5 extra deals per month using our automated lead generation and email outreach system. It handles everything from finding prospects to crafting the perfect follow-up.\n\n{link}Would it be worth a quick call to explore how this works?`,
-          `{firstName}, most agents I talk to have the same problem — not enough quality leads and too much time wasted on the wrong prospects.\n\nOur system solves both. It identifies motivated buyers and sellers in your area and generates personalized outreach on your behalf. Set it up once, and leads flow in consistently.\n\n{link}Can we chat for 10 minutes? I think {company} would be a great fit.`,
-          `I came across {company} and wanted to share something that could significantly boost your closings this quarter.\n\nWe've built a system that helps real estate professionals generate exclusive, high-intent leads without competing on the same platforms as everyone else. Our average client adds 5-10 qualified appointments per month.\n\n{link}Is this something worth exploring? I'd love to show you how it works.`,
+        results: [
+          '15-30 new qualified buyer and seller leads per week',
+          '3-5 additional closings per month from outreach alone',
+          'a fully booked calendar of listing appointments within 30 days',
+          'exclusive leads that no other agent in your area is getting',
+          '12 new seller appointments booked in the first two weeks',
+          'a 200% increase in listing inquiries without additional ad spend',
+          '8 new buyer consultations per week on average',
+          'a steady pipeline of motivated sellers reaching out to you directly',
+          'a 60% response rate on personalized seller outreach campaigns',
+          'consistent month-over-month growth in both listings and closings',
         ],
+        methods: [
+          'targeted outreach to homeowners in your area who are showing signs of selling — job changes, equity milestones, and life events',
+          'automated prospecting that identifies motivated buyers based on search behavior and pre-approval status',
+          'personalized email campaigns that position you as the go-to agent in your specific neighborhood and price range',
+          'a system that reaches out to expired and withdrawn listings with compelling re-listing proposals',
+          'direct outreach to FSBO homeowners showing them the value of professional representation with data from recent comps',
+        ],
+        audiences: ['homeowners', 'first-time buyers', 'investors', 'relocating families', 'downsizers'],
       },
       ecommerce: {
-        subjects: [
-          `{firstName}, a way to boost {company}'s sales`,
-          `How e-commerce brands are scaling without more ads`,
-          `{company} — untapped revenue channel inside`,
-          `Quick win to increase {company}'s AOV`,
-          `{firstName}, your competitors are using this`,
-          `The outreach hack growing e-commerce brands use`,
-          `{company} + email outreach = more wholesale deals`,
-          `How to get {company} in front of bulk buyers`,
-          `{firstName}, one strategy to diversify {company}'s revenue`,
-          `B2B partnerships that could 3x {company}'s orders`,
+        painPoints: [
+          'rising ad costs on Meta and Google are squeezing your margins',
+          'your DTC model is strong but you\'re missing the wholesale opportunity',
+          'customer acquisition costs have doubled in the past year',
+          'you\'re too dependent on a single sales channel for revenue',
+          'competitors with bigger budgets are outbidding you on every platform',
+          'your email list growth has slowed and open rates are declining',
+          'seasonal fluctuations make revenue unpredictable',
+          'you haven\'t tapped into corporate gifting or bulk order opportunities',
+          'influencer partnerships are expensive and results are inconsistent',
+          'your brand has amazing products but not enough people know about them',
         ],
-        bodies: [
-          `I've been checking out {company}'s store, and your products are impressive.\n\nI wanted to reach out because we help e-commerce brands open up a whole new revenue channel through strategic B2B outreach. Think wholesale partnerships, corporate gifting deals, and bulk orders — all generated through our automated system.\n\n{link}Would you be open to exploring how this could work for {company}?`,
-          `{firstName}, most e-commerce brands focus entirely on DTC and ignore the massive B2B opportunity sitting right in front of them.\n\nWe help brands like {company} connect with retailers, corporate buyers, and distributors who want to carry your products. Our clients typically add 20-40% to their revenue within 90 days.\n\n{link}Is this something you'd want to explore? Happy to walk you through it.`,
-          `Running an e-commerce brand is tough when you're competing on the same ad platforms as everyone else.\n\nThat's why top brands are using outreach to build direct relationships with buyers, influencers, and retail partners. Our system automates the entire process for {company} — from finding the right contacts to writing personalized pitches.\n\n{link}Can we chat for 5 minutes this week?`,
-          `I noticed {company} is doing well in the e-commerce space, and I think we can help you grow even faster.\n\nOur system identifies potential wholesale buyers, retail partners, and high-value B2B clients in your niche, then generates customized outreach that actually converts. No more spray-and-pray marketing.\n\n{link}Would a quick call make sense to see if there's a fit?`,
-          `{firstName}, here's a question — what if {company} could add a new revenue stream without increasing your ad spend by a single dollar?\n\nThat's exactly what our outreach system does. It connects you with decision-makers at companies that would love to carry or resell your products. Fully automated. Highly personalized.\n\n{link}Worth a 5-minute conversation? I'd love to show you the potential.`,
+        results: [
+          'a 30% increase in revenue from B2B wholesale channels in 90 days',
+          '15 new retail partnership inquiries per month',
+          'corporate gifting contracts worth $10K-$50K per order',
+          'a diversified revenue stream that doesn\'t depend on paid ads',
+          '20+ new wholesale accounts opened in the first quarter',
+          'a 40% lift in average order value from B2B relationships',
+          'distribution deals with regional and national retailers',
+          'consistent monthly bulk orders from corporate clients',
+          'a pipeline of influencers and ambassadors eager to promote your products',
+          'revenue growth of 25-40% without increasing ad spend by a dollar',
         ],
+        methods: [
+          'automated outreach to retail buyers and purchasing managers at stores that carry products similar to yours',
+          'a B2B prospecting engine that identifies companies with corporate gifting programs and introduces your product line',
+          'personalized pitch campaigns targeting boutique retailers, subscription box curators, and online marketplace sellers',
+          'strategic partnership outreach that connects your brand with complementary businesses for cross-promotion deals',
+          'an influencer discovery and outreach system that finds creators in your niche and proposes collaboration terms',
+        ],
+        audiences: ['retail buyers', 'purchasing managers', 'subscription box curators', 'corporate gift coordinators', 'boutique owners'],
       },
       agencies: {
-        subjects: [
-          `{firstName}, a client acquisition idea for {company}`,
-          `How agencies are landing $5K+ retainers on autopilot`,
-          `{company} — ready for a predictable client pipeline?`,
-          `The outreach system scaling agencies use`,
-          `{firstName}, stop relying on referrals alone`,
-          `Quick strategy to land 5 new clients this month`,
-          `{company} + automated outreach = booked calendar`,
-          `What growing agencies are doing to win more deals`,
-          `{firstName}, one system to eliminate feast-or-famine`,
-          `A proven client acquisition method for {company}`,
+        painPoints: [
+          'the feast-or-famine cycle makes it impossible to plan ahead',
+          'you\'re delivering incredible results but your pipeline is always thin',
+          'referrals are great but they\'re completely unpredictable',
+          'you\'re competing against agencies that undercut on price',
+          'scaling past your current revenue requires a repeatable client acquisition system',
+          'your team spends more time pitching than actually doing client work',
+          'inbound leads from your website have plateaued',
+          'proposals take hours to write and most don\'t convert',
+          'you know you could handle more clients but finding them is the bottleneck',
+          'retainer clients are leaving and replacement takes months',
         ],
-        bodies: [
-          `Running an agency is a rollercoaster — one month you're packed, the next you're scrambling for clients.\n\nWe've built a system that helps agencies like {company} generate a consistent pipeline of qualified prospects. Our clients typically book 10-20 discovery calls per month without spending a dime on ads.\n\n{link}Would you be open to learning how this works?`,
-          `{firstName}, I know {company} does great work — but great work alone doesn't fill your pipeline.\n\nOur outreach system helps agencies land high-value retainer clients by targeting businesses that already need your services. Personalized emails, automated follow-ups, and a steady stream of booked calls.\n\n{link}Can we chat for 10 minutes? I think you'll find this incredibly relevant.`,
-          `Most agencies I talk to rely on referrals and word-of-mouth. It works — until it doesn't.\n\nOur system gives {company} a predictable, scalable way to acquire new clients. We find the right prospects, generate personalized outreach, and help you book calls with decision-makers who actually have budget.\n\n{link}Is this something worth a quick conversation?`,
-          `I came across {company} and was impressed by your portfolio. I wanted to share something that could help you scale faster.\n\nWe help digital agencies automate their client acquisition. Instead of spending hours on proposals and cold calls, our system does the heavy lifting — from prospecting to personalized email outreach.\n\n{link}Would 5 minutes work to walk through how this fits your growth goals?`,
-          `{firstName}, what if {company} could add 5-10 new clients per month without hiring a single salesperson?\n\nThat's what our automated outreach system delivers. We target businesses in your ideal client profile, craft compelling outreach, and fill your calendar with qualified meetings. Agencies using our system are scaling past the $50K/month mark consistently.\n\n{link}Worth exploring? Let's set up a quick call.`,
+        results: [
+          '10-20 qualified discovery calls booked per month without ad spend',
+          '5 new retainer clients signed in the first 60 days',
+          'a predictable pipeline that eliminates the feast-or-famine cycle',
+          '$30K+ in new monthly retainer revenue within 90 days',
+          'a 50% reduction in time spent on business development',
+          'a fully booked discovery call calendar three weeks out',
+          '8 new high-value client relationships started per month',
+          'consistent growth to $50K+ monthly revenue',
+          'a 35% close rate on outreach-generated leads',
+          'long-term retainer agreements averaging $3K-$8K per month',
         ],
+        methods: [
+          'targeted outreach to businesses actively hiring freelancers or posting job ads for the services your agency provides',
+          'automated prospecting that identifies companies with outdated websites, weak SEO, or underperforming ad campaigns',
+          'personalized audit-based outreach that shows prospects exactly where they\'re losing money and how you can fix it',
+          'a multi-touch email sequence that nurtures cold prospects into booked discovery calls over 14 days',
+          'strategic outreach to companies that recently received funding and need to scale their marketing quickly',
+        ],
+        audiences: ['CEOs of SMBs', 'marketing directors', 'startup founders', 'e-commerce brand owners', 'VP of marketing teams'],
       },
       coaching: {
-        subjects: [
-          `{firstName}, fill your coaching calendar this week`,
-          `How top coaches are booking 20+ calls/month`,
-          `{company} — your next high-ticket client is waiting`,
-          `The client attraction system coaches love`,
-          `{firstName}, stop undercharging and start scaling`,
-          `Quick strategy to land premium coaching clients`,
-          `{company} + automated outreach = more enrollments`,
-          `How to attract $3K-$10K coaching clients consistently`,
-          `{firstName}, one system to scale {company} fast`,
-          `The outreach method top coaching businesses use`,
+        painPoints: [
+          'you\'re amazing at coaching but marketing yourself feels inauthentic',
+          'your calendar has gaps where high-ticket clients should be',
+          'social media content creation takes hours and the ROI is unclear',
+          'you know your coaching transforms lives but not enough people know you exist',
+          'group programs aren\'t filling because organic reach keeps declining',
+          'you\'re stuck trading time for money without a scalable client system',
+          'your competitors with less experience are somehow getting more clients',
+          'webinar attendance has dropped and conversion rates are declining',
+          'you\'re relying on one referral source and it\'s not sustainable',
+          'premium clients who can afford your rates are hard to find and reach',
         ],
-        bodies: [
-          `{firstName}, I know firsthand how challenging it can be to consistently attract high-ticket coaching clients.\n\nThat's why I wanted to reach out about a system we've built specifically for coaches and consultants. It generates qualified leads who are actively seeking transformation — and connects them with you through personalized outreach.\n\n{link}Would you be open to a quick chat about how this could work for {company}?`,
-          `Most coaches I know are incredible at delivering results but struggle with the business development side.\n\nOur system handles that for {company}. We find prospects who match your ideal client profile, craft personalized messages that speak to their pain points, and fill your calendar with discovery calls. No cold DMs. No awkward sales tactics.\n\n{link}Can we chat for 5 minutes? I think you'll love this.`,
-          `{firstName}, your coaching changes lives — but only if the right people find you.\n\nWe help coaches like you get in front of high-value prospects through automated, personalized outreach. Our clients typically see 15-25 booked calls per month, with average deal sizes of $3,000-$10,000.\n\n{link}Is this worth a quick conversation? I'd love to show you how it works.`,
-          `I've been following {company}'s work, and your expertise clearly makes a real impact.\n\nThe challenge most coaches face isn't skill — it's visibility. Our system fixes that by automating your client acquisition. We target professionals and executives who need exactly what you offer, and we make the introduction for you.\n\n{link}Would 10 minutes work to explore if this fits your growth plan?`,
-          `{firstName}, here's the truth — the best coaches in the world aren't necessarily the busiest. The busiest ones have systems.\n\nOur automated outreach platform helps coaching businesses like {company} build a predictable pipeline of premium clients. Set it up once, and qualified leads flow in weekly.\n\n{link}Ready to see how? Let's chat.`,
+        results: [
+          '15-25 discovery calls booked per month with pre-qualified prospects',
+          '5 new high-ticket clients enrolled in the first 30 days',
+          'a fully booked coaching calendar three weeks in advance',
+          'average client values of $5,000-$15,000 from outreach-generated leads',
+          'a waitlist of qualified prospects eager to work with you',
+          'group program enrollment increases of 40% per cohort',
+          'a predictable monthly income without relying on social media algorithms',
+          '10 new premium client conversations per week',
+          'revenue growth from $10K to $30K+ per month within one quarter',
+          'a client acquisition system that runs while you focus on coaching',
         ],
+        methods: [
+          'personalized outreach to executives and professionals who match your ideal client profile based on their career stage and goals',
+          'automated prospecting that identifies people actively investing in personal development, courses, and coaching programs',
+          'a warm introduction system that connects you with high-net-worth individuals through strategic professional networks',
+          'targeted outreach to HR directors and corporate training managers who book coaches for leadership development programs',
+          'a referral amplification system that turns every satisfied client into a source of 3-5 warm introductions',
+        ],
+        audiences: ['executives', 'entrepreneurs', 'HR directors', 'professionals in career transitions', 'high-net-worth individuals'],
       },
       fitness: {
-        subjects: [
-          `{firstName}, fill empty class slots this month`,
-          `How top gyms are getting 50+ new members/month`,
-          `{company} — your next wave of members is waiting`,
-          `The member acquisition system gym owners love`,
-          `{firstName}, stop losing members to the competition`,
-          `Quick strategy to boost {company}'s membership`,
-          `{company} + smart outreach = packed classes`,
-          `How fitness businesses are thriving right now`,
-          `{firstName}, one idea to grow {company}'s revenue`,
-          `The local marketing hack for fitness businesses`,
+        painPoints: [
+          'membership churn is eating into your monthly revenue',
+          'new gym openings in your area are stealing potential members',
+          'your social media posts aren\'t converting followers into paying members',
+          'class attendance fluctuates wildly and makes scheduling difficult',
+          'corporate wellness programs in your area don\'t know you exist',
+          'seasonal dips in January-resolved motivation leave your gym half empty by March',
+          'you\'re competing on price when you should be competing on value',
+          'personal training slots are empty during peak hours',
+          'your referral program isn\'t generating the word-of-mouth it used to',
+          'online fitness options are pulling members away from in-person gyms',
         ],
-        bodies: [
-          `{firstName}, I know the fitness industry is more competitive than ever. Standing out in your local market takes more than just great classes and equipment.\n\nThat's why I wanted to introduce you to our member acquisition system. We help gyms and fitness centers like {company} attract motivated, high-intent members through targeted outreach — no expensive ads required.\n\n{link}Would you be interested in learning how this could work for your location?`,
-          `Running a fitness business means constantly battling member churn and competition from new gyms popping up everywhere.\n\nOur system helps {company} stay ahead by consistently bringing in new members through automated, personalized outreach to people in your area who are actively looking to get fit. Our clients typically see 30-50 new sign-ups per month.\n\n{link}Can we chat for 5 minutes about how this fits your goals?`,
-          `{firstName}, what if {company} could have a waiting list for classes instead of empty spots?\n\nOur outreach system targets fitness-minded people in your area with personalized messages about your programs. No generic ads. No competing in the Instagram algorithm. Just direct, high-converting outreach that fills your schedule.\n\n{link}Worth a quick call to see how this works?`,
-          `I came across {company} and love what you're building in the fitness space.\n\nMost gym owners rely on foot traffic and social media — but the smartest ones are using direct outreach to corporate clients, local businesses, and community groups. Our system automates that entire process for you.\n\n{link}Would you be open to exploring how {company} could add a new member acquisition channel?`,
-          `{firstName}, here's a stat that might surprise you — 73% of people who want to join a gym never actually walk through the door because nobody reached out to them.\n\nOur system helps {company} be the gym that reaches out first. Automated, personalized, and targeted to your local market. Our fitness clients average a 40% increase in new memberships.\n\n{link}Let's chat for 5 minutes — I'll show you the numbers.`,
+        results: [
+          '30-50 new member sign-ups per month from targeted outreach',
+          'corporate wellness contracts worth $5K-$20K annually',
+          'a 40% increase in personal training bookings within 60 days',
+          'packed group fitness classes with waitlists for popular time slots',
+          '25 new trial memberships booked per week',
+          'member retention improvements of 35% through automated re-engagement',
+          'partnerships with 10+ local businesses for employee wellness programs',
+          'a 50% reduction in empty class slots during off-peak hours',
+          'consistent month-over-month membership growth of 15-20%',
+          'a referral pipeline generating 10+ new members per week organically',
         ],
+        methods: [
+          'targeted outreach to local residents who have recently searched for gyms, fitness classes, or personal trainers in your area',
+          'corporate wellness proposals sent directly to HR managers and office managers at businesses within a 10-mile radius',
+          'automated re-engagement campaigns that bring back former members with personalized offers based on their past activity',
+          'partnership outreach to physical therapists, chiropractors, and nutritionists for cross-referral programs',
+          'community outreach to local schools, sports teams, and organizations offering group training packages',
+        ],
+        audiences: ['local residents', 'HR managers', 'former members', 'corporate employees', 'community organizations'],
       },
       crypto: {
-        subjects: [
-          `{firstName}, a growth strategy for {company}`,
-          `How Web3 projects are building real communities`,
-          `{company} — ready to accelerate adoption?`,
-          `The outreach system crypto projects are using`,
-          `{firstName}, get {company} in front of the right people`,
-          `Quick strategy to grow {company}'s user base`,
-          `{company} + targeted outreach = more holders`,
-          `How to attract serious investors to {company}`,
-          `{firstName}, one system to scale {company}'s reach`,
-          `The partnership strategy top crypto projects use`,
+        painPoints: [
+          'getting noticed in a space with thousands of competing projects feels impossible',
+          'your community growth has stalled despite a strong product',
+          'VCs and angel investors aren\'t seeing your pitch deck',
+          'exchange listings require connections you haven\'t built yet',
+          'KOL partnerships are expensive and often deliver fake engagement',
+          'your token launch needs more visibility among serious investors',
+          'Twitter and Discord growth strategies have diminishing returns',
+          'competitors with weaker fundamentals are getting more attention',
+          'institutional investors don\'t know your project exists',
+          'your developer community needs to grow for ecosystem health',
         ],
-        bodies: [
-          `{firstName}, the crypto space is noisy, and getting noticed takes more than a good whitepaper and a Twitter account.\n\nWe help Web3 projects like {company} connect directly with investors, influencers, and potential partners through targeted, personalized outreach. Our clients have secured partnerships, listings, and funding rounds using our system.\n\n{link}Would you be open to a quick conversation about how this could accelerate {company}'s growth?`,
-          `Building in Web3 is exciting but challenging — especially when it comes to standing out from thousands of other projects.\n\nOur outreach system helps {company} get in front of the people who matter: VCs, exchange listing managers, KOLs, and strategic partners. Automated, personalized, and built specifically for the crypto space.\n\n{link}Can we chat for 10 minutes? I think {company} would benefit massively from this.`,
-          `{firstName}, most crypto projects fail not because of bad tech, but because they can't reach the right audience.\n\nWe fix that for projects like {company}. Our system identifies and connects you with potential investors, community leaders, and ecosystem partners through professional outreach that actually gets responses.\n\n{link}Is this worth exploring? I'd love to show you some case studies.`,
-          `I've been following the Web3 space closely, and {company} caught my attention.\n\nThe projects that succeed long-term are the ones building real relationships — not just running airdrops. Our outreach platform helps you connect with high-value contacts in the blockchain ecosystem through automated, personalized messaging.\n\n{link}Would 5 minutes work to discuss how this fits {company}'s strategy?`,
-          `{firstName}, what if {company} could get in front of 50+ qualified investors and partners every month without attending a single conference?\n\nOur outreach system makes that possible. We target the exact people your project needs — from angel investors to exchange listing teams — and handle the outreach automatically.\n\n{link}Ready to accelerate? Let's set up a quick call.`,
+        results: [
+          'meetings with 15+ VCs and institutional investors per month',
+          'exchange listing conversations initiated within the first 30 days',
+          'strategic partnerships with 5+ complementary blockchain projects',
+          'KOL collaborations that generate authentic community growth',
+          'a 300% increase in qualified investor inquiries',
+          'advisory board introductions from industry veterans',
+          'grant program approvals from major blockchain foundations',
+          'media coverage in top crypto publications',
+          'community growth of 5,000+ real members in 90 days',
+          'a pipeline of potential integration partners actively reaching out',
         ],
+        methods: [
+          'targeted outreach to crypto-focused VCs and angel investors who have recently invested in projects similar to yours',
+          'exchange listing outreach with professionally crafted applications and follow-up sequences to listing managers',
+          'KOL discovery and partnership proposals that offer authentic collaboration rather than pay-per-post deals',
+          'strategic partnership outreach to complementary blockchain projects for integrations, shared liquidity, and co-marketing',
+          'developer community building through outreach to blockchain engineers on GitHub, Stack Overflow, and developer forums',
+        ],
+        audiences: ['VCs', 'exchange listing managers', 'KOLs', 'blockchain developers', 'DeFi protocol teams'],
       },
       local: {
-        subjects: [
-          `{firstName}, more jobs for {company} this month`,
-          `How local service pros are booking 20+ jobs/week`,
-          `{company} — your next customer is searching now`,
-          `The lead system local businesses swear by`,
-          `{firstName}, stop waiting for the phone to ring`,
-          `Quick strategy to fill {company}'s schedule`,
-          `{company} + smart outreach = fully booked weeks`,
-          `How service businesses are dominating their area`,
-          `{firstName}, one idea to grow {company}'s revenue`,
-          `The marketing shortcut for local service providers`,
+        painPoints: [
+          'your phone isn\'t ringing as much as it used to',
+          'competing on HomeAdvisor and Thumbtack means racing to the bottom on price',
+          'seasonal slowdowns leave your crew without work for weeks',
+          'new competitors are popping up and undercutting your prices',
+          'your Google reviews are great but they\'re not enough to fill your schedule',
+          'commercial contracts would be great but you don\'t know how to land them',
+          'your marketing budget is limited and big advertising doesn\'t make sense',
+          'word-of-mouth referrals have slowed down in your area',
+          'emergency calls are unpredictable and you need more scheduled work',
+          'property management companies in your area don\'t have you on their vendor list',
         ],
-        bodies: [
-          `{firstName}, I know the local services business is all about keeping the schedule full and the phone ringing.\n\nThat's why I wanted to reach out about a system we've built for businesses like {company}. It connects you with homeowners and property managers in your area who need your services right now — through targeted, automated outreach.\n\n{link}Would you be interested in learning how this could keep {company}'s calendar packed?`,
-          `Most local service businesses rely on word-of-mouth and a Google listing. Those work — but they're unpredictable.\n\nOur system gives {company} a steady stream of new customers by reaching out to homeowners, real estate agents, and property managers in your service area with personalized messages. Our clients typically add 15-25 new jobs per month.\n\n{link}Can we chat for 5 minutes about how this fits your business?`,
-          `{firstName}, what if {company} never had another slow week?\n\nOur outreach system targets people in your area who need services like yours. No expensive ads. No competing with lowballers on lead gen sites. Just direct outreach to qualified homeowners and businesses that results in booked appointments.\n\n{link}Worth a quick conversation? I'd love to show you how it works.`,
-          `I came across {company} and wanted to share something that could seriously boost your revenue.\n\nWe help local service providers automate their marketing with personalized outreach to nearby homeowners and commercial properties. Forget competing on HomeAdvisor or Thumbtack — our system brings leads directly to you.\n\n{link}Would 10 minutes work to see if this is a fit for {company}?`,
-          `{firstName}, here's what the most successful service businesses do differently — they don't wait for leads. They go get them.\n\nOur system helps {company} do exactly that. We find homeowners and businesses in your area, generate personalized outreach about your services, and book appointments on your behalf. Fully automated.\n\n{link}Ready to fill your schedule? Let's chat.`,
+        results: [
+          '15-25 new job bookings per month from targeted outreach alone',
+          'commercial maintenance contracts worth $2K-$10K per month',
+          'a fully booked schedule two weeks out at all times',
+          'property management partnerships generating 10+ recurring jobs per month',
+          'a 50% increase in scheduled (non-emergency) work',
+          'new construction and renovation referrals from general contractors',
+          'a waiting list of customers during your previously slow season',
+          'corporate facility maintenance agreements with local businesses',
+          '20+ new customer relationships started per month',
+          'consistent year-round revenue that eliminates seasonal dips',
         ],
+        methods: [
+          'automated outreach to property management companies in your service area offering preferred vendor rates and guaranteed response times',
+          'targeted prospecting of real estate agents who need reliable service providers for pre-listing repairs and buyer inspections',
+          'commercial outreach to office buildings, restaurants, and retail stores that need ongoing maintenance and emergency services',
+          'neighborhood-targeted campaigns reaching homeowners in high-income zip codes with personalized service offers',
+          'general contractor partnership outreach for subcontracting opportunities on renovation and new construction projects',
+        ],
+        audiences: ['property managers', 'real estate agents', 'homeowners', 'commercial building managers', 'general contractors'],
       },
     }
 
-    const nicheTemplates = templates[nicheId] || templates.saas
-    const subjectIdx = lead.id % nicheTemplates.subjects.length
-    const bodyIdx = lead.id % nicheTemplates.bodies.length
+    const subjects = [
+      `Quick idea for {company}`,
+      `{firstName}, I have a question for you`,
+      `Thought of {company} when I saw this`,
+      `{firstName} — {painSnippet}?`,
+      `A strategy that could help {company}`,
+      `{firstName}, {result} — interested?`,
+      `{company} + our system = {resultShort}`,
+      `Can {company} handle more {audience}?`,
+      `{firstName}, this is working for {nicheName} businesses`,
+      `One idea to change {company}'s trajectory`,
+      `{firstName}, saw {company} and had to reach out`,
+      `What if {company} could {resultShort}?`,
+      `{firstName} — quick opportunity for {company}`,
+      `The {nicheName} strategy nobody talks about`,
+      `{firstName}, your competitors don't want you to see this`,
+      `{company} is leaving money on the table`,
+      `{firstName}, {resultShort} without extra effort`,
+      `A {nicheName} growth idea for {company}`,
+      `{firstName}, 5 minutes could change everything for {company}`,
+      `I found something {company} needs to see`,
+    ]
 
-    const subject = nicheTemplates.subjects[subjectIdx]
-      .replace(/{firstName}/g, lead.firstName)
-      .replace(/{company}/g, lead.company)
+    const openers = [
+      `I came across {company} and was genuinely impressed by what you've built.`,
+      `{firstName}, I've been researching top {nicheName} businesses and {company} stood out.`,
+      `I'll keep this brief because I know you're busy running {company}.`,
+      `I noticed something about {company} that most people would miss.`,
+      `{firstName}, I don't send emails like this often — but {company} caught my attention.`,
+      `I spent time looking into {company}'s market, and I see a massive opportunity.`,
+      `{firstName}, this might be the most important email you read this week.`,
+      `I've been working with {nicheName} businesses for years, and {company} is exactly the kind of company we help best.`,
+      `I was talking to another {nicheName} professional last week and they mentioned a challenge — it reminded me of {company}.`,
+      `{firstName}, I'm reaching out because I genuinely believe {company} deserves more {audience} than it's currently getting.`,
+      `Something tells me {company} is ready for a growth spurt — and I might be able to help.`,
+      `{firstName}, I know you get a lot of emails. I'll make this one worth your time.`,
+      `I recently helped a {nicheName} business similar to {company} achieve incredible results — and I immediately thought of you.`,
+      `{firstName}, here's the honest truth about the {nicheName} industry right now — {painPoint}. But it doesn't have to be that way.`,
+      `I was doing some research in the {nicheName} space and {company} kept coming up. That tells me you're doing something right.`,
+      `{firstName}, what if I told you {company} could achieve {result} — would that be worth 5 minutes of your time?`,
+      `I'm not going to waste your time with a generic pitch. What I have for {company} is specific and actionable.`,
+      `{firstName}, I've helped dozens of {nicheName} businesses overcome the exact challenge {company} is likely facing right now.`,
+      `There's a shift happening in the {nicheName} industry, and {company} is in the perfect position to capitalize on it.`,
+      `{firstName}, I have a straightforward question — is {company} getting as many {audience} as it should be?`,
+    ]
 
-    const linkBlock = link ? `Check out the details here: ${link}\n\n` : ''
-    const body = nicheTemplates.bodies[bodyIdx]
-      .replace(/{firstName}/g, lead.firstName)
-      .replace(/{company}/g, lead.company)
-      .replace(/{link}/g, linkBlock)
+    const pitches = [
+      `Here's the situation — {painPoint}. We've built a system that solves this using {method}. The businesses we work with are seeing {result}.`,
+      `The reality is that {painPoint}. What we do differently is use {method}. It's not theory — our clients consistently achieve {result}.`,
+      `Most {nicheName} businesses struggle because {painPoint}. Our approach is different. We use {method}, and the numbers speak for themselves — {result}.`,
+      `I'll be direct — {painPoint}. We've developed {method}. Companies like yours are using it to achieve {result}. No fluff. Just results.`,
+      `What we've found is that {painPoint}. The solution we've perfected involves {method}. The outcome? {result}. Every single time.`,
+      `Let me share what's working right now — while others struggle because {painPoint}, our partners are thriving with {method}. They're seeing {result}.`,
+      `The biggest opportunity I see for {company} is this — {painPoint}, but it doesn't have to be that way. Through {method}, we've helped businesses achieve {result}.`,
+      `Here's what nobody in the {nicheName} space is talking about — {painPoint}. The fix is {method}. And when implemented correctly, the results are {result}.`,
+      `I want to be honest with you — {painPoint}. But the businesses that work with us solve this fast using {method}. The average outcome is {result}.`,
+      `Three things I know about the {nicheName} industry right now: {painPoint}. What I also know is that {method} is delivering {result} for businesses just like yours.`,
+    ]
 
-    return `Subject: ${subject}\n\nHi ${lead.firstName},\n\n${body}\n\nBest regards,\n[Your Name]`
+    const closings = [
+      `Would you be open to a quick 5-minute call this week to see if this could work for {company}?`,
+      `I'd love to show you exactly how this applies to {company}. Do you have 10 minutes this week?`,
+      `If this sounds even slightly interesting, let's chat. I can walk you through the specifics in under 10 minutes.`,
+      `No pressure at all — but I think {company} would benefit from seeing how this works. Open to a quick call?`,
+      `I can send you a detailed breakdown tailored to {company} if you're interested. Just reply "yes" and I'll put it together.`,
+      `The worst that happens is you spend 5 minutes learning a new strategy. The best? {company} hits a whole new level. Worth it?`,
+      `I've put together a few ideas specifically for {company}. Want me to share them on a quick call?`,
+      `If {company} is ready to level up, I'm ready to show you how. Just reply and we'll find 10 minutes that work.`,
+      `Let's make this easy — reply with your availability this week and I'll handle the rest.`,
+      `I'm confident this could be a game-changer for {company}. Let's find 5 minutes to connect and I'll prove it.`,
+    ]
+
+    const d = nicheData[nicheId] || nicheData.saas
+    const seed = lead.id
+
+    const painIdx = (seed * 7 + 3) % d.painPoints.length
+    const resultIdx = (seed * 11 + 5) % d.results.length
+    const methodIdx = (seed * 13 + 7) % d.methods.length
+    const audienceIdx = (seed * 3 + 1) % d.audiences.length
+    const subjectIdx = (seed * 17 + 2) % subjects.length
+    const openerIdx = (seed * 19 + 11) % openers.length
+    const pitchIdx = (seed * 23 + 4) % pitches.length
+    const closingIdx = (seed * 29 + 6) % closings.length
+
+    const painPoint = d.painPoints[painIdx]
+    const result = d.results[resultIdx]
+    const method = d.methods[methodIdx]
+    const audience = d.audiences[audienceIdx]
+    const resultShort = result.split(' ').slice(0, 6).join(' ')
+    const painSnippet = painPoint.split(' ').slice(0, 6).join(' ')
+
+    const replacePlaceholders = (text: string) =>
+      text
+        .replace(/{firstName}/g, lead.firstName)
+        .replace(/{company}/g, lead.company)
+        .replace(/{nicheName}/g, nicheName)
+        .replace(/{painPoint}/g, painPoint)
+        .replace(/{painSnippet}/g, painSnippet)
+        .replace(/{result}/g, result)
+        .replace(/{resultShort}/g, resultShort)
+        .replace(/{method}/g, method)
+        .replace(/{audience}/g, audience)
+
+    const subject = replacePlaceholders(subjects[subjectIdx])
+    const opener = replacePlaceholders(openers[openerIdx])
+    const pitch = replacePlaceholders(pitches[pitchIdx])
+    const closing = replacePlaceholders(closings[closingIdx])
+    const linkBlock = link ? `\nSee how it works here: ${link}\n` : ''
+
+    return `Subject: ${subject}\n\nHi ${lead.firstName},\n\n${opener}\n\n${pitch}${linkBlock}\n\n${closing}\n\nBest regards,\n[Your Name]`
   }
 
   const handleCopy = (index: number, content: string) => {
