@@ -83,27 +83,37 @@ const faqs = [
 
 export default function SupportPage() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError('')
 
-    const subject = encodeURIComponent(`Support Request from ${name}`)
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)
-    window.location.href = `mailto:ProfitLoopAI@neoai.freshdesk.com?subject=${subject}&body=${body}`
+    try {
+      const res = await fetch('/api/support', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject, message }),
+      })
 
-    setTimeout(() => {
-      setSubmitted(true)
+      if (res.ok) {
+        setSubmitted(true)
+        setSubject('')
+        setMessage('')
+      } else {
+        const data = await res.json()
+        setError(data.error || 'Failed to send message. Please try again.')
+      }
+    } catch {
+      setError('Failed to send message. Please try again.')
+    } finally {
       setLoading(false)
-      setName('')
-      setEmail('')
-      setMessage('')
-    }, 500)
+    }
   }
 
   return (
@@ -250,28 +260,28 @@ export default function SupportPage() {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {error && (
+                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+                      {error}
+                    </div>
+                  )}
                   <Input
-                    label="Your Name"
-                    placeholder="Your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                  <Input
-                    type="email"
-                    label="Email Address"
-                    placeholder="email@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    label="Subject"
+                    placeholder="Brief description of your issue"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
                     required
                   />
                   <Textarea
                     label="Message"
-                    placeholder="Describe your issue or question..."
+                    placeholder="Describe your issue or question in detail..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     required
                   />
+                  <p className="text-xs text-zinc-500">
+                    Email will be sent from your registered account email.
+                  </p>
                   <Button type="submit" loading={loading} glow className="w-full">
                     <Mail className="w-4 h-4 mr-2" />
                     Send Message
