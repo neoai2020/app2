@@ -74,7 +74,7 @@ const faqs = [
   },
   {
     question: 'How do refunds work?',
-    answer: 'Full refund available within 30 days of purchase — no questions asked. Submit a request via the contact form below, email ProfitLoopAI@neoai.freshdesk.com, or open a ticket at neoaifreshdesk.freshdesk.com. Refunds are processed within 5-7 business days.'
+    answer: 'Full refund available within 30 days of purchase — no questions asked. Email ProfitLoopAI@neoai.freshdesk.com or open a ticket at neoaifreshdesk.freshdesk.com. Refunds are processed within 5-7 business days.'
   }
 ]
 

@@ -155,7 +155,7 @@ const faqs = [
   },
   {
     question: 'How do I contact support?',
-    answer: 'Visit the Support page from the sidebar. You can open a ticket at our support portal (neoaifreshdesk.freshdesk.com), email us at ProfitLoopAI@neoai.freshdesk.com, or use the contact form on the Support page. Response time is 24-48 hours.'
+    answer: 'Visit the Support page from the sidebar. You can open a ticket at our support portal (neoaifreshdesk.freshdesk.com) or email us at ProfitLoopAI@neoai.freshdesk.com. Response time is 24-48 hours.'
   },
 ]
 

@@ -153,7 +153,7 @@ export default function LoginPage() {
         </a>
         <span className="text-zinc-700">•</span>
         <a
-          href="mailto:imv@neoai.freshdesk.com"
+          href="mailto:ProfitLoopAI@neoai.freshdesk.com"
           className="text-zinc-500 hover:text-[#D946EF] text-xs uppercase tracking-wider transition-colors"
         >
           Product Support
