@@ -2,11 +2,11 @@
 
 import { ExclusiveTrainingOffer } from '@/components/ui/exclusive-training-offer'
 
-export default function ScalePage() {
+export default function CopyPastePage() {
   return (
     <ExclusiveTrainingOffer
-      titleLine1="Fast Cash Training,"
-      ctaHref="https://freedomescapexcelerator.com/5k-daily-14"
+      titleLine1="Get Paid To Copy & Paste,"
+      ctaHref="https://jvz5.com/c/3542829/433243/"
     />
   )
 }

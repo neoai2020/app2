@@ -16,7 +16,7 @@ export function PromoBanner({
   description = "Profit Loop is powerful, but if you want to scale to truly life-changing income, you need to watch this training which shows how to automate your entire workflow. And guess what?",
   extraLine = "This training is free for all Profit Loop members. So, if you want to unlock your full potential, just tap the yellow button below.",
   ctaText = "Click Here To Learn How",
-  ctaLink = "https://www.jvzoo.com/c/86517/415009"
+  ctaLink = "https://freedomescapexcelerator.com/5k-daily-14"
 }: PromoBannerProps) {
   return (
     <motion.div

@@ -146,8 +146,8 @@ const faqs = [
     answer: 'Use Professional tone for cold outreach. Add detailed custom instructions in your offer template (e.g., "mention their recent blog post" or "focus on saving them time"). Create separate templates for different industries. Research each lead\'s website before sending. Save every email to build a swipe file of winning templates.'
   },
   {
-    question: 'What is the Scale to $1,000+/Day page?',
-    answer: 'The Scale page links to an exclusive training on how to multiply your results using Profit Loop. It covers advanced automation, workflow optimization, and strategies to consistently hit $1,000+ per day by combining email outreach, Recurring Streams, and Social Payouts traffic sources.'
+    question: 'What is the Fast Cash Training, Claim Now page?',
+    answer: 'That page links to an exclusive training on how to multiply your results using Profit Loop. It covers advanced automation, workflow optimization, and strategies to consistently hit $1,000+ per day by combining email outreach, Recurring Streams, and Social Payouts traffic sources.'
   },
   {
     question: 'Can I change my promotion link in Social Payouts?',

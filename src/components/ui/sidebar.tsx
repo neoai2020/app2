@@ -19,7 +19,9 @@ import {
   Diamond,
   Sparkles,
   Zap,
-  ShieldCheck
+  ShieldCheck,
+  MousePointerClick,
+  ClipboardCopy
 } from 'lucide-react'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -31,7 +33,9 @@ const navItems = [
   { href: '/leads', label: 'Lead Magnet', icon: Users },
   { href: '/email-builder', label: 'Email Blast', icon: Mail },
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive },
-  { href: '/scale', label: 'Scale to $1,000+/Day', icon: TrendingUp },
+  { href: '/scale', label: 'Fast Cash Training, Claim Now', icon: TrendingUp },
+  { href: '/earn-400', label: 'Earn $400/Day With 1 Tap, Claim Now', icon: MousePointerClick },
+  { href: '/copy-paste', label: 'Get Paid To Copy & Paste, Claim Now', icon: ClipboardCopy },
   { href: '/training', label: 'Training', icon: GraduationCap },
   { href: '/support', label: 'Support', icon: HelpCircle }
 ]
