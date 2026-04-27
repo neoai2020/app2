@@ -27,18 +27,27 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
-const navItems = [
+const mainNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/offers', label: 'Offer Library', icon: Gift },
   { href: '/leads', label: 'Lead Magnet', icon: Users },
   { href: '/email-builder', label: 'Email Blast', icon: Mail },
-  { href: '/saved-emails', label: 'Saved Emails', icon: Archive },
-  { href: '/scale', label: 'Fast Cash Training, Claim Now', icon: TrendingUp },
-  { href: '/earn-400', label: 'Earn $400/Day With 1 Tap, Claim Now', icon: MousePointerClick },
-  { href: '/copy-paste', label: 'Get Paid To Copy & Paste, Claim Now', icon: ClipboardCopy },
+  { href: '/saved-emails', label: 'Saved Emails', icon: Archive }
+]
+
+const trainingOfferNav = [
+  { href: '/scale', line1: 'Fast Cash Training,', line2: 'Claim Now', icon: TrendingUp },
+  { href: '/earn-400', line1: 'Earn $400/Day With 1 Tap,', line2: 'Claim Now', icon: MousePointerClick },
+  { href: '/copy-paste', line1: 'Get Paid To Copy & Paste,', line2: 'Claim Now', icon: ClipboardCopy }
+]
+
+const lowerNavItems = [
   { href: '/training', label: 'Training', icon: GraduationCap },
   { href: '/support', label: 'Support', icon: HelpCircle }
 ]
+
+const navCountBeforePremium =
+  mainNavItems.length + trainingOfferNav.length + lowerNavItems.length
 
 const premiumFeatures = [
   { href: '/dfy', label: 'Accelerator', icon: Diamond },
@@ -83,11 +92,11 @@ export function Sidebar() {
           </p>
         </div>
         <ul className="space-y-1">
-          {navItems.map((item, index) => {
+          {mainNavItems.map((item, index) => {
             const isActive = pathname === item.href
             const Icon = item.icon
             return (
-              <motion.li 
+              <motion.li
                 key={item.href}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -111,7 +120,98 @@ export function Sidebar() {
                   {isActive && (
                     <motion.div
                       layoutId="activeIndicator"
-                      className="ml-auto w-1.5 h-1.5 rounded-full bg-[#D946EF]"
+                      className="ml-auto w-1.5 h-1.5 shrink-0 rounded-full bg-[#D946EF]"
+                      style={{ boxShadow: '0 0 10px rgba(217, 70, 239, 0.5)' }}
+                    />
+                  )}
+                </Link>
+              </motion.li>
+            )
+          })}
+        </ul>
+
+        <div className="mt-4 mb-2 px-1">
+          <p className="text-[10px] font-bold uppercase tracking-widest px-3 mb-2 text-[#00B894]">
+            Exclusive offers
+          </p>
+          <ul className="space-y-1.5 rounded-xl border border-[#00B894]/35 bg-[#00B894]/[0.1] p-1.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_0_28px_rgba(0,184,148,0.12)]">
+            {trainingOfferNav.map((item, index) => {
+              const isActive = pathname === item.href
+              const Icon = item.icon
+              const baseIndex = mainNavItems.length + index
+              return (
+                <motion.li
+                  key={item.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: baseIndex * 0.05 }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`
+                      cyber-sidebar-item flex items-start gap-3 px-3 py-2.5 rounded-lg text-left
+                      transition-all duration-300 border border-transparent
+                      ${isActive
+                        ? 'active bg-[#D946EF]/20 border-[#D946EF]/45 text-white shadow-[0_0_16px_rgba(217,70,239,0.25)]'
+                        : 'text-zinc-100 hover:bg-[#00B894]/25 hover:border-[#00B894]/40'
+                      }
+                    `}
+                  >
+                    <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#FFC107]" />
+                    <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                      <span className="text-[11px] font-semibold leading-snug tracking-wide text-white/95">
+                        {item.line1}
+                      </span>
+                      <span className="text-[11px] font-bold leading-snug tracking-wide text-[#FFC107]">
+                        {item.line2}
+                      </span>
+                    </span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeIndicator"
+                        className="ml-auto mt-1 h-1.5 w-1.5 shrink-0 self-start rounded-full bg-[#D946EF]"
+                        style={{ boxShadow: '0 0 10px rgba(217, 70, 239, 0.5)' }}
+                      />
+                    )}
+                  </Link>
+                </motion.li>
+              )
+            })}
+          </ul>
+        </div>
+
+        <ul className="mt-3 space-y-1">
+          {lowerNavItems.map((item, index) => {
+            const isActive = pathname === item.href
+            const Icon = item.icon
+            const baseIndex = mainNavItems.length + trainingOfferNav.length + index
+            return (
+              <motion.li
+                key={item.href}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: baseIndex * 0.05 }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`
+                    cyber-sidebar-item
+                    flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
+                    transition-all duration-300
+                    ${isActive
+                      ? 'active bg-[#D946EF]/5 text-[#D946EF]'
+                      : 'text-zinc-400 hover:text-[#D946EF]/80'
+                    }
+                  `}
+                >
+                  <Icon size={18} strokeWidth={1.5} />
+                  <span className="tracking-wide">{item.label}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeIndicator"
+                      className="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-[#D946EF]"
                       style={{ boxShadow: '0 0 10px rgba(217, 70, 239, 0.5)' }}
                     />
                   )}
@@ -136,7 +236,7 @@ export function Sidebar() {
                 key={item.href}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: (navItems.length + index) * 0.05 }}
+                transition={{ delay: (navCountBeforePremium + index) * 0.05 }}
               >
                 <Link
                   href={item.href}
