@@ -36,10 +36,28 @@ const mainNavItems = [
 ]
 
 const trainingOfferNav = [
-  { href: '/scale', line1: 'Fast Cash Training,', line2: 'Claim Now', icon: TrendingUp },
-  { href: '/earn-400', line1: 'Earn $400/Day With 1 Tap,', line2: 'Claim Now', icon: MousePointerClick },
-  { href: '/copy-paste', line1: 'Get Paid To Copy & Paste,', line2: 'Claim Now', icon: ClipboardCopy }
-]
+  {
+    key: 'fast-cash',
+    externalUrl: 'https://freedomescapexcelerator.com/5k-daily-14',
+    line1: 'Fast Cash Training,',
+    line2: 'Claim Now',
+    icon: TrendingUp
+  },
+  {
+    key: 'earn-400',
+    externalUrl: 'https://jvz3.com/c/3542829/434727/',
+    line1: 'Earn $400/Day With 1 Tap,',
+    line2: 'Claim Now',
+    icon: MousePointerClick
+  },
+  {
+    key: 'copy-paste',
+    externalUrl: 'https://jvz5.com/c/3542829/433243/',
+    line1: 'Get Paid To Copy & Paste,',
+    line2: 'Claim Now',
+    icon: ClipboardCopy
+  }
+] as const
 
 const lowerNavItems = [
   { href: '/training', label: 'Training', icon: GraduationCap },
@@ -136,27 +154,23 @@ export function Sidebar() {
           </p>
           <ul className="space-y-1.5 rounded-xl border border-[#00B894]/35 bg-[#00B894]/[0.1] p-1.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_0_28px_rgba(0,184,148,0.12)]">
             {trainingOfferNav.map((item, index) => {
-              const isActive = pathname === item.href
               const Icon = item.icon
               const baseIndex = mainNavItems.length + index
+              const label = `${item.line1} ${item.line2}`
               return (
                 <motion.li
-                  key={item.href}
+                  key={item.key}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: baseIndex * 0.05 }}
                 >
-                  <Link
-                    href={item.href}
+                  <a
+                    href={item.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setMobileOpen(false)}
-                    className={`
-                      cyber-sidebar-item flex items-start gap-3 px-3 py-2.5 rounded-lg text-left
-                      transition-all duration-300 border border-transparent
-                      ${isActive
-                        ? 'active bg-[#D946EF]/20 border-[#D946EF]/45 text-white shadow-[0_0_16px_rgba(217,70,239,0.25)]'
-                        : 'text-zinc-100 hover:bg-[#00B894]/25 hover:border-[#00B894]/40'
-                      }
-                    `}
+                    aria-label={`${label} (opens in new tab)`}
+                    className="cyber-sidebar-item flex cursor-pointer items-start gap-3 rounded-lg border border-transparent px-3 py-2.5 text-left text-zinc-100 transition-all duration-300 hover:border-[#00B894]/40 hover:bg-[#00B894]/25"
                   >
                     <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#FFC107]" />
                     <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -167,14 +181,7 @@ export function Sidebar() {
                         {item.line2}
                       </span>
                     </span>
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeIndicator"
-                        className="ml-auto mt-1 h-1.5 w-1.5 shrink-0 self-start rounded-full bg-[#D946EF]"
-                        style={{ boxShadow: '0 0 10px rgba(217, 70, 239, 0.5)' }}
-                      />
-                    )}
-                  </Link>
+                  </a>
                 </motion.li>
               )
             })}
