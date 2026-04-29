@@ -128,7 +128,8 @@ export default function DashboardPage() {
           {/* Welcome Video */}
           <motion.div variants={itemVariants}>
             <VideoCard
-              title="Step 1: Watch your welcome video here"
+              stepNumber={1}
+              stepHeadline="Watch your welcome video here"
               description="Watch this essential training to understand exactly how to use Profit Loop to generate your first profitable leads and start making money with email outreach."
               duration="4:32"
               views="2,847"
