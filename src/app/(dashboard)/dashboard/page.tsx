@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { VideoCard } from '@/components/ui/video-card'
+import { BonusTrainingCard } from '@/components/ui/bonus-training-card'
 import { LiveActivityCounter } from '@/components/ui/social-proof'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 
@@ -127,13 +128,18 @@ export default function DashboardPage() {
           {/* Welcome Video */}
           <motion.div variants={itemVariants}>
             <VideoCard
-              title="Welcome to Profit Loop - Start Here"
+              title="Step 1: Watch your welcome video here"
               description="Watch this essential training to understand exactly how to use Profit Loop to generate your first profitable leads and start making money with email outreach."
               duration="4:32"
               views="2,847"
               thumbnailText="START HERE"
               videoUrl="https://player.vimeo.com/video/1177396372"
             />
+          </motion.div>
+
+          {/* Bonus Training Video */}
+          <motion.div variants={itemVariants}>
+            <BonusTrainingCard />
           </motion.div>
 
           {/* Stats Grid */}
