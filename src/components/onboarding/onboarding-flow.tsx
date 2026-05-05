@@ -16,6 +16,7 @@ import {
   ONBOARDING_PRODUCT_NAME,
   ONBOARDING_UPGRADES_VIDEO_SRC
 } from '@/config/onboarding-content'
+import { resolveOnboardingGate } from '@/lib/onboarding-gate'
 
 const STEP_COUNT = 7
 
@@ -39,17 +40,12 @@ export function OnboardingFlow() {
       router.replace('/login')
       return
     }
-    const { data, error } = await supabase
-      .from('users')
-      .select('onboarding_completed_at')
-      .eq('id', user.id)
-      .maybeSingle()
-
-    if (error) {
-      setLoadError('Could not load your profile. Try refreshing.')
+    const gate = await resolveOnboardingGate(supabase, user.id)
+    if (!gate.ok) {
+      setLoadError(gate.message)
       return
     }
-    if (data?.onboarding_completed_at) {
+    if (gate.isComplete) {
       router.replace('/dashboard')
     }
   }, [router, supabase])

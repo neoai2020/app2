@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { resolveOnboardingGate } from '@/lib/onboarding-gate'
 
 /** Authenticated app routes (must be logged in). Includes onboarding. */
 const AUTH_REQUIRED_ROUTES = [
@@ -92,12 +93,8 @@ export async function updateSession(request: NextRequest) {
       isAuthPath ||
       isLandingPage
     if (shouldLoadOnboarding) {
-      const { data } = await supabase
-        .from('users')
-        .select('onboarding_completed_at')
-        .eq('id', user.id)
-        .maybeSingle()
-      onboardingComplete = Boolean(data?.onboarding_completed_at)
+      const gate = await resolveOnboardingGate(supabase, user.id)
+      onboardingComplete = gate.ok ? gate.isComplete : true
     }
   }
 
