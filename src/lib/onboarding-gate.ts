@@ -70,8 +70,8 @@ export async function resolveOnboardingGate(
     return { ok: true, isComplete: false }
   }
 
-  const msg =
-    [primary.error?.message, fallback.error?.message].filter(Boolean).join(' — ') ||
-    'Could not load your profile.'
-  return { ok: false, message: msg }
+  // Both queries errored (missing table/columns). Don't block the user —
+  // metaFlag === true is already handled above, so default to "not complete"
+  // and let the onboarding flow render instead of an error wall.
+  return { ok: true, isComplete: false }
 }
