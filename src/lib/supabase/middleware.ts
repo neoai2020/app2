@@ -93,7 +93,7 @@ export async function updateSession(request: NextRequest) {
       isAuthPath ||
       isLandingPage
     if (shouldLoadOnboarding) {
-      const gate = await resolveOnboardingGate(supabase, user.id)
+      const gate = await resolveOnboardingGate(supabase, user.id, user.user_metadata)
       onboardingComplete = gate.ok ? gate.isComplete : true
     }
   }

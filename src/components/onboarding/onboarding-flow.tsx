@@ -16,7 +16,7 @@ import {
   ONBOARDING_PRODUCT_NAME,
   ONBOARDING_UPGRADES_VIDEO_SRC
 } from '@/config/onboarding-content'
-import { resolveOnboardingGate } from '@/lib/onboarding-gate'
+import { ONBOARDING_META_KEY, resolveOnboardingGate } from '@/lib/onboarding-gate'
 
 const STEP_COUNT = 7
 
@@ -40,7 +40,7 @@ export function OnboardingFlow() {
       router.replace('/login')
       return
     }
-    const gate = await resolveOnboardingGate(supabase, user.id)
+    const gate = await resolveOnboardingGate(supabase, user.id, user.user_metadata)
     if (!gate.ok) {
       setLoadError(gate.message)
       return
@@ -113,6 +113,14 @@ export function OnboardingFlow() {
         setSubmitting(false)
         return
       }
+
+      await supabase.auth.updateUser({
+        data: {
+          ...user.user_metadata,
+          [ONBOARDING_META_KEY]: true
+        }
+      })
+
       router.push('/dashboard')
       router.refresh()
     } catch {

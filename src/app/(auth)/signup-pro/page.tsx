@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
+import { ONBOARDING_META_KEY } from '@/lib/onboarding-gate'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -43,7 +44,8 @@ export default function SignupProPage() {
         password,
         options: {
           data: {
-            full_name: fullName
+            full_name: fullName,
+            [ONBOARDING_META_KEY]: false
           },
           emailRedirectTo: `${window.location.origin}/dashboard`
         }
