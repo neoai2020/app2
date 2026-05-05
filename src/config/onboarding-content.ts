@@ -67,25 +67,7 @@ export const onboardingContent = {
     requirements: ['A phone or a computer', 'Speaks English', 'No tech skills required'],
     footer: 'If you checked all three — you qualify!',
     primaryCta: '🚀 Claim My Beta Tester Spot >',
+    noThanksCta: 'No thanks',
     finePrint: `This is an optional partner offer, separate from your ${ONBOARDING_PRODUCT_NAME} membership. Spots are limited.`
-  },
-  loading: {
-    percentLabel: '66%',
-    subline: 'Provisioning your Profit Loop workspace…'
-  },
-  activation: {
-    headline: "Let's Activate Your System",
-    subheadline:
-      'First, tell us your name so we can personalize your earning system.',
-    namePlaceholder: 'Enter your first name',
-    infoTitle: 'What happens next:',
-    infoSteps: [
-      "We'll locate the fastest datacenter near New York",
-      'Your personal supercomputer node gets activated',
-      'Earning zones light up across the map',
-      'You unlock global coverage with one tap'
-    ],
-    note: "You're getting set up 🔥 — Your links will work overnight while you relax",
-    cta: 'Activate My System >'
   }
 } as const
