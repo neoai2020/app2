@@ -56,17 +56,19 @@ export function PromoBanner({
             <p className="text-white/90 text-sm leading-relaxed mb-5">
               {extraLine}
             </p>
-            <motion.a
-              href={ctaLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold rounded-lg transition-all shadow-lg text-sm"
-            >
-              {ctaText}
-              <ArrowRight className="w-4 h-4" />
-            </motion.a>
+            <div className="flex justify-center">
+              <motion.a
+                href={ctaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold rounded-lg transition-all shadow-lg text-sm"
+              >
+                {ctaText}
+                <ArrowRight className="w-4 h-4" />
+              </motion.a>
+            </div>
           </div>
         </div>
       </div>

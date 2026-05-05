@@ -17,6 +17,8 @@ export interface Database {
           created_at: string
           updated_at: string
           status: 'active' | 'inactive' | 'suspended'
+          onboarding_completed_at: string | null
+          onboarding_first_name: string | null
         }
         Insert: {
           id: string
@@ -25,6 +27,8 @@ export interface Database {
           created_at?: string
           updated_at?: string
           status?: 'active' | 'inactive' | 'suspended'
+          onboarding_completed_at?: string | null
+          onboarding_first_name?: string | null
         }
         Update: {
           id?: string
@@ -33,6 +37,8 @@ export interface Database {
           created_at?: string
           updated_at?: string
           status?: 'active' | 'inactive' | 'suspended'
+          onboarding_completed_at?: string | null
+          onboarding_first_name?: string | null
         }
       }
       leads: {
