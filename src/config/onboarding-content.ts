@@ -9,12 +9,6 @@ export const ONBOARDING_PRODUCT_NAME = 'Profit Loop AI'
 export const ONBOARDING_BETA_QUALIFICATION_CTA_URL =
   'https://jvz4.com/c/3542829/436309/'
 
-/**
- * Upgrades walkthrough video — place file at this path under /public
- * (default: public/onboarding/upgrades-walkthrough.mp4) or set a remote URL.
- */
-export const ONBOARDING_UPGRADES_VIDEO_SRC = '/onboarding/upgrades-walkthrough.mp4'
-
 export const onboardingContent = {
   preparing: {
     title: 'Setting up your workspace',
@@ -33,17 +27,6 @@ export const onboardingContent = {
       }
     ],
     tip: 'Start with Lead Magnet first — it walks you from niche pick to fresh leads you can mail in minutes.',
-    continueCta: 'Continue'
-  },
-  upgrades: {
-    title: 'Did You Purchase Any Upgrades?',
-    intro: `If you bought any extras, here is where to find them in ${ONBOARDING_PRODUCT_NAME}:`,
-    stepsNumbered: [
-      `Open ${ONBOARDING_PRODUCT_NAME} (you are signed in now).`,
-      'Look at the left sidebar — scroll through Navigation and note Training and Support.',
-      'Under Premium Features, you will see Accelerator, Recurring Streams, Social Payouts, and Protector — those are your premium tools and upgrades when your account has access.'
-    ],
-    videoCaption: 'Short walkthrough: where upgrades and premium tools live in the sidebar.',
     continueCta: 'Continue'
   },
   congratulations: {
@@ -66,8 +49,8 @@ export const onboardingContent = {
     headline: 'Do You Meet These Requirements?',
     requirements: ['A phone or a computer', 'Speaks English', 'No tech skills required'],
     footer: 'If you checked all three — you qualify!',
-    primaryCta: '🚀 Claim My Beta Tester Spot >',
-    noThanksCta: 'No thanks',
+    primaryCta: '🎯 Claim My Beta Tester Spot >',
+    noThanksCta: 'No thanks, skip this optional offer →',
     finePrint: `This is an optional partner offer, separate from your ${ONBOARDING_PRODUCT_NAME} membership. Spots are limited.`
   }
 } as const
