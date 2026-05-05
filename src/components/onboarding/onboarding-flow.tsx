@@ -145,74 +145,74 @@ export function OnboardingFlow() {
       </div>
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/92 to-zinc-950/95" />
 
-      <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-y-auto">
-        <header className="shrink-0 px-6 pt-10 pb-6 text-center md:px-12 md:pt-14 md:pb-8">
+      <div className="relative z-10 flex h-dvh max-h-dvh min-h-0 flex-1 flex-col overflow-hidden">
+        <header className="shrink-0 px-4 pb-2 pt-4 text-center md:px-8 md:pb-3 md:pt-5">
           <Image
             src="/logo.png"
             alt={ONBOARDING_PRODUCT_NAME}
-            width={80}
-            height={80}
-            className="mx-auto rounded-xl md:h-[96px] md:w-[96px]"
+            width={56}
+            height={56}
+            className="mx-auto rounded-lg md:h-16 md:w-16"
           />
-          <p className="mt-4 text-xs font-bold uppercase tracking-[0.35em] text-zinc-500 md:text-sm">
+          <p className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 md:text-xs">
             {ONBOARDING_PRODUCT_NAME}
           </p>
         </header>
 
-        <div className="flex flex-1 flex-col justify-center px-6 pb-16 pt-2 md:px-12 md:pb-24 lg:px-16 xl:px-24">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden px-4 pb-4 pt-0 md:px-10 lg:px-16">
           {loadError ? (
-            <div className={`${shell} rounded-2xl border border-red-500/40 bg-red-950/20 px-8 py-10 text-center`}>
-              <p className="text-lg leading-relaxed text-red-300 md:text-xl">{loadError}</p>
+            <div className={`${shell} rounded-xl border border-red-500/40 bg-red-950/20 px-5 py-6 text-center`}>
+              <p className="text-sm leading-relaxed text-red-300 md:text-base">{loadError}</p>
             </div>
           ) : (
             <AnimatePresence mode="wait">
               <motion.div
                 key={step}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.28 }}
-                className={`${shell} w-full`}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22 }}
+                className={`${shell} flex min-h-0 w-full flex-1 flex-col`}
               >
                 {step === 0 && (
-                  <section className="flex w-full flex-col space-y-10 md:space-y-12">
-                    <h1 className="text-center text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
+                  <section className="flex min-h-0 flex-1 flex-col justify-center gap-3 md:gap-4">
+                    <h1 className="text-center text-xl font-bold leading-snug text-white md:text-2xl lg:text-3xl">
                       {onboardingContent.preparing.title}
                     </h1>
                     <ul className="divide-y divide-white/10 border-y border-white/10">
                       {onboardingContent.preparing.rows.map((row, i) => (
-                        <li key={row.label} className="flex gap-5 py-8 md:gap-6 md:py-10">
-                          <div className="mt-1 shrink-0">
+                        <li key={row.label} className="flex gap-3 py-2.5 md:gap-4 md:py-3">
+                          <div className="mt-0.5 shrink-0">
                             {prepDone[i] ? (
-                              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#00B894]/25 text-[#00B894] md:h-14 md:w-14">
-                                <Check className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2.5} />
+                              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#00B894]/25 text-[#00B894] md:h-10 md:w-10">
+                                <Check className="h-4 w-4 md:h-[18px] md:w-[18px]" strokeWidth={2.5} />
                               </span>
                             ) : (
-                              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 md:h-14 md:w-14">
-                                <Loader2 className="h-6 w-6 animate-spin text-[#D946EF] md:h-7 md:w-7" />
+                              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 md:h-10 md:w-10">
+                                <Loader2 className="h-4 w-4 animate-spin text-[#D946EF] md:h-[18px] md:w-[18px]" />
                               </span>
                             )}
                           </div>
-                          <div className="min-w-0 flex-1 space-y-2">
-                            <p className="text-xl font-semibold leading-snug text-white md:text-2xl lg:text-[1.65rem]">
+                          <div className="min-w-0 flex-1 space-y-0.5">
+                            <p className="text-sm font-semibold leading-snug text-white md:text-base">
                               {row.label}
                             </p>
-                            <p className="text-lg leading-relaxed text-zinc-400 md:text-xl">{row.description}</p>
+                            <p className="text-xs leading-snug text-zinc-400 md:text-sm">{row.description}</p>
                           </div>
                         </li>
                       ))}
                     </ul>
-                    <p className="border-l-4 border-[#D946EF] bg-[#D946EF]/5 py-5 pl-6 pr-4 text-lg leading-relaxed text-zinc-200 md:py-6 md:pl-8 md:text-xl">
+                    <p className="border-l-2 border-[#D946EF] bg-[#D946EF]/5 py-2.5 pl-3 pr-2 text-xs leading-snug text-zinc-200 md:py-3 md:pl-4 md:text-sm">
                       <span className="font-bold text-[#D946EF]">Tip: </span>
                       {onboardingContent.preparing.tip}
                     </p>
-                    <div className="flex justify-center pt-4">
+                    <div className="flex shrink-0 justify-center pt-1">
                       <Button
                         type="button"
-                        size="lg"
+                        size="md"
                         disabled={!prepReady || !prepDone.every(Boolean)}
                         glow={prepReady && prepDone.every(Boolean)}
-                        className="min-h-[3.25rem] min-w-[240px] px-10 text-base md:min-h-14 md:text-lg"
+                        className="min-w-[200px]"
                         onClick={() => setStep(1)}
                       >
                         {onboardingContent.preparing.continueCta}
@@ -222,23 +222,27 @@ export function OnboardingFlow() {
                 )}
 
                 {step === 1 && (
-                  <section className="flex w-full flex-col space-y-10 md:space-y-12">
-                    <h1 className="text-center text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
-                      {onboardingContent.upgrades.title}
-                    </h1>
-                    <p className="text-center text-lg leading-relaxed text-zinc-300 md:text-xl lg:text-2xl">
-                      {onboardingContent.upgrades.intro}
-                    </p>
-                    <ol className="list-decimal space-y-5 pl-7 text-lg leading-relaxed text-zinc-200 marker:text-[#D946EF] md:space-y-6 md:pl-8 md:text-xl lg:pl-10 lg:text-2xl">
-                      {onboardingContent.upgrades.stepsNumbered.map((line) => (
-                        <li key={line}>{line}</li>
-                      ))}
-                    </ol>
-                    <p className="text-center text-base text-zinc-500 md:text-lg">{onboardingContent.upgrades.videoCaption}</p>
-                    <div className="w-full overflow-hidden rounded-2xl ring-1 ring-white/10">
+                  <section className="flex min-h-0 flex-1 flex-col gap-2 md:gap-3">
+                    <div className="shrink-0 space-y-1.5 md:space-y-2">
+                      <h1 className="text-center text-lg font-bold leading-tight text-white md:text-xl lg:text-2xl">
+                        {onboardingContent.upgrades.title}
+                      </h1>
+                      <p className="text-center text-xs leading-snug text-zinc-400 md:text-sm">
+                        {onboardingContent.upgrades.intro}
+                      </p>
+                      <ol className="list-decimal space-y-1 pl-5 text-xs leading-snug text-zinc-300 marker:text-[#D946EF] md:space-y-1.5 md:pl-5 md:text-sm">
+                        {onboardingContent.upgrades.stepsNumbered.map((line) => (
+                          <li key={line}>{line}</li>
+                        ))}
+                      </ol>
+                      <p className="text-center text-[11px] text-zinc-500 md:text-xs">
+                        {onboardingContent.upgrades.videoCaption}
+                      </p>
+                    </div>
+                    <div className="relative min-h-0 w-full flex-1">
                       <video
                         key={ONBOARDING_UPGRADES_VIDEO_SRC}
-                        className="aspect-video w-full bg-black"
+                        className="absolute left-1/2 top-1/2 max-h-full max-w-full -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black object-contain ring-1 ring-white/10"
                         controls
                         playsInline
                         preload="metadata"
@@ -247,14 +251,8 @@ export function OnboardingFlow() {
                         Your browser does not support embedded video.
                       </video>
                     </div>
-                    <div className="flex justify-center pt-4">
-                      <Button
-                        type="button"
-                        size="lg"
-                        glow
-                        className="min-h-[3.25rem] min-w-[240px] px-10 text-base md:min-h-14 md:text-lg"
-                        onClick={() => setStep(2)}
-                      >
+                    <div className="flex shrink-0 justify-center pb-0.5 pt-1">
+                      <Button type="button" size="md" glow onClick={() => setStep(2)}>
                         {onboardingContent.upgrades.continueCta}
                       </Button>
                     </div>
@@ -262,24 +260,18 @@ export function OnboardingFlow() {
                 )}
 
                 {step === 2 && (
-                  <section className="relative flex w-full flex-col items-center space-y-10 py-4 md:space-y-12 md:py-8">
-                    <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
+                  <section className="relative flex min-h-0 flex-1 flex-col items-center justify-center gap-4 py-2 md:gap-5">
+                    <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
                       <ConfettiBackdrop />
                     </div>
-                    <p className="relative text-center text-base font-black uppercase tracking-[0.2em] text-[#FFC107] md:text-lg">
+                    <p className="relative text-center text-xs font-black uppercase tracking-[0.18em] text-[#FFC107] md:text-sm">
                       {onboardingContent.congratulations.badge}
                     </p>
-                    <h1 className="relative text-center text-4xl font-black uppercase leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl xl:text-7xl">
+                    <h1 className="relative max-w-4xl text-center text-2xl font-black uppercase leading-tight tracking-tight text-white md:text-3xl lg:text-4xl">
                       {onboardingContent.congratulations.headline}
                     </h1>
-                    <div className="relative flex justify-center pt-4">
-                      <Button
-                        type="button"
-                        size="lg"
-                        glow
-                        className="min-h-[3.25rem] min-w-[240px] px-10 text-base md:min-h-14 md:text-lg"
-                        onClick={() => setStep(3)}
-                      >
+                    <div className="relative flex shrink-0 justify-center">
+                      <Button type="button" size="md" glow onClick={() => setStep(3)}>
                         {onboardingContent.congratulations.continueCta}
                       </Button>
                     </div>
@@ -287,40 +279,30 @@ export function OnboardingFlow() {
                 )}
 
                 {step === 3 && (
-                  <section className="flex w-full flex-col space-y-10 md:space-y-12">
-                    <div className="flex justify-center">
-                      <span className="inline-flex items-center gap-3 rounded-full border border-[#D946EF]/40 bg-[#D946EF]/10 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-[#e879f9] md:px-6 md:py-3 md:text-sm">
-                        <Sparkles className="h-5 w-5 md:h-6 md:w-6" />
+                  <section className="flex min-h-0 flex-1 flex-col justify-center gap-3 md:gap-4">
+                    <div className="flex shrink-0 justify-center">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-[#D946EF]/40 bg-[#D946EF]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#e879f9] md:px-4 md:text-xs">
+                        <Sparkles className="h-3.5 w-3.5 md:h-4 md:w-4" />
                         Limited
                       </span>
                     </div>
-                    <p className="text-center text-2xl font-semibold leading-snug text-white md:text-3xl lg:text-4xl">
+                    <p className="text-center text-base font-semibold leading-snug text-white md:text-lg lg:text-xl">
                       {onboardingContent.beta.headline}
                     </p>
-                    <p className="text-center text-lg leading-relaxed text-zinc-300 md:text-xl lg:text-2xl">
+                    <p className="text-center text-xs leading-snug text-zinc-400 md:text-sm">
                       {onboardingContent.beta.subcopy}
                     </p>
-                    <div className="space-y-8 border-y border-white/10 py-10 md:space-y-10 md:py-12">
-                      <p className="text-lg leading-relaxed text-zinc-200 md:text-xl lg:text-2xl">
-                        {onboardingContent.beta.infoCard}
-                      </p>
+                    <div className="space-y-3 border-y border-white/10 py-3 md:space-y-4 md:py-4">
+                      <p className="text-xs leading-snug text-zinc-200 md:text-sm">{onboardingContent.beta.infoCard}</p>
                       <div className="text-center">
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#FFC107] md:text-base">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#FFC107] md:text-xs">
                           {onboardingContent.beta.payLabel}
                         </p>
-                        <p className="mt-2 text-5xl font-black text-white md:text-6xl lg:text-7xl">
-                          {onboardingContent.beta.payAmount}
-                        </p>
+                        <p className="text-3xl font-black text-white md:text-4xl">{onboardingContent.beta.payAmount}</p>
                       </div>
                     </div>
-                    <div className="flex justify-center pt-4">
-                      <Button
-                        type="button"
-                        size="lg"
-                        glow
-                        className="min-h-[3.25rem] min-w-[280px] px-10 text-base md:min-h-14 md:text-lg"
-                        onClick={() => setStep(4)}
-                      >
+                    <div className="flex shrink-0 justify-center">
+                      <Button type="button" size="md" glow className="max-w-sm" onClick={() => setStep(4)}>
                         {onboardingContent.beta.cta}
                       </Button>
                     </div>
@@ -328,37 +310,37 @@ export function OnboardingFlow() {
                 )}
 
                 {step === FINAL_STEP_INDEX && (
-                  <section className="flex w-full flex-col space-y-10 md:space-y-12">
-                    <p className="text-center text-sm font-black uppercase tracking-[0.25em] text-[#00B894] md:text-base">
+                  <section className="flex min-h-0 flex-1 flex-col justify-center gap-3 md:gap-4">
+                    <p className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-[#00B894] md:text-xs">
                       {onboardingContent.qualification.badge}
                     </p>
-                    <h1 className="text-center text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
+                    <h1 className="text-center text-lg font-bold leading-tight text-white md:text-xl lg:text-2xl">
                       {onboardingContent.qualification.headline}
                     </h1>
-                    <ul className="grid gap-4 sm:grid-cols-1 md:gap-5">
+                    <ul className="grid gap-0">
                       {onboardingContent.qualification.requirements.map((req) => (
                         <li
                           key={req}
-                          className="border-b border-white/10 py-6 text-center text-lg font-medium text-zinc-100 md:py-8 md:text-xl lg:text-2xl"
+                          className="border-b border-white/10 py-2 text-center text-sm font-medium text-zinc-100 md:py-2.5 md:text-base"
                         >
                           {req}
                         </li>
                       ))}
                     </ul>
-                    <p className="text-center text-xl font-semibold text-white md:text-2xl">
+                    <p className="text-center text-sm font-semibold text-white md:text-base">
                       {onboardingContent.qualification.footer}
                     </p>
-                    <p className="text-center text-base leading-relaxed text-zinc-500 md:text-lg lg:text-xl">
+                    <p className="text-center text-[11px] leading-snug text-zinc-500 md:text-xs">
                       {onboardingContent.qualification.finePrint}
                     </p>
-                    <div className="flex flex-col items-center gap-5 pt-6 md:gap-6">
+                    <div className="flex shrink-0 flex-col items-center gap-2 pt-1 md:gap-3">
                       <motion.button
                         type="button"
                         disabled={finishing}
                         whileHover={finishing ? undefined : { scale: 1.02 }}
                         whileTap={finishing ? undefined : { scale: 0.98 }}
                         onClick={() => void handleClaimBeta()}
-                        className="min-h-[3.5rem] w-full max-w-xl rounded-xl bg-[#FFC107] px-8 py-4 text-base font-bold text-black shadow-[0_0_40px_rgba(255,193,7,0.25)] transition-colors hover:bg-[#FFD54F] disabled:cursor-not-allowed disabled:opacity-60 md:min-h-16 md:text-lg lg:text-xl"
+                        className="w-full max-w-md rounded-lg bg-[#FFC107] px-5 py-2.5 text-sm font-bold text-black shadow-lg transition-colors hover:bg-[#FFD54F] disabled:cursor-not-allowed disabled:opacity-60 md:py-3 md:text-base"
                       >
                         {onboardingContent.qualification.primaryCta}
                       </motion.button>
@@ -366,7 +348,7 @@ export function OnboardingFlow() {
                         type="button"
                         disabled={finishing}
                         onClick={() => void handleNoThanks()}
-                        className="text-base font-medium text-zinc-500 underline decoration-zinc-600 underline-offset-[6px] transition-colors hover:text-zinc-300 disabled:cursor-not-allowed disabled:opacity-50 md:text-lg"
+                        className="text-xs font-medium text-zinc-500 underline decoration-zinc-600 underline-offset-4 transition-colors hover:text-zinc-300 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                       >
                         {onboardingContent.qualification.noThanksCta}
                       </button>
