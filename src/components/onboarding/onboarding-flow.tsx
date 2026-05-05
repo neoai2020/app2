@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -31,6 +31,7 @@ export function OnboardingFlow() {
   const [firstName, setFirstName] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [loadError, setLoadError] = useState<string | null>(null)
+  const prepRunGen = useRef(0)
 
   const verifyNotCompleted = useCallback(async () => {
     const {
@@ -54,29 +55,39 @@ export function OnboardingFlow() {
     void verifyNotCompleted()
   }, [verifyNotCompleted])
 
-  // Step 0 — sequential “loading” rows
+  // Step 0 — sequential loading rows (capture index per iteration; generation
+  // guard drops stale work under React Strict Mode remounts.)
   useEffect(() => {
     if (step !== 0 || prepReady) return
+    const myGen = ++prepRunGen.current
     let cancelled = false
-    const delays = [650, 800, 900]
-    let i = 0
-    const tick = () => {
-      if (cancelled || i >= onboardingContent.preparing.rows.length) {
-        if (!cancelled) setPrepReady(true)
-        return
+    const delay = (ms: number) => new Promise<void>((r) => window.setTimeout(r, ms))
+
+    const rowCount = onboardingContent.preparing.rows.length
+    const pauseAfterEachRowMs = [650, 800, 900]
+
+    const run = async () => {
+      setPrepDone(onboardingContent.preparing.rows.map(() => false))
+      await delay(500)
+      if (cancelled || myGen !== prepRunGen.current) return
+
+      for (let idx = 0; idx < rowCount; idx++) {
+        if (cancelled || myGen !== prepRunGen.current) return
+        const completedIndex = idx
+        setPrepDone((prev) => {
+          const next = [...prev]
+          next[completedIndex] = true
+          return next
+        })
+        const pauseMs = pauseAfterEachRowMs[idx] ?? 700
+        await delay(pauseMs)
       }
-      setPrepDone((prev) => {
-        const next = [...prev]
-        next[i] = true
-        return next
-      })
-      i += 1
-      window.setTimeout(tick, delays[i - 1] ?? 700)
+      if (!cancelled && myGen === prepRunGen.current) setPrepReady(true)
     }
-    const t = window.setTimeout(tick, 500)
+
+    void run()
     return () => {
       cancelled = true
-      window.clearTimeout(t)
     }
   }, [step, prepReady])
 
@@ -201,8 +212,8 @@ export function OnboardingFlow() {
                 <div className="flex justify-center pt-2">
                   <Button
                     type="button"
-                    disabled={!prepReady}
-                    glow={prepReady}
+                    disabled={!prepReady || !prepDone.every(Boolean)}
+                    glow={prepReady && prepDone.every(Boolean)}
                     className="min-w-[200px]"
                     onClick={() => setStep(1)}
                   >
