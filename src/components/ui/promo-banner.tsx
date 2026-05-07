@@ -56,7 +56,7 @@ export function PromoBanner({
             <p className="text-white/90 text-sm leading-relaxed mb-5">
               {extraLine}
             </p>
-            <div className="flex justify-center">
+            <div className="flex justify-start">
               <motion.a
                 href={ctaLink}
                 target="_blank"
