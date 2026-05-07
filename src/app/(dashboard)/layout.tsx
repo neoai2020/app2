@@ -3,6 +3,7 @@ import { Sidebar } from '@/components/ui/sidebar'
 import { AnimatedBackground } from '@/components/ui/animated-background'
 import { SocialProofNotifications } from '@/components/ui/social-proof'
 import { PromoBanner } from '@/components/ui/promo-banner'
+import { AccountVerifiedModal } from '@/components/dashboard/AccountVerifiedModal'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,6 +21,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           {children}
         </div>
       </main>
+      <AccountVerifiedModal />
     </div>
   )
 }
