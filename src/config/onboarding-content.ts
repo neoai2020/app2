@@ -7,7 +7,7 @@ export const ONBOARDING_PRODUCT_NAME = 'Profit Loop AI'
 
 /** Final partner CTA after qualification (empty string = dashboard only on click) */
 export const ONBOARDING_BETA_QUALIFICATION_CTA_URL =
-  'https://jvz4.com/c/3542829/436309/'
+  'https://scribble.a.explodely.com/?aff=scribble&pid=neomedia&tid=backend'
 
 export const onboardingContent = {
   preparing: {
