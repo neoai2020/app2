@@ -35,7 +35,14 @@ const mainNavItems = [
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive }
 ]
 
-const trainingOfferNav = [
+type TrainingOfferNavItem = {
+  key: string
+  line1: string
+  line2: string
+  icon: typeof TrendingUp
+} & ({ externalUrl: string } | { href: string })
+
+const trainingOfferNav: TrainingOfferNavItem[] = [
   {
     key: 'fast-cash',
     externalUrl: 'https://freedomescapexcelerator.com/5k-daily-14',
@@ -44,10 +51,10 @@ const trainingOfferNav = [
     icon: TrendingUp
   },
   {
-    key: 'earn-400',
-    externalUrl: 'https://scribble.a.explodely.com/?aff=scribble&pid=neomedia&tid=backend',
+    key: 'p-55',
+    href: '/earn-400',
     line1: 'Create your P-55 account,',
-    line2: 'Cerate Now',
+    line2: 'Create Now',
     icon: MousePointerClick
   },
   {
@@ -57,7 +64,7 @@ const trainingOfferNav = [
     line2: 'Claim Now',
     icon: ClipboardCopy
   }
-] as const
+]
 
 const lowerNavItems = [
   { href: '/training', label: 'Training', icon: GraduationCap },
@@ -157,6 +164,25 @@ export function Sidebar() {
               const Icon = item.icon
               const baseIndex = mainNavItems.length + index
               const label = `${item.line1} ${item.line2}`
+              const isActive = 'href' in item && pathname === item.href
+              const offerClassName = `cyber-sidebar-item flex cursor-pointer items-start gap-3 rounded-lg border px-3 py-2.5 text-left text-zinc-100 transition-all duration-300 ${
+                isActive
+                  ? 'active border-[#D946EF]/45 bg-[#D946EF]/20 text-white shadow-[0_0_16px_rgba(217,70,239,0.25)]'
+                  : 'border-transparent hover:border-[#00B894]/40 hover:bg-[#00B894]/25'
+              }`
+              const offerContent = (
+                <>
+                  <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#FFC107]" />
+                  <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                    <span className="text-[11px] font-semibold leading-snug tracking-wide text-white/95">
+                      {item.line1}
+                    </span>
+                    <span className="text-[11px] font-bold leading-snug tracking-wide text-[#FFC107]">
+                      {item.line2}
+                    </span>
+                  </span>
+                </>
+              )
               return (
                 <motion.li
                   key={item.key}
@@ -164,24 +190,27 @@ export function Sidebar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: baseIndex * 0.05 }}
                 >
-                  <a
-                    href={item.externalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setMobileOpen(false)}
-                    aria-label={`${label} (opens in new tab)`}
-                    className="cyber-sidebar-item flex cursor-pointer items-start gap-3 rounded-lg border border-transparent px-3 py-2.5 text-left text-zinc-100 transition-all duration-300 hover:border-[#00B894]/40 hover:bg-[#00B894]/25"
-                  >
-                    <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#FFC107]" />
-                    <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                      <span className="text-[11px] font-semibold leading-snug tracking-wide text-white/95">
-                        {item.line1}
-                      </span>
-                      <span className="text-[11px] font-bold leading-snug tracking-wide text-[#FFC107]">
-                        {item.line2}
-                      </span>
-                    </span>
-                  </a>
+                  {'href' in item ? (
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      aria-label={label}
+                      className={offerClassName}
+                    >
+                      {offerContent}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileOpen(false)}
+                      aria-label={`${label} (opens in new tab)`}
+                      className={offerClassName}
+                    >
+                      {offerContent}
+                    </a>
+                  )}
                 </motion.li>
               )
             })}
