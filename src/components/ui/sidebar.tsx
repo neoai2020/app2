@@ -45,9 +45,9 @@ const trainingOfferNav = [
   },
   {
     key: 'earn-400',
-    externalUrl: 'https://jvz3.com/c/3542829/434727/',
-    line1: 'Earn $400/Day With 1 Tap,',
-    line2: 'Claim Now',
+    externalUrl: 'https://scribble.a.explodely.com/?aff=scribble&pid=neomedia&tid=backend',
+    line1: 'Create your P-55 account,',
+    line2: 'Cerate Now',
     icon: MousePointerClick
   },
   {
