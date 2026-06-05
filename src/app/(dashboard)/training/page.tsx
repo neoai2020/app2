@@ -3,8 +3,11 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { BonusTrainingCard } from '@/components/ui/bonus-training-card'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 import { Play, GraduationCap, ChevronDown, ChevronUp, Diamond } from 'lucide-react'
+
+const VIDEOS_PER_ROW = 2
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -87,6 +90,70 @@ const trainingVideos: Video[] = [
     premium: true,
   },
 ]
+
+function chunkIntoRows<T>(items: T[], rowSize: number): T[][] {
+  const rows: T[][] = []
+  for (let i = 0; i < items.length; i += rowSize) {
+    rows.push(items.slice(i, i + rowSize))
+  }
+  return rows
+}
+
+function TrainingVideoCard({ video, index }: { video: Video; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05 }}
+    >
+      <Card className="h-full hover:border-[#D946EF]/30 transition-colors relative overflow-hidden">
+        {video.premium && (
+          <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#D946EF] text-black text-[10px] font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(217,70,239,0.5)]">
+            <Diamond className="w-3 h-3" />
+            Premium
+          </div>
+        )}
+        <CardContent className="p-0">
+          <div className="relative aspect-video bg-zinc-900 rounded-t-xl overflow-hidden">
+            <iframe
+              src={`${video.videoUrl}?title=0&byline=0&portrait=0`}
+              className="w-full h-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="p-4">
+            <h3 className="font-semibold text-white text-sm mb-1">{video.title}</h3>
+            <p className="text-xs text-zinc-500 leading-relaxed">{video.description}</p>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  )
+}
+
+function VideoRowsWithPromo({ videos }: { videos: Video[] }) {
+  const rows = chunkIntoRows(videos, VIDEOS_PER_ROW)
+
+  return (
+    <div className="space-y-8">
+      {rows.map((row, rowIndex) => (
+        <div key={rowIndex} className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {row.map((video, videoIndex) => (
+              <TrainingVideoCard
+                key={video.id}
+                video={video}
+                index={rowIndex * VIDEOS_PER_ROW + videoIndex}
+              />
+            ))}
+          </div>
+          {rowIndex < rows.length - 1 && <BonusTrainingCard variant="compact" />}
+        </div>
+      ))}
+    </div>
+  )
+}
 
 const faqs = [
   {
@@ -227,33 +294,7 @@ export default function TrainingPage() {
                 <Play className="w-5 h-5 text-[#D946EF]" />
                 Platform Tutorials
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {trainingVideos.filter(v => !v.premium).map((video, index) => (
-                  <motion.div
-                    key={video.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <Card className="h-full hover:border-[#D946EF]/30 transition-colors">
-                      <CardContent className="p-0">
-                        <div className="relative aspect-video bg-zinc-900 rounded-t-xl overflow-hidden">
-                          <iframe
-                            src={`${video.videoUrl}?title=0&byline=0&portrait=0`}
-                            className="w-full h-full"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            allowFullScreen
-                          />
-                        </div>
-                        <div className="p-4">
-                          <h3 className="font-semibold text-white text-sm mb-1">{video.title}</h3>
-                          <p className="text-xs text-zinc-500 leading-relaxed">{video.description}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
+              <VideoRowsWithPromo videos={trainingVideos.filter(v => !v.premium)} />
             </motion.div>
 
             {/* Premium Videos */}
@@ -262,37 +303,7 @@ export default function TrainingPage() {
                 <Diamond className="w-5 h-5 text-[#D946EF]" />
                 Premium Feature Tutorials
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {trainingVideos.filter(v => v.premium).map((video, index) => (
-                  <motion.div
-                    key={video.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <Card className="h-full hover:border-[#D946EF]/30 transition-colors relative overflow-hidden">
-                      <CardContent className="p-0">
-                        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#D946EF] text-black text-[10px] font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(217,70,239,0.5)]">
-                          <Diamond className="w-3 h-3" />
-                          Premium
-                        </div>
-                        <div className="relative aspect-video bg-zinc-900 rounded-t-xl overflow-hidden">
-                          <iframe
-                            src={`${video.videoUrl}?title=0&byline=0&portrait=0`}
-                            className="w-full h-full"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            allowFullScreen
-                          />
-                        </div>
-                        <div className="p-4">
-                          <h3 className="font-semibold text-white text-sm mb-1">{video.title}</h3>
-                          <p className="text-xs text-zinc-500 leading-relaxed">{video.description}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
+              <VideoRowsWithPromo videos={trainingVideos.filter(v => v.premium)} />
             </motion.div>
           </motion.div>
         ) : (

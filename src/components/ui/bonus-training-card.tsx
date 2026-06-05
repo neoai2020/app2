@@ -8,6 +8,22 @@ const PLAYER_ID = 'vid-69f1dc322e62e594e34823df'
 const PLAYER_SCRIPT_SRC =
   'https://scripts.converteai.net/e9cd97bc-7bc8-4a23-bb2f-224a56a84d6b/players/69f1dc322e62e594e34823df/v4/player.js'
 const CTA_URL = 'https://freedomescapexcelerator.com/5k-daily-14'
+export const BONUS_TRAINING_TITLE =
+  'Watch The Bonus Training That Took Me To Earnings 1,000 to 5,000 Per Day'
+
+function useBonusTrainingPlayer() {
+  useEffect(() => {
+    const existing = document.querySelector<HTMLScriptElement>(
+      `script[src="${PLAYER_SCRIPT_SRC}"]`
+    )
+    if (existing) return
+
+    const s = document.createElement('script')
+    s.src = PLAYER_SCRIPT_SRC
+    s.async = true
+    document.head.appendChild(s)
+  }, [])
+}
 
 function TrainingCtaLink() {
   return (
@@ -27,18 +43,47 @@ function TrainingCtaLink() {
   )
 }
 
-export function BonusTrainingCard() {
-  useEffect(() => {
-    const existing = document.querySelector<HTMLScriptElement>(
-      `script[src="${PLAYER_SCRIPT_SRC}"]`
-    )
-    if (existing) return
+function BonusTrainingPlayer() {
+  return (
+    <div className="relative aspect-video overflow-hidden rounded-xl bg-zinc-900">
+      {createElement('vturb-smartplayer', {
+        id: PLAYER_ID,
+        style: { display: 'block', margin: '0 auto', width: '100%' }
+      })}
+    </div>
+  )
+}
 
-    const s = document.createElement('script')
-    s.src = PLAYER_SCRIPT_SRC
-    s.async = true
-    document.head.appendChild(s)
-  }, [])
+interface BonusTrainingCardProps {
+  variant?: 'full' | 'compact'
+}
+
+export function BonusTrainingCard({ variant = 'full' }: BonusTrainingCardProps) {
+  useBonusTrainingPlayer()
+
+  if (variant === 'compact') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="glass-card overflow-hidden"
+      >
+        <div className="p-5 pb-4">
+          <h3 className="text-lg font-bold leading-snug text-white md:text-xl">
+            <span className="gradient-text">{BONUS_TRAINING_TITLE}</span>
+          </h3>
+        </div>
+
+        <div className="mx-5 mt-1">
+          <BonusTrainingPlayer />
+        </div>
+
+        <div className="p-5">
+          <TrainingCtaLink />
+        </div>
+      </motion.div>
+    )
+  }
 
   return (
     <motion.div
@@ -65,20 +110,15 @@ export function BonusTrainingCard() {
                 </span>
               </div>
               <h3 className="text-lg font-bold leading-snug text-white md:text-xl">
-                <span className="gradient-text">
-                  Watch The Bonus Training That Took Me To Earnings 1,000 to 5,000 Per Day
-                </span>
+                <span className="gradient-text">{BONUS_TRAINING_TITLE}</span>
               </h3>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="relative mx-5 mt-1 aspect-video overflow-hidden rounded-xl bg-zinc-900">
-        {createElement('vturb-smartplayer', {
-          id: PLAYER_ID,
-          style: { display: 'block', margin: '0 auto', width: '100%' }
-        })}
+      <div className="mx-5 mt-1">
+        <BonusTrainingPlayer />
       </div>
 
       <div className="space-y-5 p-5">
