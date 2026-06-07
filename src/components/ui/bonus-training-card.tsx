@@ -7,7 +7,7 @@ import { ArrowRight, Flame, Sparkles } from 'lucide-react'
 const PLAYER_ID = 'vid-69f1dc322e62e594e34823df'
 const PLAYER_SCRIPT_SRC =
   'https://scripts.converteai.net/e9cd97bc-7bc8-4a23-bb2f-224a56a84d6b/players/69f1dc322e62e594e34823df/v4/player.js'
-const CTA_URL = 'https://freedomescapexcelerator.com/5k-daily-14'
+const CTA_URL = 'https://7figuresociety.a.explodely.com/?aff=neomedia&pid=1731454257'
 export const BONUS_TRAINING_TITLE =
   'Watch The Bonus Training That Took Me To Earnings 1,000 to 5,000 Per Day'
 

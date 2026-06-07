@@ -6,7 +6,7 @@ export default function ScalePage() {
   return (
     <ExclusiveTrainingOffer
       titleLine1="Fast Cash Training,"
-      ctaHref="https://freedomescapexcelerator.com/5k-daily-14"
+      ctaHref="https://7figuresociety.a.explodely.com/?aff=neomedia&pid=1731454257"
     />
   )
 }
