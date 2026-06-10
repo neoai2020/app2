@@ -52,7 +52,7 @@ const trainingOfferNav: TrainingOfferNavItem[] = [
   },
   {
     key: 'p-55',
-    href: '/earn-400',
+    externalUrl: 'https://scribble.a.explodely.com/?aff=neomedia&pid=47110198&tid=backend',
     line1: 'Create your P-55 account,',
     line2: 'Create Now',
     icon: MousePointerClick

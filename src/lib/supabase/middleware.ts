@@ -19,7 +19,6 @@ const AUTH_REQUIRED_ROUTES = [
   '/instant-income',
   '/autopilot',
   '/scale',
-  '/earn-400',
   '/copy-paste'
 ]
 
