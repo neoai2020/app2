@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, ReactNode } from 'react'
+import { useState, useRef, useEffect, ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HelpCircle, Info, Lightbulb, BookOpen, ExternalLink } from 'lucide-react'
 
@@ -34,7 +34,28 @@ export function HelpTooltip({
   children
 }: HelpTooltipProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const containerRef = useRef<HTMLSpanElement>(null)
+  const pointerTypeRef = useRef<string>('mouse')
   const Icon = icons[variant]
+
+  // Close on tap/click outside or Escape (mainly for touch devices).
+  useEffect(() => {
+    if (!isOpen) return
+    const handlePointerDown = (e: PointerEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false)
+    }
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKey)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [isOpen])
 
   const positions = {
     top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
@@ -51,36 +72,48 @@ export function HelpTooltip({
   }
 
   return (
-    <div className="relative inline-flex items-center">
+    <span
+      ref={containerRef}
+      className="relative inline-flex items-center align-middle"
+      onPointerEnter={(e) => { if (e.pointerType === 'mouse') setIsOpen(true) }}
+      onPointerLeave={(e) => { if (e.pointerType === 'mouse') setIsOpen(false) }}
+    >
       {children}
       <button
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
-        onClick={() => setIsOpen(!isOpen)}
-        className={`ml-1.5 ${colors[variant]} transition-colors`}
+        type="button"
+        aria-label={title || 'More info'}
+        aria-expanded={isOpen}
+        onPointerDown={(e) => { pointerTypeRef.current = e.pointerType }}
+        onClick={(e) => {
+          e.stopPropagation()
+          // On mouse, hover already controls visibility — don't fight it.
+          // On touch/pen/keyboard, toggle so it can be opened and closed by tap.
+          if (pointerTypeRef.current !== 'mouse') setIsOpen((prev) => !prev)
+        }}
+        className={`ml-1.5 inline-flex ${colors[variant]} transition-colors`}
       >
         <Icon size={14} />
       </button>
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <motion.span
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className={`absolute z-50 ${positions[position]} w-64`}
+            className={`absolute z-50 block ${positions[position]} w-64 max-w-[calc(100vw-2rem)]`}
           >
-            <div className="p-4 rounded-lg bg-zinc-800 border border-zinc-700 shadow-2xl">
+            <span className="block p-4 rounded-lg bg-zinc-800 border border-zinc-700 shadow-2xl text-left normal-case tracking-normal">
               {title && (
-                <p className="font-semibold text-white text-sm mb-2 flex items-center gap-2">
+                <span className="font-semibold text-white text-sm mb-2 flex items-center gap-2">
                   <Icon size={14} className={colors[variant].split(' ')[0]} />
                   {title}
-                </p>
+                </span>
               )}
-              <p className="text-zinc-300 text-xs leading-relaxed">
+              <span className="block text-zinc-300 text-xs leading-relaxed">
                 {content}
-              </p>
+              </span>
               {learnMoreLink && (
                 <a
                   href={learnMoreLink}
@@ -91,13 +124,13 @@ export function HelpTooltip({
                   <ExternalLink size={10} />
                 </a>
               )}
-            </div>
+            </span>
             {/* Arrow */}
-            <div className={`absolute w-0 h-0 border-8 ${arrows[position]}`} />
-          </motion.div>
+            <span className={`absolute w-0 h-0 border-8 ${arrows[position]}`} />
+          </motion.span>
         )}
       </AnimatePresence>
-    </div>
+    </span>
   )
 }
 
