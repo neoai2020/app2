@@ -60,6 +60,12 @@ export default function DFYPage() {
   const [userLink, setUserLink] = useState('')
   const [copiedAll, setCopiedAll] = useState(false)
   const [visibleCount, setVisibleCount] = useState(LEADS_PER_PAGE)
+  const [nicheQuery, setNicheQuery] = useState('')
+
+  const filteredNiches = useMemo(
+    () => niches.filter(n => n.name.toLowerCase().includes(nicheQuery.trim().toLowerCase())),
+    [nicheQuery]
+  )
 
   const allLeads = useMemo(() => getRealisticLeads(selectedNiche), [selectedNiche])
   const currentLeads = useMemo(() => allLeads.slice(0, visibleCount), [allLeads, visibleCount])
@@ -512,12 +518,17 @@ export default function DFYPage() {
               <input 
                 type="text" 
                 placeholder="Search niches..." 
+                value={nicheQuery}
+                onChange={(e) => setNicheQuery(e.target.value)}
                 className="w-full bg-[#111111] border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-[#D946EF]/50 transition-colors"
               />
             </div>
             
             <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-              {niches.map((niche) => (
+              {filteredNiches.length === 0 && (
+                <p className="text-zinc-500 text-sm text-center py-6">No niches match &quot;{nicheQuery}&quot;</p>
+              )}
+              {filteredNiches.map((niche) => (
                 <button
                   key={niche.id}
                   onClick={() => handleSelectNiche(niche.id)}

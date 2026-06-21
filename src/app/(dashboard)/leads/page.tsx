@@ -68,12 +68,12 @@ export default function LeadsPage() {
 
   const handleAllocateLeads = async () => {
     if (!industry || !location) {
-      setError('Please select an industry and enter a location')
+      setError('Please pick a type of business and enter a location')
       return
     }
 
     if (usageToday >= DAILY_LEAD_LIMIT) {
-      setError('Daily allocation limit reached')
+      setError("You've used all your searches for today")
       return
     }
 
@@ -90,7 +90,7 @@ export default function LeadsPage() {
       const result = await response.json()
 
       if (!response.ok) {
-        setError(result.error || 'Allocation failed')
+        setError(result.error || 'Could not find customers right now')
       } else {
         await fetchLeads()
         await fetchUsage()
@@ -98,7 +98,7 @@ export default function LeadsPage() {
         setLocation('')
       }
     } catch {
-      setError('System error during allocation')
+      setError('Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -115,16 +115,15 @@ export default function LeadsPage() {
     >
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
-        <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold gradient-text">Lead Magnet</h1>
+        <div className="flex items-center gap-3 flex-wrap">
+          <h1 className="text-4xl font-bold gradient-text">Find Customers</h1>
           <HelpTooltip
             variant="info"
-            title="Lead Magnet"
-            content="This is where you generate new business leads. Select an industry and location, and the system will allocate verified business contacts for your outreach."
-            learnMoreLink="/support#leads"
+            title="What's a lead?"
+            content="A lead is just a local business we found that you can email your offer to. Pick a type of business and a location, and we'll find some for you."
           />
         </div>
-        <p className="text-zinc-500 mt-2">Deploy targeting parameters to acquire business leads</p>
+        <p className="text-zinc-500 mt-2">Pick a type of business and a location, and we&apos;ll find customers you can email.</p>
       </motion.div>
       
       <motion.div variants={itemVariants}>
@@ -140,9 +139,9 @@ export default function LeadsPage() {
                 <Target className="w-6 h-6 text-[#D946EF]" />
               </div>
               <div>
-                <CardTitle>Allocation Parameters</CardTitle>
+                <CardTitle>Search settings</CardTitle>
                 <CardDescription>
-                  <span className="text-[#D946EF] font-mono">{remainingLeads}</span> allocations remaining in current cycle
+                  <span className="text-[#D946EF] font-mono">{remainingLeads}</span> searches left today
                 </CardDescription>
               </div>
             </div>
@@ -160,19 +159,35 @@ export default function LeadsPage() {
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <Select
-                label="Target Industry"
-                placeholder="Select industry sector"
-                value={industry}
-                onChange={(e) => setIndustry(e.target.value)}
-                options={INDUSTRIES.map(ind => ({ value: ind, label: ind }))}
-              />
-              <Input
-                label="Target Location"
-                placeholder="City, State or Country"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
+              <div>
+                <div className="flex items-center mb-2">
+                  <span className="text-sm font-medium text-[#D946EF]/80 uppercase tracking-wider">Type of business</span>
+                  <HelpTooltip
+                    variant="help"
+                    content="The kind of business you want to reach — like restaurants, dentists, or gyms. Some people call this an industry or niche."
+                  />
+                </div>
+                <Select
+                  placeholder="Select industry sector"
+                  value={industry}
+                  onChange={(e) => setIndustry(e.target.value)}
+                  options={INDUSTRIES.map(ind => ({ value: ind, label: ind }))}
+                />
+              </div>
+              <div>
+                <div className="flex items-center mb-2">
+                  <span className="text-sm font-medium text-[#D946EF]/80 uppercase tracking-wider">Location</span>
+                  <HelpTooltip
+                    variant="help"
+                    content="The town, state, or country where you want to find businesses. For example: 'Austin, Texas' or 'United Kingdom'."
+                  />
+                </div>
+                <Input
+                  placeholder="City, State or Country"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+              </div>
             </div>
 
             <Button
@@ -183,7 +198,7 @@ export default function LeadsPage() {
               glow
             >
               <Zap className="w-4 h-4 mr-2" />
-              Execute Allocation
+              Find My Customers
             </Button>
           </CardContent>
         </Card>
@@ -199,9 +214,9 @@ export default function LeadsPage() {
                   <Users className="w-6 h-6 text-indigo-400" />
                 </div>
                 <div>
-                  <CardTitle>Allocated Leads</CardTitle>
+                  <CardTitle>Customers Found</CardTitle>
                   <CardDescription>
-                    <span className="text-indigo-400 font-mono">{leads.length}</span> records in database
+                    <span className="text-indigo-400 font-mono">{leads.length}</span> businesses you can email
                   </CardDescription>
                 </div>
               </div>
@@ -211,12 +226,12 @@ export default function LeadsPage() {
             {leads.length === 0 ? (
               <div className="p-12 text-center">
                 <Users className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
-                <p className="text-zinc-500">No leads allocated yet</p>
-                <p className="text-zinc-600 text-sm">Configure parameters above to begin</p>
+                <p className="text-zinc-500">No customers yet</p>
+                <p className="text-zinc-600 text-sm">Use the search above to find some</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full cyber-table">
+                <table className="w-full min-w-[640px] cyber-table">
                   <thead>
                     <tr>
                       <th className="text-left px-6 py-4">Business</th>

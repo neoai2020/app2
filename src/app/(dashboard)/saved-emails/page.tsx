@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { createClient } from '@/lib/supabase/client'
 import { EmailTemplate, Lead } from '@/types/database'
 import { Copy, Trash2, Mail, ChevronDown, ChevronUp, Archive, CheckCircle } from 'lucide-react'
@@ -30,6 +31,8 @@ export default function SavedEmailsPage() {
   const [expandedEmail, setExpandedEmail] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [copiedField, setCopiedField] = useState<string | null>(null)
+  const [emailToDelete, setEmailToDelete] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const supabase = createClient()
 
   const fetchEmails = useCallback(async () => {
@@ -59,18 +62,22 @@ export default function SavedEmailsPage() {
     setTimeout(() => setCopiedField(null), 2000)
   }
 
-  const handleDelete = async (emailId: string) => {
-    if (!confirm('Confirm deletion of this archived email?')) return
+  const confirmDelete = async () => {
+    if (!emailToDelete) return
 
+    setDeleting(true)
     try {
       await supabase
         .from('email_templates')
         .delete()
-        .eq('id', emailId)
+        .eq('id', emailToDelete)
 
       await fetchEmails()
     } catch (error) {
       console.error('Deletion failed:', error)
+    } finally {
+      setDeleting(false)
+      setEmailToDelete(null)
     }
   }
 
@@ -105,11 +112,16 @@ export default function SavedEmailsPage() {
           <HelpTooltip
             variant="info"
             title="Saved Emails"
-            content="All your generated emails are stored here. Click to expand any email, copy the content, and paste it into your email client to send."
-            learnMoreLink="/support#saved-emails"
+            content="All your saved emails live here. Click any email to open it, copy the words, then paste them into Gmail or Outlook to send."
           />
         </div>
-        <p className="text-zinc-500 mt-2">Previously generated outreach content</p>
+        <p className="text-zinc-500 mt-2 flex items-center flex-wrap">
+          Your saved emails — your offer link is already inside each one
+          <HelpTooltip
+            variant="help"
+            content="Your offer link (also called an affiliate link) is the web address people click to buy or sign up. It's already added inside each email for you."
+          />
+        </p>
       </motion.div>
 
       {loading ? (
@@ -168,7 +180,7 @@ export default function SavedEmailsPage() {
                         size="sm"
                         onClick={(e) => {
                           e?.stopPropagation()
-                          handleDelete(email.id)
+                          setEmailToDelete(email.id)
                         }}
                       >
                         <Trash2 size={16} className="text-red-400" />
@@ -280,6 +292,16 @@ export default function SavedEmailsPage() {
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={emailToDelete !== null}
+        title="Delete this email?"
+        message="This will permanently remove this saved email. You can't undo this."
+        confirmLabel="Yes, delete"
+        loading={deleting}
+        onConfirm={confirmDelete}
+        onCancel={() => setEmailToDelete(null)}
+      />
     </motion.div>
   )
 }

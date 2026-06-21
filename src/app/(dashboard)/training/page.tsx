@@ -48,16 +48,16 @@ const trainingVideos: Video[] = [
   },
   {
     id: '3',
-    title: 'Lead Magnet Masterclass',
-    description: 'Learn how to pull leads by niche and location using Lead Magnet, and maximize your daily limit for the best results.',
+    title: 'Find Customers Masterclass',
+    description: 'Learn how to pull leads by niche and location using Find Customers, and maximize your daily limit for the best results.',
     duration: '4:05',
     thumbnail: '',
     videoUrl: 'https://player.vimeo.com/video/1177396886',
   },
   {
     id: '4',
-    title: 'Email Blast Deep Dive',
-    description: 'Master Email Blast — choose the right tone, pair offers with leads, and generate AI emails that get responses.',
+    title: 'Write Emails Deep Dive',
+    description: 'Master Write Emails — choose the right tone, pair offers with leads, and generate AI emails that get responses.',
     duration: '4:22',
     thumbnail: '',
     videoUrl: 'https://player.vimeo.com/video/1177396779',
@@ -158,31 +158,31 @@ function VideoRowsWithPromo({ videos }: { videos: Video[] }) {
 const faqs = [
   {
     question: 'How do I get started with Profit Loop?',
-    answer: 'Watch the "Getting Started" video in the Training Videos tab above. The core workflow is: 1) Create offer templates in the Offer Library, 2) Pull leads in Lead Magnet by industry and location, 3) Generate personalized AI emails in Email Blast, 4) Copy and send via Gmail or Outlook. Repeat daily for best results.'
+    answer: 'Watch the "Getting Started" video in the Training Videos tab above. The core workflow is: 1) Create offer templates in the Offer Library, 2) Pull leads in Find Customers by industry and location, 3) Generate personalized AI emails in Write Emails, 4) Copy and send via Gmail or Outlook. Repeat daily for best results.'
   },
   {
     question: 'What is the Offer Library and how do I use it?',
     answer: 'The Offer Library stores your reusable email templates. Click "New Template", choose a type (Affiliate, Service, or Partnership), fill in your details and custom instructions, then click "Generate with AI." The AI writes a professional email template you can save and reuse across all your outreach. You get 5 AI generations per day.'
   },
   {
-    question: 'How does Lead Magnet work?',
-    answer: 'Lead Magnet pulls real, verified business leads. Select a Target Industry (15 options including Restaurants, Real Estate, Health & Wellness, etc.) and a Target Location (city, state, or country). Click "Execute Allocation" and leads appear with business name, email, and website. You get 25 leads per day. Click "Generate Email" on any lead to jump straight to Email Blast.'
+    question: 'How does Find Customers work?',
+    answer: 'Find Customers pulls real, verified business leads. Select a Target Industry (15 options including Restaurants, Real Estate, Health & Wellness, etc.) and a Target Location (city, state, or country). Click "Find My Customers" and leads appear with business name, email, and website. You get 25 leads per day. Click "Generate Email" on any lead to jump straight to Write Emails.'
   },
   {
-    question: 'How does Email Blast work?',
-    answer: 'Select a lead from your Lead Magnet results, pick an offer template (or write a custom description), choose a tone (Professional, Friendly, or Direct), and click Generate. The AI creates a personalized subject line, email body, and follow-up message. You get 10 generations per day. Copy, paste into your email client, and send.'
+    question: 'How does Write Emails work?',
+    answer: 'Select a lead from your Find Customers results, pick an offer template (or write a custom description), choose a tone (Professional, Friendly, or Direct), and click Generate. The AI creates a personalized subject line, email body, and follow-up message. You get 10 generations per day. Copy, paste into your email client, and send.'
   },
   {
     question: 'What are the daily limits?',
-    answer: 'Lead Magnet: 25 leads per day. Email Blast: 10 email generations per day. Offer Library: 5 AI offer generations per day. All limits reset automatically every 24 hours. Your remaining count is always visible on the Dashboard and on each feature page.'
+    answer: 'Find Customers: 25 leads per day. Write Emails: 10 email generations per day. Offer Library: 5 AI offer generations per day. All limits reset automatically every 24 hours. Your remaining count is always visible on the Dashboard and on each feature page.'
   },
   {
     question: 'Does Profit Loop send emails for me?',
-    answer: 'No. Profit Loop generates email content only. You copy the email from Email Blast or Saved Emails, paste it into your email client (Gmail, Outlook, Yahoo, etc.), and send it yourself. This gives you full control over your outreach and avoids spam filter issues.'
+    answer: 'No. Profit Loop generates email content only. You copy the email from Write Emails or Saved Emails, paste it into your email client (Gmail, Outlook, Yahoo, etc.), and send it yourself. This gives you full control over your outreach and avoids spam filter issues.'
   },
   {
     question: 'What is Saved Emails?',
-    answer: 'Every email you generate in Email Blast can be saved by clicking "Save Email for Later." The Saved Emails page is your archive — view, expand, copy subject/body/follow-up individually, or use "Copy Complete Email" to grab everything at once. Great for reusing winning templates.'
+    answer: 'Every email you generate in Write Emails can be saved by clicking "Save Email for Later." The Saved Emails page is your archive — view, expand, copy subject/body/follow-up individually, or use "Copy Complete Email" to grab everything at once. Great for reusing winning templates.'
   },
   {
     question: 'What are the three email tones?',

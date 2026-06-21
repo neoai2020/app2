@@ -237,12 +237,11 @@ function EmailBuilderContent() {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-4xl font-bold gradient-text">Email Blast</h1>
+              <h1 className="text-4xl font-bold gradient-text">Write Emails</h1>
               <HelpTooltip
                 variant="info"
-                title="AI Email Generator"
-                content="Our AI creates personalized, compliant outreach emails. Select a lead, choose your offer, and let the system generate professional messages that convert."
-                learnMoreLink="/support#email-builder"
+                title="Write Emails"
+                content="This writes your emails for you. Pick a customer, pick what you're offering, and we'll create a friendly, ready-to-send message."
               />
             </div>
             <p className="text-zinc-500 mt-2">AI-powered outreach generation system</p>
@@ -319,22 +318,30 @@ function EmailBuilderContent() {
                 </div>
               )}
 
-              <Select
-                label="Offer Template"
-                placeholder="Select from library"
-                value={selectedOffer}
-                onChange={(e) => {
-                  setSelectedOffer(e.target.value)
-                  setCustomOffer('')
-                }}
-                options={[
-                  { value: '', label: 'Use custom description' },
-                  ...offers.map(offer => ({
-                    value: offer.id,
-                    label: offer.name
-                  }))
-                ]}
-              />
+              <div>
+                <div className="flex items-center mb-2">
+                  <span className="text-sm font-medium text-[#D946EF]/80 uppercase tracking-wider">Offer Template</span>
+                  <HelpTooltip
+                    variant="help"
+                    content="Your offer is what you want the business to check out — a product, service, or deal. Pick one you saved earlier, or write a quick description below."
+                  />
+                </div>
+                <Select
+                  placeholder="Select from library"
+                  value={selectedOffer}
+                  onChange={(e) => {
+                    setSelectedOffer(e.target.value)
+                    setCustomOffer('')
+                  }}
+                  options={[
+                    { value: '', label: 'Use custom description' },
+                    ...offers.map(offer => ({
+                      value: offer.id,
+                      label: offer.name
+                    }))
+                  ]}
+                />
+              </div>
 
               {!selectedOffer && (
                 <Textarea
@@ -345,15 +352,23 @@ function EmailBuilderContent() {
                 />
               )}
 
-              <Select
-                label="Output Tone"
-                value={tone}
-                onChange={(e) => setTone(e.target.value as 'friendly' | 'professional' | 'direct')}
-                options={EMAIL_TONES.map(t => ({
-                  value: t.value,
-                  label: `${t.label} — ${t.description}`
-                }))}
-              />
+              <div>
+                <div className="flex items-center mb-2">
+                  <span className="text-sm font-medium text-[#D946EF]/80 uppercase tracking-wider">Output Tone</span>
+                  <HelpTooltip
+                    variant="help"
+                    content="Tone is the style of the email — how it sounds. Friendly is warm and casual, Professional is polished and formal, and Direct gets straight to the point."
+                  />
+                </div>
+                <Select
+                  value={tone}
+                  onChange={(e) => setTone(e.target.value as 'friendly' | 'professional' | 'direct')}
+                  options={EMAIL_TONES.map(t => ({
+                    value: t.value,
+                    label: `${t.label} — ${t.description}`
+                  }))}
+                />
+              </div>
 
               {!loading ? (
                 <Button
@@ -478,7 +493,13 @@ function EmailBuilderContent() {
               {followUp && (
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-sm font-medium text-[#e879f9]/80 uppercase tracking-wider">Follow-Up</label>
+                    <span className="flex items-center text-sm font-medium text-[#e879f9]/80 uppercase tracking-wider">
+                      Follow-Up
+                      <HelpTooltip
+                        variant="help"
+                        content="A follow-up is a second, shorter email you send a few days later if they don't reply the first time. It's a polite nudge."
+                      />
+                    </span>
                     <Button
                       variant="ghost"
                       size="sm"

@@ -18,11 +18,11 @@ const itemVariants = {
 const faqs = [
   {
     question: 'What are the daily usage limits?',
-    answer: 'Lead Magnet: 25 leads per day. Email Blast: 10 email generations per day. Offer Library: 5 AI offer generations per day. All limits reset automatically every 24 hours. Your remaining count is always visible on the Dashboard and each feature page.'
+    answer: 'Find Customers: 25 leads per day. Write Emails: 10 email generations per day. Offer Library: 5 AI offer generations per day. All limits reset automatically every 24 hours. Your remaining count is always visible on the Dashboard and each feature page.'
   },
   {
     question: 'Does Profit Loop send emails for me?',
-    answer: 'No. Profit Loop generates email content only. You copy the email from Email Blast or Saved Emails, paste it into your email client (Gmail, Outlook, Yahoo, etc.), and send it yourself. This gives you full control and avoids spam filter issues.'
+    answer: 'No. Profit Loop generates email content only. You copy the email from Write Emails or Saved Emails, paste it into your email client (Gmail, Outlook, Yahoo, etc.), and send it yourself. This gives you full control and avoids spam filter issues.'
   },
   {
     question: 'Why are some business emails unavailable?',
@@ -33,7 +33,7 @@ const faqs = [
     answer: 'Yes. All email addresses undergo format validation and deliverability checks. However, 100% deliverability cannot be guaranteed due to dynamic server configurations.'
   },
   {
-    question: 'Which industries can I target in Lead Magnet?',
+    question: 'Which industries can I target in Find Customers?',
     answer: 'Available industries include: Restaurants & Cafes, Retail Stores, Professional Services, Health & Wellness, Home Services, Automotive, Real Estate, Legal Services, Financial Services, Education & Training, Technology Services, Marketing & Advertising, Construction, and Manufacturing.'
   },
   {
@@ -41,7 +41,7 @@ const faqs = [
     answer: 'Three types: Affiliate Offer (promote products for commission), Service Offer (pitch your own skills like SEO, web design, marketing), and Partnership (propose collaborations). Each type has specialized AI prompts for better results.'
   },
   {
-    question: 'What are the three email tones in Email Blast?',
+    question: 'What are the three email tones in Write Emails?',
     answer: 'Professional — formal and polished, best for cold outreach. Friendly — warm and approachable, ideal for follow-ups. Direct — sharp and to the point, great for busy decision-makers. The AI adjusts word choice and structure based on your selection.'
   },
   {
@@ -62,7 +62,7 @@ const faqs = [
   },
   {
     question: 'Where can I find training videos?',
-    answer: 'Visit the Training page from the sidebar. It has video tutorials for every feature: Getting Started, Offer Library, Lead Magnet, Email Blast, plus premium tutorials for Accelerator, Recurring Streams, and Social Payouts. There\'s also a comprehensive FAQ tab.'
+    answer: 'Visit the Training page from the sidebar. It has video tutorials for every feature: Getting Started, Offer Library, Find Customers, Write Emails, plus premium tutorials for Accelerator, Recurring Streams, and Social Payouts. There\'s also a comprehensive FAQ tab.'
   },
   {
     question: 'What are Premium Features?',

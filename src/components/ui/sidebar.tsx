@@ -30,8 +30,8 @@ import { useRouter } from 'next/navigation'
 const mainNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/offers', label: 'Offer Library', icon: Gift },
-  { href: '/leads', label: 'Lead Magnet', icon: Users },
-  { href: '/email-builder', label: 'Email Blast', icon: Mail },
+  { href: '/leads', label: 'Find Customers', icon: Users },
+  { href: '/email-builder', label: 'Write Emails', icon: Mail },
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive }
 ]
 
@@ -333,47 +333,42 @@ export function Sidebar() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="lg:hidden fixed top-4 left-4 z-50 p-3 glass-card"
-        onClick={() => setMobileOpen(!mobileOpen)}
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open menu"
       >
-        {mobileOpen ? <X size={20} className="text-[#D946EF]" /> : <Menu size={20} className="text-[#D946EF]" />}
+        <Menu size={20} className="text-[#D946EF]" />
       </motion.button>
 
-      {/* Overlay for mobile */}
+      {/* Mobile overlay + off-canvas drawer */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
-            onClick={() => setMobileOpen(false)}
-          />
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.aside
+              initial={{ x: -300 }}
+              animate={{ x: 0 }}
+              exit={{ x: -300 }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="lg:hidden fixed top-0 left-0 h-full w-[280px] max-w-[85vw] z-50 cyber-sidebar"
+            >
+              <button
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+                className="absolute top-4 right-4 z-10 p-2 rounded-lg text-[#D946EF] hover:bg-white/5 transition-colors"
+              >
+                <X size={20} />
+              </button>
+              {sidebarContent}
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
-
-      {/* Sidebar */}
-      <motion.aside
-        initial={{ x: -280 }}
-        animate={{ x: mobileOpen ? 0 : -280 }}
-        className={`
-          fixed top-0 left-0 h-full w-[280px] z-40
-          cyber-sidebar
-          lg:translate-x-0
-        `}
-        style={{ transform: 'none' }}
-      >
-        <div className="hidden lg:block h-full">
-          {sidebarContent}
-        </div>
-        <motion.div 
-          className="lg:hidden h-full"
-          initial={{ x: -280 }}
-          animate={{ x: mobileOpen ? 0 : -280 }}
-          transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-        >
-          {sidebarContent}
-        </motion.div>
-      </motion.aside>
 
       {/* Desktop sidebar (always visible) */}
       <aside className="hidden lg:block fixed top-0 left-0 h-full w-[280px] z-40 cyber-sidebar">

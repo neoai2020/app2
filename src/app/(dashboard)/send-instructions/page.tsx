@@ -17,17 +17,17 @@ const itemVariants = {
 
 export default function SendInstructionsPage() {
   const steps = [
-    { number: '01', title: 'Access Archive', description: 'Navigate to Saved Emails to view prepared messages' },
-    { number: '02', title: 'Copy Content', description: 'Use copy function to capture subject and body' },
-    { number: '03', title: 'Open Client', description: 'Launch Gmail, Outlook, or preferred email service' },
-    { number: '04', title: 'Execute Send', description: 'Paste content, verify recipient, and transmit' }
+    { number: '01', title: 'Open Saved Emails', description: 'Go to Saved Emails to see the messages we wrote for you' },
+    { number: '02', title: 'Copy the email', description: 'Use the copy button to grab the subject and the message' },
+    { number: '03', title: 'Open your email', description: 'Open Gmail, Outlook, or whatever email you use' },
+    { number: '04', title: 'Send it', description: 'Paste it in, double-check the address, and hit send' }
   ]
 
   const guidelines = [
-    { icon: CheckCircle, text: 'Start with 5-10 emails per day for initial deployment' },
-    { icon: CheckCircle, text: 'Increase by 5-10 emails weekly as reputation builds' },
-    { icon: CheckCircle, text: 'Maximum 50 emails per day from standard accounts' },
-    { icon: CheckCircle, text: 'Maintain 2-5 minute intervals between transmissions' }
+    { icon: CheckCircle, text: 'Start with 5-10 emails per day at first' },
+    { icon: CheckCircle, text: 'Send 5-10 more each week as you get going' },
+    { icon: CheckCircle, text: 'Send no more than 50 emails per day from a normal account' },
+    { icon: CheckCircle, text: 'Wait 2-5 minutes between each email' }
   ]
 
   return (
@@ -40,15 +40,14 @@ export default function SendInstructionsPage() {
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold gradient-text">Send Protocol</h1>
+          <h1 className="text-4xl font-bold gradient-text">How to Send</h1>
           <HelpTooltip
             variant="info"
-            title="Sending Guidelines"
-            content="Follow these instructions carefully to maximize deliverability and avoid spam filters. Proper sending practices are crucial for success."
-            learnMoreLink="/support#sending"
+            title="How to send"
+            content="Follow these simple steps so your emails actually land in people's inboxes and don't end up in spam."
           />
         </div>
-        <p className="text-zinc-500 mt-2">Transmission guidelines and best practices</p>
+        <p className="text-zinc-500 mt-2">Simple steps for sending your emails</p>
       </motion.div>
 
       {/* Important Notice */}
@@ -60,10 +59,10 @@ export default function SendInstructionsPage() {
                 <AlertTriangle className="w-6 h-6 text-yellow-500" />
               </div>
               <div>
-                <h3 className="font-semibold text-yellow-400 uppercase tracking-wider text-sm">System Notice</h3>
+                <h3 className="font-semibold text-yellow-400 uppercase tracking-wider text-sm">Good to know</h3>
                 <p className="text-zinc-400 mt-1">
-                  This system prepares outreach content only. Transmission control remains with the operator.
-                  All sends are executed through your personal email infrastructure.
+                  This app only writes your emails. You send them yourself, from your own
+                  email account, so you&apos;re always in control.
                 </p>
               </div>
             </div>
@@ -80,8 +79,8 @@ export default function SendInstructionsPage() {
                 <Terminal className="w-6 h-6 text-[#D946EF]" />
               </div>
               <div>
-                <CardTitle>Transmission Sequence</CardTitle>
-                <CardDescription>Standard operating procedure for email deployment</CardDescription>
+                <CardTitle>How to send</CardTitle>
+                <CardDescription>Four simple steps to send your emails</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -121,8 +120,8 @@ export default function SendInstructionsPage() {
                 <Clock className="w-6 h-6 text-green-400" />
               </div>
               <div>
-                <CardTitle>Volume Guidelines</CardTitle>
-                <CardDescription>Optimal transmission rates for deliverability</CardDescription>
+                <CardTitle>How many to send</CardTitle>
+                <CardDescription>How many emails to send so they keep landing in inboxes</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -198,14 +197,14 @@ export default function SendInstructionsPage() {
               </div>
               <div>
                 <CardTitle>Advanced: SMTP Configuration</CardTitle>
-                <CardDescription>Optional infrastructure for experienced operators</CardDescription>
+                <CardDescription>Optional — only for experienced users</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent>
             <p className="text-zinc-400 mb-4">
-              For operators familiar with email infrastructure, direct SMTP integration 
-              enables streamlined transmission workflows.
+              If you&apos;re already comfortable with email tools, you can connect your own
+              email service directly. Most people can safely skip this.
             </p>
             <div className="p-4 rounded-lg bg-[#D946EF]/5 border border-[#D946EF]/20">
               <h4 className="font-medium text-[#D946EF] mb-3 uppercase tracking-wider text-sm">Recommended Providers</h4>

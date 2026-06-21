@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { Offer } from '@/types/database'
 import { Plus, Edit, Trash2, ExternalLink, Gift, X, Briefcase, Handshake, DollarSign, Sparkles, RefreshCw, Save, Zap, Brain } from 'lucide-react'
 
@@ -80,6 +81,9 @@ export default function OffersPage() {
 
   const [genCount, setGenCount] = useState(0)
   const [genResetAt, setGenResetAt] = useState(0)
+
+  const [offerToDelete, setOfferToDelete] = useState<Offer | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   const [loadingPhrase, setLoadingPhrase] = useState(0)
   const [loadingProgress, setLoadingProgress] = useState(0)
@@ -254,18 +258,23 @@ export default function OffersPage() {
     }
   }
 
-  const handleDelete = async (offer: Offer) => {
-    if (!confirm('Confirm deletion of this offer template?')) return
+  const confirmDelete = async () => {
+    if (!offerToDelete) return
 
+    setDeleting(true)
     try {
-      const response = await fetch(`/api/offers?id=${offer.id}`, {
+      const response = await fetch(`/api/offers?id=${offerToDelete.id}`, {
         method: 'DELETE'
       })
 
       if (!response.ok) throw new Error('Deletion failed')
       await fetchOffers()
+      setOfferToDelete(null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Deletion failed')
+      setOfferToDelete(null)
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -283,9 +292,8 @@ export default function OffersPage() {
             <h1 className="text-4xl font-bold gradient-text">Offer Library</h1>
             <HelpTooltip
               variant="info"
-              title="Offer Templates"
-              content="Create and store offer templates here. These can be quickly selected when generating emails, saving you time and ensuring consistency."
-              learnMoreLink="/support#offers"
+              title="What's an offer?"
+              content="An offer is simply what you're emailing people about — a product, a service, or a deal you want them to check out. Save your offers here so you can reuse them in your emails."
             />
           </div>
           <p className="text-zinc-500 mt-2">Manage reusable offer templates for campaigns</p>
@@ -504,12 +512,20 @@ export default function OffersPage() {
                     </div>
                   )}
 
-                  <Input
-                    label="Your Link / Email / Website"
-                    placeholder="https://your-website.com"
-                    value={link}
-                    onChange={(e) => setLink(e.target.value)}
-                  />
+                  <div>
+                    <div className="flex items-center mb-2">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Your Link / Email / Website</span>
+                      <HelpTooltip
+                        variant="help"
+                        content="This is your affiliate link or website — the web address people click to buy or sign up. An affiliate link is a special link that pays you a commission, usually from a site like Digistore24 or ClickBank."
+                      />
+                    </div>
+                    <Input
+                      placeholder="https://your-website.com"
+                      value={link}
+                      onChange={(e) => setLink(e.target.value)}
+                    />
+                  </div>
 
                   <Textarea
                     label="Notes & Custom Instructions (Optional)"
@@ -736,7 +752,7 @@ export default function OffersPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleDelete(offer)}
+                          onClick={() => setOfferToDelete(offer)}
                         >
                           <Trash2 size={16} className="text-red-400" />
                         </Button>
@@ -749,6 +765,21 @@ export default function OffersPage() {
           </CardContent>
         </Card>
       </motion.div>
+
+      <ConfirmDialog
+        open={offerToDelete !== null}
+        title="Delete this offer?"
+        message={
+          <>
+            This will permanently delete{' '}
+            <span className="text-white font-medium">{offerToDelete?.name || 'this offer'}</span>. You can&apos;t undo this.
+          </>
+        }
+        confirmLabel="Yes, delete"
+        loading={deleting}
+        onConfirm={confirmDelete}
+        onCancel={() => setOfferToDelete(null)}
+      />
     </motion.div>
   )
 }
