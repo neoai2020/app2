@@ -9,7 +9,7 @@ const SHOW_BONUS_VIDEO = false
 const PLAYER_ID = 'vid-69f1dc322e62e594e34823df'
 const PLAYER_SCRIPT_SRC =
   'https://scripts.converteai.net/e9cd97bc-7bc8-4a23-bb2f-224a56a84d6b/players/69f1dc322e62e594e34823df/v4/player.js'
-const CTA_URL = 'https://7figuresociety.a.explodely.com/?aff=neomedia&pid=1731454257'
+const CTA_URL = 'https://the7figuresociety.com/earn-1k-2k-per-day'
 
 function useBonusTrainingPlayer(enabled: boolean) {
   useEffect(() => {

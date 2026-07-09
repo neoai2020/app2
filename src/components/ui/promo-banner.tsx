@@ -16,7 +16,7 @@ export function PromoBanner({
   description = "Profit Loop is powerful, but if you want to scale to truly life-changing income, you need to watch this training which shows how to automate your entire workflow. And guess what?",
   extraLine = "This training is free for all Profit Loop members. So, if you want to unlock your full potential, just tap the yellow button below.",
   ctaText = "Click Here To Learn How",
-  ctaLink = "https://7figuresociety.a.explodely.com/?aff=neomedia&pid=1731454257"
+  ctaLink = "https://the7figuresociety.com/earn-1k-2k-per-day"
 }: PromoBannerProps) {
   return (
     <motion.div

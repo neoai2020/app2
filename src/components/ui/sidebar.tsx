@@ -45,7 +45,7 @@ type TrainingOfferNavItem = {
 const trainingOfferNav: TrainingOfferNavItem[] = [
   {
     key: 'fast-cash',
-    externalUrl: 'https://7figuresociety.a.explodely.com/?aff=neomedia&pid=1731454257',
+    externalUrl: 'https://the7figuresociety.com/earn-1k-2k-per-day',
     line1: 'Fast Cash Training,',
     line2: 'Claim Now',
     icon: TrendingUp
