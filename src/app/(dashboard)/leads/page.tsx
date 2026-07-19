@@ -87,10 +87,19 @@ export default function LeadsPage() {
         body: JSON.stringify({ industry, location })
       })
 
-      const result = await response.json()
+      // The gateway can return non-JSON on timeouts — don't let parsing crash the UI
+      let result: { error?: string } = {}
+      try {
+        result = await response.json()
+      } catch {
+        result = {}
+      }
 
       if (!response.ok) {
-        setError(result.error || 'Could not find customers right now')
+        setError(
+          result.error ||
+            'The search took too long or the service is busy. Please try again in a minute.'
+        )
       } else {
         await fetchLeads()
         await fetchUsage()
@@ -98,7 +107,7 @@ export default function LeadsPage() {
         setLocation('')
       }
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError('Could not reach the server. Check your connection and try again.')
     } finally {
       setLoading(false)
     }

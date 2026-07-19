@@ -25,7 +25,41 @@ interface ScraperAPIResponse {
   search_information?: Record<string, unknown>
 }
 
-// Fetch real business data from ScraperAPI Google Maps
+const SCRAPER_TIMEOUT_MS = 45_000
+
+async function fetchJsonWithTimeout(url: string): Promise<Response> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), SCRAPER_TIMEOUT_MS)
+  try {
+    return await fetch(url, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal
+    })
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
+// Geocode the location so the Maps endpoint returns businesses near it
+async function geocodeLocation(location: string): Promise<{ lat: number; lng: number } | null> {
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(location)}`
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'ProfitLoop/1.0 (lead search)' }
+    })
+    if (!res.ok) return null
+    const results = (await res.json()) as { lat: string; lon: string }[]
+    if (!results?.length) return null
+    return { lat: parseFloat(results[0].lat), lng: parseFloat(results[0].lon) }
+  } catch {
+    return null
+  }
+}
+
+// Fetch real local businesses from ScraperAPI Google Maps Search.
+// The plain google/search endpoint returns organic web results (not local
+// businesses) and was the root cause of empty/failed searches.
 async function fetchRealLeads(industry: string, location: string, count: number): Promise<GoogleMapsPlace[]> {
   const apiKey = process.env.SCRAPER_API_KEY
   if (!apiKey) {
@@ -33,59 +67,82 @@ async function fetchRealLeads(industry: string, location: string, count: number)
   }
 
   const query = encodeURIComponent(`${industry} in ${location}`)
-  const url = `https://api.scraperapi.com/structured/google/search?api_key=${apiKey}&query=${query}`
-
   console.log('[ScraperAPI] Fetching:', `${industry} in ${location}`)
 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: { 'Accept': 'application/json' },
-  })
+  // Primary: Google Maps search (real local businesses with address/phone/website)
+  const coords = await geocodeLocation(location)
+  const mapsUrl =
+    `https://api.scraperapi.com/structured/google/mapssearch?api_key=${apiKey}&query=${query}` +
+    (coords ? `&latitude=${coords.lat}&longitude=${coords.lng}` : '')
 
-  if (!response.ok) {
-    const errorText = await response.text()
-    console.error('[ScraperAPI] Error:', response.status, errorText)
-    throw new Error(`ScraperAPI request failed: ${response.status}`)
-  }
-
-  const data = await response.json() as ScraperAPIResponse
-  
-  // ScraperAPI can return data in many different formats depending on the query
   let places: GoogleMapsPlace[] = []
-  
-  if (data.place_results && data.place_results.length > 0) {
-    places = data.place_results
-  } else if (data.local_results && data.local_results.length > 0) {
-    places = data.local_results
-  } else if (data.businesses && data.businesses.length > 0) {
-    places = data.businesses.map(b => ({
-      title: b.title,
-      address: b.location || b.address || location,
-      phone: b.telephone_number || b.phone || null,
-      website: b.website || null,
-      rating: b.rating || null
-    }))
-  } else if (data.local_packs && data.local_packs.length > 0) {
-    places = data.local_packs.map(p => ({
-      title: p.title,
-      address: p.details?.find((d: string) => d.includes(location)) || location,
-      phone: null,
-      website: null,
-      rating: p.rating || null
-    }))
-  } else if (data.organic_results && data.organic_results.length > 0) {
-    places = data.organic_results.map((r: any) => ({
-      title: r.title,
-      address: location,
-      phone: null,
-      website: r.link || null,
-      rating: null
-    }))
+
+  try {
+    const response = await fetchJsonWithTimeout(mapsUrl)
+    if (response.ok) {
+      const data = (await response.json()) as {
+        results?: {
+          title?: string
+          name?: string
+          address?: string
+          address_line?: string
+          phone?: string | null
+          website?: string | null
+          url?: string | null
+          rating?: number | null
+        }[]
+      }
+      places = (data.results ?? [])
+        .map(r => ({
+          title: r.title || r.name,
+          address: r.address || r.address_line || location,
+          phone: r.phone || null,
+          website: r.website || r.url || null,
+          rating: r.rating ?? null
+        }))
+        .filter(p => Boolean(p.title))
+    } else {
+      console.error('[ScraperAPI][maps] HTTP', response.status)
+    }
+  } catch (err) {
+    console.error('[ScraperAPI][maps] request failed:', err)
   }
-  
-  console.log(`[ScraperAPI] Found ${places.length} places in fields:`, 
-    Object.keys(data).filter(k => Array.isArray((data as any)[k]) && (data as any)[k].length > 0))
-  
+
+  // Fallback: SERP endpoint (keeps search working if Maps endpoint hiccups)
+  if (places.length === 0) {
+    const serpUrl = `https://api.scraperapi.com/structured/google/search?api_key=${apiKey}&query=${query}`
+    const response = await fetchJsonWithTimeout(serpUrl)
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('[ScraperAPI][serp] Error:', response.status, errorText.slice(0, 300))
+      throw new Error(`ScraperAPI request failed: ${response.status}`)
+    }
+    const data = (await response.json()) as ScraperAPIResponse
+
+    if (data.local_results?.length) {
+      places = data.local_results
+    } else if (data.place_results?.length) {
+      places = data.place_results
+    } else if (data.businesses?.length) {
+      places = data.businesses.map(b => ({
+        title: b.title,
+        address: b.location || b.address || location,
+        phone: b.telephone_number || b.phone || null,
+        website: b.website || null,
+        rating: b.rating || null
+      }))
+    } else if (data.local_packs?.length) {
+      places = data.local_packs.map(p => ({
+        title: p.title,
+        address: p.details?.find((d: string) => d.includes(location)) || location,
+        phone: null,
+        website: null,
+        rating: p.rating || null
+      }))
+    }
+  }
+
+  console.log(`[ScraperAPI] Found ${places.length} local businesses`)
   return places.slice(0, count)
 }
 
@@ -177,6 +234,23 @@ function deriveEmailFromWebsite(businessName: string, website: string | null): s
 
 export async function POST(request: Request) {
   try {
+    // Fail fast with a clear message when server env is incomplete,
+    // instead of a generic "Internal server error".
+    if (!process.env.SCRAPER_API_KEY) {
+      console.error('[Lead Allocation] SCRAPER_API_KEY is not set')
+      return NextResponse.json(
+        { error: 'Search is not configured on this server yet. Please contact support.' },
+        { status: 503 }
+      )
+    }
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error('[Lead Allocation] SUPABASE_SERVICE_ROLE_KEY is not set')
+      return NextResponse.json(
+        { error: 'Search is not configured on this server yet. Please contact support.' },
+        { status: 503 }
+      )
+    }
+
     const supabase = await createClient()
     const adminClient = createAdminClient() as ReturnType<typeof createAdminClient>
 
