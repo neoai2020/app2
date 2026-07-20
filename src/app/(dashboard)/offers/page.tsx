@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import { PromoBanner } from '@/components/ui/promo-banner'
 import { Offer } from '@/types/database'
 import { Plus, Edit, Trash2, ExternalLink, Gift, X, Briefcase, Handshake, DollarSign, Sparkles, RefreshCw, Save, Zap, Brain } from 'lucide-react'
 
@@ -87,6 +88,7 @@ export default function OffersPage() {
 
   const [loadingPhrase, setLoadingPhrase] = useState(0)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [showOfferBanner, setShowOfferBanner] = useState(false)
 
   const editorRef = useRef<HTMLDivElement>(null)
 
@@ -164,6 +166,7 @@ export default function OffersPage() {
     }
 
     setGenerating(true)
+    setShowOfferBanner(true)
     setError('')
     try {
       const res = await fetch('/api/offers/generate', {
@@ -593,6 +596,12 @@ export default function OffersPage() {
                       </motion.div>
                     )}
                   </AnimatePresence>
+
+                  {showOfferBanner && (
+                    <div className="pt-4">
+                      <PromoBanner />
+                    </div>
+                  )}
 
                   {/* Generated Preview */}
                   {!generating && generated && description && (

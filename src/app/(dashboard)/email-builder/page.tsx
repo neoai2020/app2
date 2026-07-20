@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
+import { PromoBanner } from '@/components/ui/promo-banner'
 import { createClient } from '@/lib/supabase/client'
 import { EMAIL_TONES, DAILY_EMAIL_LIMIT } from '@/lib/constants'
 import { Lead, Offer } from '@/types/database'
@@ -57,6 +58,7 @@ function EmailBuilderContent() {
   const [emailsRemaining, setEmailsRemaining] = useState(DAILY_EMAIL_LIMIT)
   const [loadingPhrase, setLoadingPhrase] = useState(0)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [showOfferBanner, setShowOfferBanner] = useState(false)
   const supabase = createClient()
 
   const fetchData = useCallback(async () => {
@@ -142,6 +144,7 @@ function EmailBuilderContent() {
 
     setError('')
     setLoading(true)
+    setShowOfferBanner(true)
 
     try {
       const response = await fetch('/api/emails/generate', {
@@ -432,6 +435,12 @@ function EmailBuilderContent() {
           </CardContent>
         </Card>
       </motion.div>
+
+      {showOfferBanner && (
+        <motion.div variants={itemVariants}>
+          <PromoBanner />
+        </motion.div>
+      )}
 
       {/* Generated Email */}
       {(subject || body) && (

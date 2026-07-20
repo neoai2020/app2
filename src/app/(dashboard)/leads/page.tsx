@@ -8,6 +8,7 @@ import { Select } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
+import { PromoBanner } from '@/components/ui/promo-banner'
 import { createClient } from '@/lib/supabase/client'
 import { INDUSTRIES, DAILY_LEAD_LIMIT, LEAD_STATUS } from '@/lib/constants'
 import { Lead } from '@/types/database'
@@ -27,6 +28,7 @@ export default function LeadsPage() {
   const [industry, setIndustry] = useState('')
   const [location, setLocation] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showOfferBanner, setShowOfferBanner] = useState(false)
   const [leads, setLeads] = useState<Lead[]>([])
   const [usageToday, setUsageToday] = useState(0)
   const [error, setError] = useState('')
@@ -79,6 +81,7 @@ export default function LeadsPage() {
 
     setError('')
     setLoading(true)
+    setShowOfferBanner(true)
 
     try {
       const response = await fetch('/api/leads/allocate', {
@@ -212,6 +215,12 @@ export default function LeadsPage() {
           </CardContent>
         </Card>
       </motion.div>
+
+      {showOfferBanner && (
+        <motion.div variants={itemVariants}>
+          <PromoBanner />
+        </motion.div>
+      )}
 
       {/* Leads Table */}
       <motion.div variants={itemVariants}>
