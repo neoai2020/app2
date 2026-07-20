@@ -12,7 +12,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <AnimatedBackground />
       <Sidebar />
       <SocialProofNotifications />
-      <main className="lg:pl-[280px]">
+      <main
+        className="transition-[padding] duration-300 lg:pl-[var(--sidebar-w)]"
+      >
         <div className="min-h-dvh bg-transparent p-4 pb-24 pt-[calc(env(safe-area-inset-top)+3.5rem)] lg:p-8 lg:pb-8 lg:pt-8">
           {children}
         </div>

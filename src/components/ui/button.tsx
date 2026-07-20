@@ -27,26 +27,25 @@ export function Button({
   onClick
 }: ButtonProps) {
   const baseStyles = `
-    relative inline-flex items-center justify-center font-semibold rounded-lg
-    transition-all duration-300 uppercase tracking-wider
+    relative inline-flex items-center justify-center font-bold rounded-xl
+    transition-all duration-200 uppercase tracking-wide
     disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
     overflow-hidden
   `
 
   const variants = {
     primary: `
-      bg-[#D946EF] text-white font-black italic
-      shadow-[0_8px_30px_rgba(217,70,239,0.3)]
-      hover:bg-[#e879f9] hover:scale-[1.02]
-      active:scale-[0.98]
+      bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] text-white
+      shadow-[0_8px_24px_rgba(217,70,239,0.25)]
+      hover:brightness-110 hover:shadow-[0_10px_32px_rgba(217,70,239,0.4)]
     `,
     secondary: `
       bg-white/5 border border-white/10 text-zinc-300
       hover:bg-white/10 hover:border-white/20
     `,
     outline: `
-      bg-white/2 border-2 border-white/5 text-white backdrop-blur-sm
-      hover:bg-white/5 hover:border-white/10
+      bg-white/2 border border-white/10 text-white backdrop-blur-sm
+      hover:bg-white/5 hover:border-white/20
     `,
     ghost: `
       text-zinc-400 bg-transparent
@@ -59,9 +58,9 @@ export function Button({
   }
 
   const sizes = {
-    sm: 'px-4 py-2 text-xs',
-    md: 'px-6 py-3 text-sm',
-    lg: 'px-8 py-4 text-base'
+    sm: 'min-h-9 px-4 py-2 text-xs',
+    md: 'min-h-11 px-6 py-2.5 text-sm',
+    lg: 'min-h-[52px] px-8 py-3.5 text-[0.9375rem]'
   }
 
   const isDisabled = disabled || loading

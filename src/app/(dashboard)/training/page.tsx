@@ -132,7 +132,7 @@ function TrainingVideoCard({ video, index }: { video: Video; index: number }) {
             ) : (
               <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a1f] to-zinc-900" />
             )}
-            <div className={`absolute inset-0 ${thumbnail ? 'bg-black/10' : 'bg-black/40'}`} />
+            <div className={`absolute inset-0 ${thumbnail ? 'thumb-scrim' : 'bg-black/40'}`} />
             <button
               type="button"
               onClick={() => setOpen(true)}
