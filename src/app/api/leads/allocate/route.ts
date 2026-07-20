@@ -57,59 +57,109 @@ async function geocodeLocation(location: string): Promise<{ lat: number; lng: nu
   }
 }
 
-// Fetch real local businesses from ScraperAPI Google Maps Search.
-// The plain google/search endpoint returns organic web results (not local
-// businesses) and was the root cause of empty/failed searches.
+type MapsResultRow = {
+  title?: string
+  name?: string
+  address?: string | string[]
+  address_line?: string
+  phone?: string | null
+  telephone?: string | null
+  website?: string | null
+  url?: string | null
+  rating?: number | null
+  stars?: number | null
+}
+
+function formatAddress(address: string | string[] | undefined, fallback: string): string {
+  if (Array.isArray(address)) {
+    return address.filter(Boolean).join(', ') || fallback
+  }
+  return address || fallback
+}
+
+function mapRowsToPlaces(rows: MapsResultRow[], fallbackLocation: string): GoogleMapsPlace[] {
+  return rows
+    .map(r => ({
+      title: r.title || r.name,
+      address: formatAddress(r.address ?? r.address_line, fallbackLocation),
+      phone: r.phone || r.telephone || null,
+      website: r.website || r.url || null,
+      rating: r.rating ?? r.stars ?? null
+    }))
+    .filter(p => Boolean(p.title))
+}
+
+function withApiKey(url: string, apiKey: string): string {
+  if (url.includes('api_key=')) return url
+  return `${url}${url.includes('?') ? '&' : '?'}api_key=${apiKey}`
+}
+
+/**
+ * ScraperAPI's mapssearch often returns a shell payload with `next_page_url`
+ * (or `nextPageURL`) instead of `results`. Following that URL yields the
+ * real local businesses.
+ */
+async function fetchMapsPlaces(
+  apiKey: string,
+  industry: string,
+  location: string
+): Promise<GoogleMapsPlace[]> {
+  const query = encodeURIComponent(`${industry} in ${location}`)
+  const coords = await geocodeLocation(location)
+  const mapsUrl =
+    `https://api.scraperapi.com/structured/google/mapssearch?api_key=${apiKey}&query=${query}` +
+    (coords ? `&latitude=${coords.lat}&longitude=${coords.lng}` : '')
+
+  const response = await fetchJsonWithTimeout(mapsUrl)
+  if (!response.ok) {
+    console.error('[ScraperAPI][maps] HTTP', response.status)
+    return []
+  }
+
+  let data = (await response.json()) as {
+    results?: MapsResultRow[]
+    next_page_url?: string
+    nextPageURL?: string
+  }
+
+  let places = mapRowsToPlaces(data.results ?? [], location)
+
+  // Follow the continuation URL when the first response has no businesses
+  const nextUrl = data.next_page_url || data.nextPageURL
+  if (places.length === 0 && nextUrl) {
+    console.log('[ScraperAPI][maps] following next_page_url')
+    const follow = await fetchJsonWithTimeout(withApiKey(nextUrl, apiKey))
+    if (follow.ok) {
+      data = (await follow.json()) as typeof data
+      places = mapRowsToPlaces(data.results ?? [], location)
+    } else {
+      console.error('[ScraperAPI][maps][follow] HTTP', follow.status)
+    }
+  }
+
+  return places
+}
+
+// Fetch real local businesses from ScraperAPI Google Maps Search,
+// with SERP local_packs as a fallback.
 async function fetchRealLeads(industry: string, location: string, count: number): Promise<GoogleMapsPlace[]> {
   const apiKey = process.env.SCRAPER_API_KEY
   if (!apiKey) {
     throw new Error('SCRAPER_API_KEY is not configured')
   }
 
-  const query = encodeURIComponent(`${industry} in ${location}`)
   console.log('[ScraperAPI] Fetching:', `${industry} in ${location}`)
 
-  // Primary: Google Maps search (real local businesses with address/phone/website)
-  const coords = await geocodeLocation(location)
-  const mapsUrl =
-    `https://api.scraperapi.com/structured/google/mapssearch?api_key=${apiKey}&query=${query}` +
-    (coords ? `&latitude=${coords.lat}&longitude=${coords.lng}` : '')
-
   let places: GoogleMapsPlace[] = []
-
   try {
-    const response = await fetchJsonWithTimeout(mapsUrl)
-    if (response.ok) {
-      const data = (await response.json()) as {
-        results?: {
-          title?: string
-          name?: string
-          address?: string
-          address_line?: string
-          phone?: string | null
-          website?: string | null
-          url?: string | null
-          rating?: number | null
-        }[]
-      }
-      places = (data.results ?? [])
-        .map(r => ({
-          title: r.title || r.name,
-          address: r.address || r.address_line || location,
-          phone: r.phone || null,
-          website: r.website || r.url || null,
-          rating: r.rating ?? null
-        }))
-        .filter(p => Boolean(p.title))
-    } else {
-      console.error('[ScraperAPI][maps] HTTP', response.status)
-    }
+    places = await fetchMapsPlaces(apiKey, industry, location)
   } catch (err) {
     console.error('[ScraperAPI][maps] request failed:', err)
   }
 
-  // Fallback: SERP endpoint (keeps search working if Maps endpoint hiccups)
+  // Fallback: SERP local packs / results
   if (places.length === 0) {
+    const query = encodeURIComponent(`${industry} in ${location}`)
     const serpUrl = `https://api.scraperapi.com/structured/google/search?api_key=${apiKey}&query=${query}`
     const response = await fetchJsonWithTimeout(serpUrl)
     if (!response.ok) {
@@ -134,7 +184,9 @@ async function fetchRealLeads(industry: string, location: string, count: number)
     } else if (data.local_packs?.length) {
       places = data.local_packs.map(p => ({
         title: p.title,
-        address: p.details?.find((d: string) => d.includes(location)) || location,
+        address:
+          (Array.isArray(p.details) ? p.details.find((d: string) => /\d/.test(d)) : null) ||
+          location,
         phone: null,
         website: null,
         rating: p.rating || null
