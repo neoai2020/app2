@@ -189,7 +189,7 @@ export function BottomNav() {
 
                 <div>
                   <p className="mb-2 px-1 text-[12px] font-semibold uppercase tracking-widest text-[#FFC107]">
-                    Quick Actions
+                    Exclusive offers
                   </p>
                   <div className="space-y-1.5">
                     {EXCLUSIVE_OFFERS.map((item) => {

@@ -247,8 +247,8 @@ const faqs = [
     answer: 'Use Professional tone for cold outreach. Add detailed notes in your offer template (for example, "mention their recent blog post" or "focus on saving them time"). Create separate templates for different industries. Glance at each business\'s website before sending. Save strong emails to build a swipe file.'
   },
   {
-    question: 'What are the Quick Actions on the right?',
-    answer: 'Quick Actions are exclusive partner offers shown as widgets on the right (below Your activity on desktop, or under More on mobile): Fast Cash Training, Create your P-55 account, and Get Paid To Copy & Paste. Each opens in a new tab. They are optional and separate from your Profit Loop membership.'
+    question: 'What are Exclusive offers?',
+    answer: 'Exclusive offers appear in the sidebar (and under More on mobile): Fast Cash Training, Create your P-55 account, and Get Paid To Copy & Paste. Each opens in a new tab. They are optional partner offers — separate from your Profit Loop membership.'
   },
   {
     question: 'Can I change my promotion link in Social Payouts?',

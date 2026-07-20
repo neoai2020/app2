@@ -70,8 +70,8 @@ const faqs = [
     answer: 'Premium Features include: Accelerator (1,600 pre-built leads with emails), Recurring Streams (Facebook post generator), Social Payouts (100+ free traffic sources), and Protector (security dashboard). All are listed under Premium Features in the sidebar.'
   },
   {
-    question: 'What are the Quick Actions on the right?',
-    answer: 'Quick Actions are exclusive partner offers shown as widgets on the right below Your activity (desktop) or under More (mobile): Fast Cash Training, Create your P-55 account, and Get Paid To Copy & Paste. Each opens in a new tab and is optional — separate from your membership.'
+    question: 'What are Exclusive offers?',
+    answer: 'Exclusive offers appear in the sidebar (and under More on mobile): Fast Cash Training, Create your P-55 account, and Get Paid To Copy & Paste. Each opens in a new tab and is optional — separate from your membership.'
   },
   {
     question: 'How do I get the best results?',

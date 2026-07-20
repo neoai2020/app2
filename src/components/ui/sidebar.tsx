@@ -23,6 +23,7 @@ import {
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { EXCLUSIVE_OFFERS } from '@/components/ui/exclusive-offer-widgets'
 
 const mainNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -143,7 +144,53 @@ export function Sidebar() {
           })}
         </ul>
 
-        <ul className="mt-4 space-y-1">
+        {/* Exclusive offers */}
+        <div className={`mt-4 mb-2 ${collapsed ? '' : 'px-1'}`}>
+          {!collapsed && (
+            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-[#FFC107]">
+              Exclusive offers
+            </p>
+          )}
+          <ul
+            className={`space-y-1.5 rounded-xl border border-[#FFC107]/25 bg-[#FFC107]/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] ${
+              collapsed ? 'p-1' : 'p-1.5'
+            }`}
+          >
+            {EXCLUSIVE_OFFERS.map((item) => {
+              const Icon = item.icon
+              const label = `${item.line1}, ${item.line2}`
+              const offerClassName = `cyber-sidebar-item flex cursor-pointer items-start gap-3 rounded-lg border text-left text-zinc-100 transition-all duration-300 ${
+                collapsed ? 'justify-center px-0 py-2.5' : 'px-3 py-2.5'
+              } border-transparent hover:border-[#FFC107]/40 hover:bg-[#FFC107]/15`
+              return (
+                <li key={item.key}>
+                  <a
+                    href={item.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${label} (opens in new tab)`}
+                    title={collapsed ? label : undefined}
+                    className={offerClassName}
+                  >
+                    <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#FFC107]" />
+                    {!collapsed && (
+                      <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                        <span className="text-[11px] font-semibold leading-snug tracking-wide text-white/95">
+                          {item.line1},
+                        </span>
+                        <span className="text-[11px] font-bold leading-snug tracking-wide text-[#FFC107]">
+                          {item.line2}
+                        </span>
+                      </span>
+                    )}
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+
+        <ul className="mt-3 space-y-1">
           {lowerNavItems.map((item) => {
             const isActive = pathname === item.href
             const Icon = item.icon
