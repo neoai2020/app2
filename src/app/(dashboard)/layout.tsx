@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import { Sidebar } from '@/components/ui/sidebar'
 import { AnimatedBackground } from '@/components/ui/animated-background'
-import { SocialProofNotifications } from '@/components/ui/social-proof'
 import { BottomNav } from '@/components/ui/bottom-nav'
 
 export const dynamic = 'force-dynamic'
@@ -11,7 +10,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <div className="min-h-dvh">
       <AnimatedBackground />
       <Sidebar />
-      <SocialProofNotifications />
       <main
         className="transition-[padding] duration-300 lg:pl-[var(--sidebar-w)]"
       >
