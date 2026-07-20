@@ -4,7 +4,7 @@ A repeatable, end-to-end guide for applying the same overhaul we did on Profit L
 
 ---
 
-## Phase 0 — Ground rules (read before touching anything)
+## Phase 0 — Ground rules + full recon (read before touching anything)
 
 These rules apply to every phase. Violating any of them is a rollback.
 
@@ -19,6 +19,15 @@ These rules apply to every phase. Violating any of them is a rollback.
 5. **One commit per phase** with a clear message, so any phase can be reverted alone.
 6. **Copy patterns, not constants.** When porting from a reference app (e.g. Robinhood), take the structure/JSX/CSS pattern but swap in this app's brand colors, product name, links, and video IDs. Grep for the reference app's affiliate IDs afterward to prove none leaked in.
 
+### 0b. Scour the whole app FIRST — never work from partial knowledge
+
+Before writing a single line, build a complete picture. Half the pushback in past runs came from working on the pages that were mentioned and missing the ones that weren't.
+
+1. **Map every route**: list every folder under the app router (dashboard pages, auth pages, landing/offer pages, onboarding) and every shared component. Dispatch an **explore subagent** to do this — it's cheap and exhaustive.
+2. **Run the app on localhost and click through every page, overlay, and state** (logged-out, logged-in, empty data, loaded data, mobile width) before deciding anything. Screenshots of the current state are your "before" set.
+3. **Load the relevant design/best-practice skills** before defining anything visual (e.g. a redesign/high-end-design skill, contrast and cognitive-load checklists). If a needed capability is missing (browser screenshots, image tooling), say so up front and plan around it — don't discover it mid-phase.
+4. Write the findings down (routes table, component inventory, current inconsistencies). Every later phase quotes this document instead of re-exploring.
+
 ---
 
 ## Phase 1 — Honest activity data (remove fabricated social proof)
@@ -29,8 +38,9 @@ These rules apply to every phase. Violating any of them is a rollback.
 1. Find the component (search for `LiveActivity`, `SocialProof`, hardcoded names arrays, `Math.random()` inside counters).
 2. Replace fabricated counters with the signed-in user's **real** usage from the database (e.g. today's leads found / emails generated from a `usage_limits` or equivalent table).
 3. Replace fake toasts with either the user's own recent activity (from an `activity_logs` table) or rotating **useful tips**. No fake names, no fake dollar amounts, no "Verified" badges.
-4. Replace any fake "community progress to $1M" bars with a "Next step" nudge card.
-5. Add "Individual results vary." where appropriate.
+4. **Toasts are desktop-only.** Floating corner toasts cover content, thumbnails, and the bottom tab bar on phones — an actively bad experience. Hide passive toasts below `lg` (`hidden lg:flex` on the container). The same information must exist somewhere in-page (e.g. a "Your activity" card) so mobile loses nothing. If a notification is genuinely critical on mobile, use a slim auto-dismissing snackbar at the top — never a card floating over content.
+5. Replace any fake "community progress to $1M" bars with a "Next step" nudge card.
+6. Add "Individual results vary." where appropriate.
 
 **Verify:** No `Math.random()` driving displayed money. Page renders for a brand-new user (empty state falls back to tips).
 
@@ -236,8 +246,9 @@ Nothing ships on greps and a typecheck alone. Static checks miss layout bugs: an
    - No page with its own colors/structure outside the system
 3. Open **every overlay/modal/sheet**: video overlay (ad fully visible without scroll), More sheet, dialogs.
 4. Trigger **every generation CTA**: progress bar + banner during, banner stays after, results correct.
-5. Mobile specifics: brand name on one line, bottom tabs don't cover the last CTA, no input zoom, top bar clean (no stray hamburger — More lives in the bottom tabs).
+5. Mobile specifics: brand name on one line, bottom tabs don't cover the last CTA, no input zoom, top bar clean (no stray hamburger — More lives in the bottom tabs), **no floating toasts/popups covering content** (they must be `hidden` below `lg`).
 6. If a browser-automation tool (Chrome DevTools MCP / Playwright) is available, screenshot each route at the three widths and eyeball the set side-by-side; if not, do it by hand. **Do not report "done" until this walk is complete.**
+7. Compare against the Phase 0b "before" screenshots — every complaint you catalogued must be visibly fixed, and nothing that worked before may look worse.
 
 ## Phase 11 — Ship
 
@@ -260,13 +271,23 @@ Then re-check the deployed site (desktop + a real phone). Confirm:
 
 The playbook has two kinds of work: **judgment** (audits, system design, review) and **mechanical application** (class sweeps, file-by-file edits). Route them to different models or you'll either waste tokens or ship slop.
 
-### Model routing
+### Model routing — phase by phase
 
-| Work | Model class | Why |
-|---|---|---|
-| Phase 0 baseline, Phase 6a audit, design-system definition (6b), dashboard copy, review gates | **Strategy model** (frontier reasoning — e.g. Fable/Claude thinking tier) | Needs judgment: counting inconsistencies, choosing tokens, writing rules, catching what looks wrong |
-| Page sweeps (6c), color/class find-replace, wiring a defined component into N pages, image conversion scripts | **Applier model** (fast — e.g. Composer tier) | Mechanical once the spec exists; 10× cheaper per page |
-| Final review of applier diffs, Phase 10 browser walk | **Strategy model** | The applier cannot judge its own output |
+| Phase | Work | Model / agent | Why |
+|---|---|---|---|
+| 0 | Ground rules, link baseline | **Strategy** (frontier reasoning — Fable/Claude thinking tier) | Sets the constraints everything else obeys |
+| 0b | Route/component mapping | **Explore subagent(s)**, launched in parallel | Cheap, exhaustive, read-only |
+| 0b | Localhost click-through + "before" screenshots | **Strategy** (or you by hand) | Judgment about what's wrong |
+| 1–5 | Honest data, banner wiring, overlay, dashboard | **Strategy designs the component once → applier replicates across pages** | The first instance needs taste; copies don't |
+| 6a | Design audit (count every h1/button/color/width) | **Explore subagent** with an exhaustive checklist prompt | Mechanical counting, big context |
+| 6b | Design-system definition + skill reading | **Strategy** | This is the highest-judgment step in the playbook |
+| 6c | Page sweeps | **Applier** (fast — Composer tier), 3–5 similar pages per batch, batches in parallel | Mechanical once the class map exists |
+| 7 | Thumbnail prompts + generation | **Strategy** writes the style spec once; images via the image tool | Consistency comes from the spec |
+| 8 | Mobile foundations | **Strategy** for the shell (nav/viewport/safe-areas), **applier** for per-page passes | Shell decisions are structural |
+| 9 | Cleanup + image optimization | **Applier** with exact commands | Pure mechanics |
+| 10 | Browser walk + diff review | **Strategy** | The applier cannot judge its own output |
+
+**Be very detailed in every prompt.** Vague prompts are what cause pushback loops. An applier prompt must read like a work order: exact files, exact old→new mappings, exact forbidden list, exact exit checks. A strategy prompt must include the full findings document from Phase 0b, not a summary of it.
 
 ### How to keep the applier from breaking things
 
@@ -287,6 +308,21 @@ The applier fails in predictable ways: inventing its own styles, "improving" log
 - Ask the applier to verify with **greps, not re-reads** (e.g. `grep -c 'ds-h1' page.tsx` should be 1).
 - Do the browser walk yourself (or with one strategy-model session + screenshots) — don't burn applier tokens on "verify visually" they can't do.
 - One retry max per applier batch; if it fails twice, the spec was ambiguous — fix the spec with the strategy model instead of re-prompting.
+
+### Known failure modes (each of these caused real pushback — check them explicitly)
+
+This is the "don't make me tell you again" list. Verify every item before reporting done:
+
+1. **Overlay ad below the fold** — the withdraw ad must be fully visible with zero scrolling at laptop height and on phones (flex-column panel, video absorbs leftover height).
+2. **Brand wordmark wrapping** to two lines in the sidebar or mobile top bar (`whitespace-nowrap` + check at collapsed width and 320px).
+3. **Black text on gradient/saturated CTAs** — filled buttons are white-text; grep for it.
+4. **Container width / content start position drifting** between pages — one container class app-wide; grep count must be exactly one value.
+5. **Premium/hype pages exempting themselves from the header pattern** — same PageHeader on 100% of pages.
+6. **Semantic-theme pages** (security = green etc.) going fully off-system — the theme color stays on status elements only.
+7. **Floating toasts on mobile** covering content/thumbnails/tab bar — desktop-only, information duplicated in-page.
+8. **Claiming "done" from typecheck + greps alone** — the localhost walk (Phase 10) is mandatory; static checks cannot see layout bugs.
+9. **Multi-MB images** shipped unoptimized — WebP ≤200KB each, `public/` ≤5MB, lazy-load below the fold.
+10. **The applier "improving" things it wasn't asked to touch** — diff review after every batch; revert anything outside the work order.
 
 ---
 

@@ -178,8 +178,10 @@ export function SocialProofNotifications() {
     return () => window.clearTimeout(t)
   }, [current])
 
+  // Desktop only: floating toasts cover content and the tab bar on phones,
+  // and this feed is passive reinforcement — not worth blocking the UI for.
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex max-w-[320px] flex-col gap-3">
+    <div className="fixed bottom-4 right-4 z-50 hidden max-w-[320px] flex-col gap-3 lg:flex">
       <AnimatePresence mode="popLayout">
         {current && (
           <motion.div
