@@ -127,21 +127,27 @@ Steps must describe **this** app's actual workflow. Use `Link`/router links, not
 
 ---
 
-## Phase 6 — Design system (figure out, then apply)
+## Phase 6 — Design system (audit → define → apply)
 
-**6a. Extract what exists.** Read `globals.css` + a few pages. Write down: accent color(s), background, fonts, radii in use, spacing habits, card styles. The system should feel like a cleaned-up version of the app, not a new brand.
+This phase only works if you audit first. Don't define tokens from memory — count what actually exists.
 
-**6b. Define tokens** in `:root` (CSS variables) and document them in `DESIGN_SYSTEM.md`:
-- **Color:** one primary accent + one gradient partner; lifted dark surfaces — replace pure `#000` with a tinted off-black (e.g. `#0c0a0e`), an elevated panel tone, a glass card tone, warm/consistent muted text colors, semantic success/warning/danger.
-- **Background:** subtle radial accent gradients over a vertical dark gradient — about 10% lighter than black, so text is readable and the app has depth. Keep it `position: fixed; z-index: -1`.
-- **Type:** one sans + one mono, eyebrow style (12px, black weight, wide tracking, accent), page title clamp, body ≥15–16px on mobile.
-- **Spacing:** 4px base scale.
-- **Radius:** sm 8 / md 12 / lg 16 / xl 24.
-- **Touch:** `.touch-cta { min-height: 48px }`, inputs ≥16px font (iOS zoom).
+**6a. Audit every page.** For each route record: h1 classes, eyebrow presence, subtitle style, container max-width, column structure, section-heading styles, every distinct button style, every card background/border/radius, every hardcoded color. Roll up the counts. (On Profit Loop this found **6 different h1 styles, 5 max-widths, ~15 ad-hoc button styles, 3 competing card systems, ~15 off-system colors** — expect similar in every app.) The audit output is your worklist.
 
-**6c. Apply page by page.** Sweep every route: swap hardcoded near-black backgrounds to tokens, unify card borders/radius, unify eyebrow/title patterns, unify CTA heights. Do **not** restructure page logic while doing this — class/style edits only.
+**6b. Define the system** as CSS classes + tokens in `globals.css`, documented in `DESIGN_SYSTEM.md`. The system must cover, at minimum:
 
-**Verify:** flip through every route; nothing looks off-brand; typecheck clean.
+1. **Color tokens:** app canvas (tinted off-black ~10% lifted from `#000`, e.g. `#0c0a0e`), elevated panel, glass card, one primary accent + one gradient partner, soft-accent for labels, 2 muted text tones, semantic success/danger/warning. **Map every stray color to a token** (all the ad-hoc indigos/blues → the gradient partner; keep only real brand marks like a Facebook icon and semantic states). Ad creatives (promo banner, withdraw bar) keep their own palette on purpose — exclude them from the sweep.
+2. **Type scale as reusable classes** — one hierarchy, used by name: `ds-h1` (page title, clamp ~1.75–2.4rem, one per page), `ds-h2` (section), `ds-h3` (card), `ds-h4` (micro uppercase label), `ds-label` (form field), `ds-subtitle`, `page-eyebrow`. Hype/premium pages may add `italic uppercase` *modifiers* but never a different size. Body ≥15px mobile; inputs ≥16px.
+3. **A `PageHeader` component** (eyebrow + h1 + subtitle + right-side actions slot, fixed bottom margin) — every page starts with it. This single component kills most heading drift.
+4. **Layout templates** — define and name them: one-column (`max-w-6xl`, `space-y-6`), two-column-with-rail (`max-w-7xl`, `grid xl:grid-cols-4`, main `col-span-3`), catalog (filter rail + content), landing moment (centered `max-w-4xl`), auth (`max-w-md`). Every page must declare which template it is. All templates collapse to one column + full-width CTAs + bottom-nav clearance on mobile.
+5. **Button system** — primary (brand gradient, defined hover: brightness+lift, active: scale .98, purple shadow), secondary (white/5 + border), soft-accent tertiary, ghost, danger, and a `chip` style for tabs/filters (active = solid accent). Three sizes with min-heights (36/44/52px). Ship them **both** as component variants and as plain CSS classes (`.btn .btn-primary .btn-lg`) so raw `<a>`/`<Link>` CTAs render identically to the component. **One primary per screen region** — cognitive-load rule.
+6. **Surface system** — one card recipe (glass bg, 1px border, rounded-2xl) plus a `ds-well` class for content boxes *inside* cards. Radius hierarchy: inner elements tighter than containers.
+7. **Media rules** — every thumbnail gets a bottom-heavy gradient **scrim** (`~72%→12%` black) under its play button so buttons/captions never fight the artwork (a flat 10% overlay is not enough); one play-button spec; playback only in the shared overlay.
+8. **Sidebar spec** — lifted tinted surface (never pitch black), plus a **collapse toggle**: width via a CSS variable (`--sidebar-w: 280px ↔ ~76px`), toggled through `html[data-sidebar]`, persisted in `localStorage`, main pane padding `lg:pl-[var(--sidebar-w)]` with a width transition; collapsed mode is icon-only with `title` tooltips.
+9. **UX guardrails** — 4px spacing base, section gap 24px, touch ≥44px, ≥8px between targets, ≤3 choices per decision point, progressive disclosure for multi-step flows, visible focus rings, `prefers-reduced-motion` support, contrast: body copy never darker than mid-gray on card surfaces.
+
+**6c. Apply page by page — in parallel if possible.** Split routes into batches (core tools / premium / content+auth) and sweep each against the audit: PageHeader in, heading classes swapped, buttons onto the system, wells unified, colors mapped. Hard constraints for the sweep: class/JSX-structure edits only, no logic/handler/link/video-ID changes, ad creatives untouched, typecheck after every batch.
+
+**Verify:** re-run the audit greps — h1 styles should be down to 1 (+1 allowed home hero), buttons to the named set, no off-system hex codes outside ad creatives; typecheck clean; links byte-identical to the Phase 0 baseline.
 
 ---
 
@@ -159,7 +165,7 @@ Steps must describe **this** app's actual workflow. Use `Link`/router links, not
    export const VIDEO_THUMBNAILS: Record<string, string> = { '<vimeoId>': '/thumbnails/thumb-01-….webp', … }
    export function getVideoThumbnail(videoUrl: string): string | null { /* parse id, lookup */ }
    ```
-3. Consume everywhere a video preview shows (training cards, dashboard video, premium pages): `<img>` with dark overlay + play button. Fallback to a gradient block if no thumbnail.
+3. Consume everywhere a video preview shows (training cards, dashboard video, premium pages): `<img>` with a **gradient scrim** (bottom-heavy, ~72%→12% black — not a flat overlay) + play button. Fallback to a gradient block if no thumbnail.
 4. **Optimize before committing** — see Phase 9.
 
 ---

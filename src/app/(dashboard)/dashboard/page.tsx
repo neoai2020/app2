@@ -156,7 +156,7 @@ export default function DashboardPage() {
           <motion.div variants={itemVariants} className="space-y-4">
             <div className="flex items-center gap-3">
               <Play className="h-7 w-7 text-[#D946EF]" />
-              <h2 className="text-2xl font-black tracking-tight text-white md:text-3xl">
+              <h2 className="ds-h2">
                 Welcome &amp; Getting Started
               </h2>
             </div>
@@ -307,7 +307,7 @@ export default function DashboardPage() {
 
           {/* Quick Actions */}
           <motion.div variants={itemVariants}>
-            <h2 className="mb-4 text-2xl font-black tracking-tight text-white sm:text-3xl">
+            <h2 className="ds-h2 mb-4">
               Quick Actions
             </h2>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4">

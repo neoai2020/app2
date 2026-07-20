@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { PageHeader } from '@/components/ui/page-header'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 import { Mail, Shield, Clock, AlertTriangle, CheckCircle, ArrowRight, Terminal } from 'lucide-react'
 
@@ -38,16 +39,21 @@ export default function SendInstructionsPage() {
       className="max-w-4xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-6">
-        <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold gradient-text">How to Send</h1>
-          <HelpTooltip
-            variant="info"
-            title="How to send"
-            content="Follow these simple steps so your emails actually land in people's inboxes and don't end up in spam."
-          />
-        </div>
-        <p className="text-zinc-500 mt-2">Simple steps for sending your emails</p>
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="Guide"
+          title={
+            <span className="flex items-center gap-3">
+              How to Send
+              <HelpTooltip
+                variant="info"
+                title="How to send"
+                content="Follow these simple steps so your emails actually land in people's inboxes and don't end up in spam."
+              />
+            </span>
+          }
+          subtitle="Simple steps for sending your emails"
+        />
       </motion.div>
 
       {/* Important Notice */}
@@ -92,7 +98,7 @@ export default function SendInstructionsPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="flex items-start gap-4 p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-[#D946EF]/20 transition-colors"
+                  className="ds-well flex items-start gap-4 p-4 hover:border-[#D946EF]/20 transition-colors"
                 >
                   <div className="shrink-0 w-12 h-12 rounded-lg bg-linear-to-br from-[#D946EF]/20 to-[#8B5CF6]/20 border border-[#D946EF]/30 flex items-center justify-center">
                     <span className="font-mono text-[#D946EF] font-bold">{step.number}</span>
@@ -149,8 +155,8 @@ export default function SendInstructionsPage() {
         <Card className="mb-6">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
-                <Shield className="w-6 h-6 text-indigo-400" />
+              <div className="p-3 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20">
+                <Shield className="w-6 h-6 text-[#8B5CF6]" />
               </div>
               <div>
                 <CardTitle>Compliance Protocol</CardTitle>
@@ -160,7 +166,7 @@ export default function SendInstructionsPage() {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
+              <div className="ds-well p-4">
                 <h4 className="font-medium text-green-400 mb-3 uppercase tracking-wider text-sm">Required Elements</h4>
                 <ul className="space-y-2">
                   {['Real name and contact information', 'Clear opt-out mechanism', 'Physical business address'].map((item, i) => (
@@ -171,7 +177,7 @@ export default function SendInstructionsPage() {
                   ))}
                 </ul>
               </div>
-              <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
+              <div className="ds-well p-4">
                 <h4 className="font-medium text-red-400 mb-3 uppercase tracking-wider text-sm">Prohibited Actions</h4>
                 <ul className="space-y-2">
                   {['Targeting personal email addresses', 'Misleading subject lines', 'False claims or guarantees', 'Ignoring unsubscribe requests'].map((item, i) => (
@@ -192,8 +198,8 @@ export default function SendInstructionsPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-orange-400/10 border border-orange-400/20">
-                <Mail className="w-6 h-6 text-orange-400" />
+              <div className="p-3 rounded-lg bg-[var(--warning)]/10 border border-[var(--warning)]/20">
+                <Mail className="w-6 h-6 text-[var(--warning)]" />
               </div>
               <div>
                 <CardTitle>Advanced: SMTP Configuration</CardTitle>

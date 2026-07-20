@@ -47,7 +47,7 @@ export function ExclusiveTrainingOffer({
             Exclusive Training
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black italic uppercase tracking-tighter text-white leading-[0.95]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter text-white leading-[0.95]">
             {titleLine1} <br />
             <span className="text-[#D946EF]">{titleLine2}</span>
           </h1>

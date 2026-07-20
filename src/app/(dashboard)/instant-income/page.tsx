@@ -85,7 +85,7 @@ export default function InstantIncomePage() {
     >
       {/* Hero Section */}
       <motion.div variants={itemVariants}>
-        <div className="rounded-2xl border border-white/5 bg-[#111111] overflow-hidden flex flex-col lg:flex-row shadow-2xl mb-8">
+        <div className="rounded-2xl border border-white/5 bg-[var(--glass-bg)] overflow-hidden flex flex-col lg:flex-row shadow-2xl mb-8">
           {/* Left: Video */}
           <div className="lg:w-1/2 relative min-h-[280px] lg:min-h-[380px] bg-[#0a0a0a] border-b lg:border-b-0 lg:border-r border-white/5 overflow-hidden">
             {recurringThumbnail ? (
@@ -107,7 +107,7 @@ export default function InstantIncomePage() {
               aria-label="Play Recurring Streams training"
               className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
             >
-              <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#a855f7] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+              <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
                 <Play className="ml-1 h-8 w-8 fill-white" />
               </span>
               <span className="text-sm font-semibold text-white drop-shadow-lg">
@@ -124,15 +124,15 @@ export default function InstantIncomePage() {
               <Facebook className="w-6 h-6 text-[#1877F2]" fill="currentColor" />
             </div>
 
-            <h1 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-white mb-1 leading-tight">
+            <h1 className="ds-h1 italic uppercase tracking-tight text-white mb-1 leading-tight">
               RECURRING STREAMS:<br /> <span className="text-[#D946EF]">FACEBOOK POSTS</span>
             </h1>
 
-            <h2 className="text-xs font-black uppercase text-[#D946EF] tracking-widest mb-4">
+            <h2 className="page-eyebrow mb-4">
               200+ READY-TO-POST MESSAGES
             </h2>
 
-            <p className="text-zinc-400 text-sm font-medium tracking-wide leading-relaxed max-w-md">
+            <p className="ds-subtitle max-w-md">
               Copy proven posts, paste them in Facebook groups, and start generating income today. No tech skills needed.
             </p>
           </div>
@@ -143,15 +143,15 @@ export default function InstantIncomePage() {
       <motion.div variants={itemVariants} className="mb-8">
         <div className="flex items-center gap-3 mb-4 pl-1">
           <BookOpen className="w-5 h-5 text-[#D946EF]" />
-          <h2 className="text-lg font-black italic uppercase tracking-tighter text-white">
+          <h2 className="ds-h2 italic uppercase tracking-tight text-white">
             HOW TO FIND & POST IN FACEBOOK GROUPS
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="rounded-xl border border-white/5 bg-[#111111] p-5">
-            <h3 className="text-sm font-black italic tracking-tight text-white mb-3">
-              <span className="text-[#3b82f6]">STEP 1:</span> FIND GROUPS
+          <div className="rounded-xl border border-white/5 bg-[var(--glass-bg)] p-5">
+            <h3 className="ds-h4 italic text-white mb-3">
+              <span className="text-[#8B5CF6]">STEP 1:</span> FIND GROUPS
             </h3>
             <ul className="space-y-2">
               {[
@@ -160,16 +160,16 @@ export default function InstantIncomePage() {
                 'Join 10–15 groups with 5,000+ members',
               ].map((text, i) => (
                 <li key={i} className="flex gap-2 text-xs text-zinc-400 font-medium">
-                  <div className="w-1 h-1 rounded-full bg-[#3b82f6] mt-1.5 shrink-0" />
+                  <div className="w-1 h-1 rounded-full bg-[#8B5CF6] mt-1.5 shrink-0" />
                   <span className="leading-relaxed">{text}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="rounded-xl border border-white/5 bg-[#111111] p-5">
-            <h3 className="text-sm font-black italic tracking-tight text-white mb-3">
-              <span className="text-[#3b82f6]">STEP 2:</span> CHECK RULES
+          <div className="rounded-xl border border-white/5 bg-[var(--glass-bg)] p-5">
+            <h3 className="ds-h4 italic text-white mb-3">
+              <span className="text-[#8B5CF6]">STEP 2:</span> CHECK RULES
             </h3>
             <ul className="space-y-2">
               {[
@@ -178,16 +178,16 @@ export default function InstantIncomePage() {
                 'If a group says "no links", send the link via DM to people who ask',
               ].map((text, i) => (
                 <li key={i} className="flex gap-2 text-xs text-zinc-400 font-medium">
-                  <div className="w-1 h-1 rounded-full bg-[#3b82f6] mt-1.5 shrink-0" />
+                  <div className="w-1 h-1 rounded-full bg-[#8B5CF6] mt-1.5 shrink-0" />
                   <span className="leading-relaxed">{text}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="rounded-xl border border-white/5 bg-[#111111] p-5">
-            <h3 className="text-sm font-black italic tracking-tight text-white mb-3">
-              <span className="text-[#3b82f6]">STEP 3:</span> POST & ENGAGE
+          <div className="rounded-xl border border-white/5 bg-[var(--glass-bg)] p-5">
+            <h3 className="ds-h4 italic text-white mb-3">
+              <span className="text-[#8B5CF6]">STEP 3:</span> POST & ENGAGE
             </h3>
             <ul className="space-y-2">
               {[
@@ -196,7 +196,7 @@ export default function InstantIncomePage() {
                 'Post in 3–5 groups/day. Reply to comments within 1 hour!',
               ].map((text, i) => (
                 <li key={i} className="flex gap-2 text-xs text-zinc-400 font-medium">
-                  <div className="w-1 h-1 rounded-full bg-[#3b82f6] mt-1.5 shrink-0" />
+                  <div className="w-1 h-1 rounded-full bg-[#8B5CF6] mt-1.5 shrink-0" />
                   <span className="leading-relaxed">{text}</span>
                 </li>
               ))}
@@ -207,10 +207,10 @@ export default function InstantIncomePage() {
 
       {/* Money Math — Compact */}
       <motion.div variants={itemVariants} className="mb-8">
-        <div className="rounded-xl border border-white/5 bg-[#0a1118] p-6">
+        <div className="rounded-xl border border-white/5 bg-[var(--glass-bg)] p-6">
           <div className="flex items-center gap-3 mb-3">
-            <DollarSign className="w-5 h-5 text-[#eab308]" />
-            <h2 className="text-base font-black italic uppercase tracking-tighter text-white">
+            <DollarSign className="w-5 h-5 text-[var(--warning)]" />
+            <h2 className="ds-h2 italic uppercase tracking-tight text-white">
               HOW MUCH CAN YOU MAKE?
             </h2>
           </div>
@@ -232,7 +232,7 @@ export default function InstantIncomePage() {
       {/* GET YOUR POSTS — Stepped Flow */}
       <motion.div variants={itemVariants}>
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-black italic uppercase tracking-tighter text-white">
+          <h2 className="ds-h2 italic uppercase tracking-tight text-white">
             GET YOUR POSTS NOW
           </h2>
           {/* Step indicators */}
@@ -256,10 +256,10 @@ export default function InstantIncomePage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/5 bg-[#111111] p-6 md:p-8 space-y-8">
+        <div className="rounded-2xl border border-white/5 bg-[var(--glass-bg)] p-6 md:p-8 space-y-8">
           {/* Step 1: Choose Niche */}
           <div>
-            <h3 className="text-sm font-black italic uppercase tracking-tighter text-white mb-4">
+            <h3 className="ds-h4 italic text-white mb-4">
               <span className="text-[#D946EF]">STEP 1:</span> CHOOSE YOUR NICHE
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -270,10 +270,10 @@ export default function InstantIncomePage() {
                     setActiveNiche(niche)
                     cancelGenerate()
                   }}
-                  className={`px-4 py-2 rounded-full text-xs font-black italic tracking-widest uppercase transition-all
+                  className={`ds-chip transition-all
                     ${activeNiche === niche
-                      ? 'bg-[#D946EF] text-black shadow-[0_0_15px_rgba(217,70,239,0.3)]'
-                      : 'bg-transparent border border-white/10 text-zinc-400 hover:border-white/30 hover:text-white'
+                      ? 'bg-[#D946EF] text-black'
+                      : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white'
                     }
                   `}
                 >
@@ -289,7 +289,7 @@ export default function InstantIncomePage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h3 className="text-sm font-black italic uppercase tracking-tighter text-white mb-4">
+              <h3 className="ds-h4 italic text-white mb-4">
                 <span className="text-[#D946EF]">STEP 2:</span> ADD YOUR PRODUCT / AFFILIATE LINK
               </h3>
 
@@ -305,10 +305,10 @@ export default function InstantIncomePage() {
               />
 
               {/* DigiStore Tips */}
-              <div className="rounded-xl border border-blue-900/30 bg-[#0a1128]/50 p-5">
+              <div className="rounded-xl border border-[#8B5CF6]/20 bg-[var(--glass-bg)] p-5">
                 <div className="flex items-center gap-2 mb-3">
-                  <Lightbulb className="w-4 h-4 text-[#60a5fa]" />
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#60a5fa]">
+                  <Lightbulb className="w-4 h-4 text-[#8B5CF6]" />
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#8B5CF6]">
                     Don&apos;t have a link yet? Try DigiStore24
                   </span>
                 </div>
@@ -319,7 +319,7 @@ export default function InstantIncomePage() {
                     'Copy your unique affiliate link and paste it above',
                   ].map((text, i) => (
                     <li key={i} className="flex gap-3 text-xs font-medium text-zinc-400">
-                      <span className="text-[#60a5fa] font-black">{i + 1}.</span>
+                      <span className="text-[#8B5CF6] font-black">{i + 1}.</span>
                       <span className="leading-relaxed">{text}</span>
                     </li>
                   ))}
@@ -328,7 +328,7 @@ export default function InstantIncomePage() {
                   href="https://www.digistore24.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-bold text-[#60a5fa] hover:text-[#93c5fd] transition-colors"
+                  className="inline-flex items-center gap-2 text-xs font-bold text-[#8B5CF6] hover:text-[#A78BFA] transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
                   Open DigiStore24
@@ -343,7 +343,7 @@ export default function InstantIncomePage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h3 className="text-sm font-black italic uppercase tracking-tighter text-white mb-4">
+              <h3 className="ds-h4 italic text-white mb-4">
                 <span className="text-[#D946EF]">STEP 3:</span> GET YOUR POSTS
               </h3>
 
@@ -357,7 +357,7 @@ export default function InstantIncomePage() {
                 <button
                   onClick={handleGeneratePosts}
                   disabled={!affiliateLink.trim()}
-                  className="w-full bg-[#D946EF] hover:bg-[#c026d3] disabled:opacity-40 disabled:cursor-not-allowed text-black font-black italic uppercase tracking-widest text-sm py-4 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_25px_rgba(217,70,239,0.3)]"
+                  className="btn btn-primary btn-lg w-full"
                 >
                   🚀 GENERATE MY POSTS NOW
                 </button>
@@ -368,7 +368,7 @@ export default function InstantIncomePage() {
                   {samplePosts.map((post, index) => (
                     <div
                       key={index}
-                      className="rounded-xl border border-white/5 bg-[#0a0a0a] p-5"
+                      className="ds-well p-5"
                     >
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-xs font-bold uppercase tracking-wider text-[#D946EF]">

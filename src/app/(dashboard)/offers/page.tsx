@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
+import { PageHeader } from '@/components/ui/page-header'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { Offer } from '@/types/database'
@@ -289,33 +290,38 @@ export default function OffersPage() {
       className="max-w-4xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-6 flex items-start justify-between flex-wrap gap-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-4xl font-bold gradient-text">Offer Library</h1>
-            <HelpTooltip
-              variant="info"
-              title="What's an offer?"
-              content="An offer is simply what you're emailing people about — a product, a service, or a deal you want them to check out. Save your offers here so you can reuse them in your emails."
-            />
-          </div>
-          <p className="text-zinc-500 mt-2">Manage reusable offer templates for campaigns</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
-            <Zap className="w-4 h-4 text-[#D946EF]" />
-            <span className="text-sm font-medium text-zinc-300">
-              <span className={`font-bold ${remaining <= 1 ? 'text-red-400' : 'text-[#D946EF]'}`}>{remaining}</span>
-              <span className="text-zinc-500">/{MAX_DAILY_GENERATIONS} AI generations left</span>
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="Library"
+          title={
+            <span className="flex items-center gap-3">
+              Offer Library
+              <HelpTooltip
+                variant="info"
+                title="What's an offer?"
+                content="An offer is simply what you're emailing people about — a product, a service, or a deal you want them to check out. Save your offers here so you can reuse them in your emails."
+              />
             </span>
-          </div>
-          {!showForm && (
-            <Button onClick={() => setShowForm(true)} glow>
-              <Plus className="w-4 h-4 mr-2" />
-              New Template
-            </Button>
-          )}
-        </div>
+          }
+          subtitle="Manage reusable offer templates for campaigns"
+          actions={
+            <>
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
+                <Zap className="w-4 h-4 text-[#D946EF]" />
+                <span className="text-sm font-medium text-zinc-300">
+                  <span className={`font-bold ${remaining <= 1 ? 'text-red-400' : 'text-[#D946EF]'}`}>{remaining}</span>
+                  <span className="text-zinc-500">/{MAX_DAILY_GENERATIONS} AI generations left</span>
+                </span>
+              </div>
+              {!showForm && (
+                <Button onClick={() => setShowForm(true)} glow>
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Template
+                </Button>
+              )}
+            </>
+          }
+        />
       </motion.div>
 
       {/* How to Generate an Offer - Step by Step */}
@@ -382,8 +388,8 @@ export default function OffersPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
-                      {editingOffer ? <Edit className="w-6 h-6 text-indigo-400" /> : <Plus className="w-6 h-6 text-indigo-400" />}
+                    <div className="p-3 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20">
+                      {editingOffer ? <Edit className="w-6 h-6 text-[#8B5CF6]" /> : <Plus className="w-6 h-6 text-[#8B5CF6]" />}
                     </div>
                     <div>
                       <CardTitle>{editingOffer ? 'Edit Template' : 'New Template'}</CardTitle>
@@ -416,10 +422,10 @@ export default function OffersPage() {
                         setType('Affiliate Offer'); 
                         setFormStep(2); 
                       }}
-                      className="p-6 text-left rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/80 hover:border-indigo-500/50 transition-all flex flex-col gap-3 group"
+                      className="p-6 text-left rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/80 hover:border-[#8B5CF6]/50 transition-all flex flex-col gap-3 group"
                     >
-                      <div className="p-3 bg-indigo-500/10 rounded-lg w-fit group-hover:bg-indigo-500/20 transition-colors">
-                        <DollarSign className="w-6 h-6 text-indigo-400" />
+                      <div className="p-3 bg-[#8B5CF6]/10 rounded-lg w-fit group-hover:bg-[#8B5CF6]/20 transition-colors">
+                        <DollarSign className="w-6 h-6 text-[#8B5CF6]" />
                       </div>
                       <div>
                         <h3 className="font-semibold text-white mb-1">Affiliate Offer</h3>
@@ -432,10 +438,10 @@ export default function OffersPage() {
                         setType('Service Offer'); 
                         setFormStep(2); 
                       }}
-                      className="p-6 text-left rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/80 hover:border-emerald-500/50 transition-all flex flex-col gap-3 group"
+                      className="p-6 text-left rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/80 hover:border-[#8B5CF6]/50 transition-all flex flex-col gap-3 group"
                     >
-                      <div className="p-3 bg-emerald-500/10 rounded-lg w-fit group-hover:bg-emerald-500/20 transition-colors">
-                        <Briefcase className="w-6 h-6 text-emerald-400" />
+                      <div className="p-3 bg-[#8B5CF6]/10 rounded-lg w-fit group-hover:bg-[#8B5CF6]/20 transition-colors">
+                        <Briefcase className="w-6 h-6 text-[#8B5CF6]" />
                       </div>
                       <div>
                         <h3 className="font-semibold text-white mb-1">Service Offer</h3>
@@ -480,21 +486,21 @@ export default function OffersPage() {
                   {type === 'Service Offer' && (
                     <>
                       <div className="space-y-1">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Service Offered</label>
+                        <label className="ds-label">Service Offered</label>
                         <select 
                           value={selectedService}
                           onChange={(e) => setSelectedService(e.target.value)}
-                          className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                          className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-[#8B5CF6] transition-colors"
                         >
                           {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
                       </div>
                       <div className="space-y-1">
-                        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Target Niche</label>
+                        <label className="ds-label">Target Niche</label>
                         <select 
                           value={selectedNiche}
                           onChange={(e) => setSelectedNiche(e.target.value)}
-                          className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                          className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-[#8B5CF6] transition-colors"
                         >
                           {NICHES.map(n => <option key={n} value={n}>{n}</option>)}
                         </select>
@@ -504,11 +510,11 @@ export default function OffersPage() {
 
                   {type === 'Partnership' && (
                     <div className="space-y-1">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Target Niche</label>
+                      <label className="ds-label">Target Niche</label>
                       <select 
                         value={selectedNiche}
                         onChange={(e) => setSelectedNiche(e.target.value)}
-                        className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                        className="w-full bg-[#111111] border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-[#8B5CF6] transition-colors"
                       >
                         {NICHES.map(n => <option key={n} value={n}>{n}</option>)}
                       </select>
@@ -517,7 +523,7 @@ export default function OffersPage() {
 
                   <div>
                     <div className="flex items-center mb-2">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Your Link / Email / Website</span>
+                      <span className="ds-label">Your Link / Email / Website</span>
                       <HelpTooltip
                         variant="help"
                         content="This is your affiliate link or website — the web address people click to buy or sign up. An affiliate link is a special link that pays you a commission, usually from a site like Digistore24 or ClickBank."
@@ -546,7 +552,7 @@ export default function OffersPage() {
                         exit={{ opacity: 0, y: -10 }}
                         className="pt-4 border-t border-white/5"
                       >
-                        <div className="rounded-xl bg-gradient-to-br from-[#D946EF]/5 via-zinc-900/50 to-indigo-500/5 border border-[#D946EF]/20 p-6">
+                        <div className="rounded-xl bg-gradient-to-br from-[#D946EF]/5 via-zinc-900/50 to-[#8B5CF6]/5 border border-[#D946EF]/20 p-6">
                           <div className="flex items-center gap-3 mb-4">
                             <motion.div
                               animate={{ rotate: 360 }}
@@ -563,7 +569,7 @@ export default function OffersPage() {
                           {/* Progress bar */}
                           <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden mb-4">
                             <motion.div
-                              className="h-full rounded-full bg-gradient-to-r from-[#D946EF] via-indigo-500 to-[#D946EF]"
+                              className="h-full rounded-full bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#D946EF]"
                               style={{ backgroundSize: '200% 100%' }}
                               animate={{
                                 width: `${loadingProgress}%`,
@@ -606,7 +612,7 @@ export default function OffersPage() {
                   {/* Generated Preview */}
                   {!generating && generated && description && (
                     <div className="space-y-1 pt-4 border-t border-white/5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 px-1">Generated Email Template</label>
+                      <label className="ds-label px-1">Generated Email Template</label>
                       <div
                         ref={editorRef}
                         contentEditable
@@ -615,7 +621,7 @@ export default function OffersPage() {
                             setDescription(editorRef.current.innerHTML)
                           }
                         }}
-                        className="min-h-[160px] p-4 text-sm leading-relaxed bg-[#111111] border border-white/10 rounded-xl text-zinc-300 focus:outline-none focus:border-indigo-500 overflow-y-auto w-full cursor-text [&_a]:text-blue-400 [&_a]:underline [&_p]:mb-4 last:[&_p]:mb-0"
+                        className="ds-well min-h-[160px] p-4 text-sm leading-relaxed rounded-xl text-zinc-300 focus:outline-none focus:border-[#8B5CF6] overflow-y-auto w-full cursor-text [&_a]:text-blue-400 [&_a]:underline [&_p]:mb-4 last:[&_p]:mb-0"
                       />
                     </div>
                   )}
@@ -679,10 +685,10 @@ export default function OffersPage() {
             <button
               key={t}
               onClick={() => setActiveTab(t)}
-              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+              className={`ds-chip px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                 activeTab === t
-                  ? 'bg-zinc-100 text-zinc-900'
-                  : 'bg-zinc-800/50 text-zinc-400 hover:text-white hover:bg-zinc-800'
+                  ? 'bg-[#D946EF] text-black'
+                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
             >
               {t}
@@ -693,13 +699,13 @@ export default function OffersPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
-                <Gift className="w-6 h-6 text-indigo-400" />
+              <div className="p-3 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20">
+                <Gift className="w-6 h-6 text-[#8B5CF6]" />
               </div>
               <div>
                 <CardTitle>Your Templates</CardTitle>
                 <CardDescription>
-                  <span className="text-indigo-400 font-mono">{offers.length}</span> custom templates
+                  <span className="text-[#8B5CF6] font-mono">{offers.length}</span> custom templates
                 </CardDescription>
               </div>
             </div>

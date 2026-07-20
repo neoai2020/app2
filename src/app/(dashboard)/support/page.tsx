@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { PageHeader } from '@/components/ui/page-header'
 import { ChevronDown, ChevronUp, HelpCircle, Mail, FileText, ExternalLink, Headphones, MessageCircle } from 'lucide-react'
 
 const containerVariants = {
@@ -89,9 +90,12 @@ export default function SupportPage() {
       className="max-w-6xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-6">
-        <h1 className="text-4xl font-bold gradient-text">Support Center</h1>
-        <p className="text-zinc-500 mt-2">Documentation and assistance resources</p>
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="Help"
+          title="Support Center"
+          subtitle="Documentation and assistance resources"
+        />
       </motion.div>
 
       {/* Support Channels */}
@@ -108,7 +112,7 @@ export default function SupportPage() {
                 <Headphones className="w-6 h-6 text-[#D946EF]" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-white mb-1">Support Portal</h3>
+                <h3 className="ds-h3 mb-1">Support Portal</h3>
                 <p className="text-zinc-500 text-sm">Open a ticket or check existing requests</p>
               </div>
               <ExternalLink className="w-5 h-5 text-zinc-600 group-hover:text-[#D946EF] transition-colors" />
@@ -126,7 +130,7 @@ export default function SupportPage() {
                 <Mail className="w-6 h-6 text-green-400" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-white mb-1">Email Support</h3>
+                <h3 className="ds-h3 mb-1">Email Support</h3>
                 <p className="text-zinc-500 text-sm">ProfitLoopAI@neoai.freshdesk.com</p>
               </div>
               <ExternalLink className="w-5 h-5 text-zinc-600 group-hover:text-green-400 transition-colors" />
@@ -194,12 +198,12 @@ export default function SupportPage() {
               <div className="w-16 h-16 rounded-full bg-[#D946EF]/10 border border-[#D946EF]/20 flex items-center justify-center mx-auto mb-5">
                 <MessageCircle className="w-8 h-8 text-[#D946EF]" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Got a Question?</h3>
+              <h3 className="ds-h3 mb-2">Got a Question?</h3>
               <p className="text-zinc-400 text-sm mb-6 leading-relaxed">
                 Can&apos;t find what you&apos;re looking for? Our support team is here to help. Reach out and we&apos;ll get back to you within 24–48 hours.
               </p>
               <a href="mailto:ProfitLoopAI@neoai.freshdesk.com">
-                <button className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] text-white font-semibold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(217,70,239,0.3)]">
+                <button className="btn btn-primary btn-md w-full">
                   <Mail className="w-4 h-4" />
                   Message Us
                 </button>
@@ -215,8 +219,8 @@ export default function SupportPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
-                <FileText className="w-6 h-6 text-indigo-400" />
+              <div className="p-3 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20">
+                <FileText className="w-6 h-6 text-[#8B5CF6]" />
               </div>
               <div>
                 <CardTitle>Refund Protocol</CardTitle>
@@ -226,22 +230,22 @@ export default function SupportPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
-                <h4 className="font-medium text-[#D946EF] mb-2 uppercase tracking-wider text-sm">30-Day Guarantee</h4>
+              <div className="ds-well p-4">
+                <h4 className="ds-h4 text-[#D946EF] mb-2">30-Day Guarantee</h4>
                 <p className="text-zinc-400 text-sm">
                   Full refund available within 30 days of purchase. No interrogation required.
                 </p>
               </div>
 
-              <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
-                <h4 className="font-medium text-[#D946EF] mb-2 uppercase tracking-wider text-sm">Request Procedure</h4>
+              <div className="ds-well p-4">
+                <h4 className="ds-h4 text-[#D946EF] mb-2">Request Procedure</h4>
                 <p className="text-zinc-400 text-sm">
                   Email us at ProfitLoopAI@neoai.freshdesk.com or open a ticket on the support portal. Include your account email and purchase date.
                 </p>
               </div>
 
-              <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
-                <h4 className="font-medium text-[#D946EF] mb-2 uppercase tracking-wider text-sm">Processing Timeline</h4>
+              <div className="ds-well p-4">
+                <h4 className="ds-h4 text-[#D946EF] mb-2">Processing Timeline</h4>
                 <p className="text-zinc-400 text-sm">
                   Refunds processed within 5-7 business days. Confirmation transmitted upon completion.
                 </p>

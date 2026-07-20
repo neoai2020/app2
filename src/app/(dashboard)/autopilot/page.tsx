@@ -126,14 +126,14 @@ export default function AutopilotPage() {
   }
 
   const typeColors: Record<string, string> = {
-    "FORUM": "bg-blue-500/10 text-blue-500",
-    "SOCIAL": "bg-purple-500/10 text-purple-500"
+    "FORUM": "bg-[#8B5CF6]/10 text-[#8B5CF6]",
+    "SOCIAL": "bg-[#8B5CF6]/10 text-[#8B5CF6]"
   }
 
   return (
     <div className="space-y-8 pb-20 max-w-5xl mx-auto">
       {/* Main Hero Card */}
-      <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[#0a1118] p-8 md:p-12 text-center">
+      <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[var(--glass-bg)] p-8 md:p-12 text-center">
         <div className="absolute inset-0 bg-gradient-to-b from-[#D946EF]/5 to-transparent pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#D946EF]/5 blur-[100px] rounded-full pointer-events-none" />
 
@@ -141,20 +141,20 @@ export default function AutopilotPage() {
           <div className="w-14 h-14 rounded-xl bg-[#D946EF] flex items-center justify-center mb-5 shadow-[0_0_30px_rgba(217,70,239,0.4)]">
             <TrendingUp className="w-7 h-7 text-black" strokeWidth={3} />
           </div>
-          <h1 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-white mb-1 leading-tight">
+          <h1 className="ds-h1 italic uppercase tracking-tight text-white mb-1 leading-tight">
             SOCIAL PAYOUTS — <span className="text-[#D946EF]">TRAFFIC ON AUTOPILOT</span>
           </h1>
-          <h2 className="text-xs font-black uppercase text-[#D946EF] tracking-widest mt-3 mb-4">
+          <h2 className="page-eyebrow mt-3 mb-4">
             100+ FREE TRAFFIC SOURCES — SUBMIT ONCE, GET TRAFFIC FOREVER
           </h2>
-          <p className="text-zinc-400 text-xs font-medium tracking-wide uppercase max-w-2xl mx-auto leading-loose">
+          <p className="ds-subtitle max-w-2xl mx-auto">
             SUBMIT YOUR LINK TO THESE 100+ SITES ONCE AND GET ONGOING TRAFFIC AUTOMATICALLY. NO DAILY WORK REQUIRED.
           </p>
         </div>
       </div>
 
       {/* Video Tutorial — Compact */}
-      <div className="rounded-2xl border border-white/5 bg-[#111111] flex flex-col md:flex-row overflow-hidden">
+      <div className="rounded-2xl border border-white/5 bg-[var(--glass-bg)] flex flex-col md:flex-row overflow-hidden">
         <div className="md:w-2/5 min-h-[200px] relative bg-[#0a0a0a] border-b md:border-b-0 md:border-r border-white/5 overflow-hidden">
           {socialThumbnail ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -175,7 +175,7 @@ export default function AutopilotPage() {
             aria-label="Play Social Payouts training"
             className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#a855f7] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
               <Play className="ml-0.5 h-7 w-7 fill-white" />
             </span>
             <span className="text-xs font-semibold text-white drop-shadow-lg">
@@ -187,7 +187,7 @@ export default function AutopilotPage() {
           <div className="flex items-center gap-2 text-[#D946EF] font-bold text-xs uppercase tracking-widest mb-2">
             <Video className="w-4 h-4" /> WATCH FIRST
           </div>
-          <h3 className="text-xl font-black italic uppercase tracking-tighter text-white mb-2">
+          <h3 className="ds-h3 italic uppercase text-white mb-2">
             HOW TO USE SOCIAL PAYOUTS
           </h3>
           <p className="text-zinc-400 text-sm leading-relaxed">
@@ -200,7 +200,7 @@ export default function AutopilotPage() {
       <div>
         <div className="flex items-center gap-3 pl-1 mb-4">
           <Target className="w-5 h-5 text-[#D946EF]" />
-          <h2 className="text-lg font-black italic uppercase tracking-tighter text-white">
+          <h2 className="ds-h2 italic uppercase tracking-tight text-white">
             HOW THIS WORKS
           </h2>
         </div>
@@ -211,11 +211,11 @@ export default function AutopilotPage() {
             { step: 2, title: "PICK YOUR NICHE", text: "Filter the 100+ traffic sources to find ones relevant to your market." },
             { step: 3, title: "SUBMIT & TRACK", text: "Follow step-by-step instructions for each source. Mark complete to track your progress." }
           ].map((item) => (
-            <div key={item.step} className="rounded-xl border border-white/5 bg-[#111111] p-5">
+            <div key={item.step} className="rounded-xl border border-white/5 bg-[var(--glass-bg)] p-5">
               <div className="w-8 h-8 rounded-full bg-[#D946EF] flex items-center justify-center text-black font-black text-sm mb-3">
                 {item.step}
               </div>
-              <h4 className="text-white font-black italic uppercase tracking-widest text-xs mb-2">
+              <h4 className="ds-h4 italic text-white mb-2">
                 {item.title}
               </h4>
               <p className="text-zinc-500 text-xs leading-relaxed">{item.text}</p>
@@ -225,10 +225,10 @@ export default function AutopilotPage() {
       </div>
 
       {/* URL Entry */}
-      <div className="rounded-2xl border border-white/5 bg-[#111111] p-6 md:p-8">
+      <div className="rounded-2xl border border-white/5 bg-[var(--glass-bg)] p-6 md:p-8">
         <div className="flex items-center gap-2 mb-4">
           <LinkIcon className="w-5 h-5 text-[#D946EF]" />
-          <h3 className="text-base font-black italic tracking-wide text-white uppercase">
+          <h3 className="ds-h3 italic uppercase text-white">
             YOUR PROMOTION LINK
           </h3>
         </div>
@@ -255,7 +255,7 @@ export default function AutopilotPage() {
               <button
                 onClick={handleSetUrl}
                 disabled={!url.trim()}
-                className="bg-[#D946EF] hover:bg-[#c026d3] disabled:opacity-40 disabled:cursor-not-allowed text-black font-black italic uppercase tracking-widest text-xs py-3 px-8 rounded-xl transition-all"
+                className="btn btn-primary btn-md"
               >
                 SAVE & CONTINUE
               </button>
@@ -263,7 +263,7 @@ export default function AutopilotPage() {
           </>
         ) : (
           <div className="flex items-center gap-4 flex-wrap">
-            <div className="flex-1 min-w-0 px-4 py-3 bg-[#0a0a0a] border border-[#D946EF]/20 rounded-xl">
+            <div className="flex-1 min-w-0 px-4 py-3 ds-well border-[#D946EF]/20">
               <p className="text-sm text-[#D946EF] font-mono truncate">{url}</p>
             </div>
             <div className="flex items-center gap-2">
@@ -299,10 +299,10 @@ export default function AutopilotPage() {
               <button
                 key={niche}
                 onClick={() => handleSelectNiche(niche)}
-                className={`px-4 py-2 rounded-full text-[10px] md:text-xs font-black italic tracking-widest uppercase transition-all
+                className={`ds-chip transition-all
                   ${activeNiche === niche
-                    ? 'bg-[#D946EF] text-black shadow-[0_0_15px_rgba(217,70,239,0.3)]'
-                    : 'bg-transparent border border-white/10 text-zinc-400 hover:border-white/30 hover:text-white'
+                    ? 'bg-[#D946EF] text-black'
+                    : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white'
                   }
                 `}
               >
@@ -318,18 +318,18 @@ export default function AutopilotPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl border border-white/5 bg-[#0a1118] p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+          className="rounded-2xl border border-white/5 bg-[var(--glass-bg)] p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
         >
           <div className="w-full md:w-3/4">
-            <h3 className="text-base font-black italic tracking-tight text-white uppercase mb-1">
+            <h3 className="ds-h3 italic uppercase text-white mb-1">
               YOUR PROGRESS
             </h3>
             <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-3">
               {completedCount} OF {trafficSources.length} SOURCES COMPLETED
             </p>
-            <div className="w-full h-3 bg-[#1a1a1a] rounded-full overflow-hidden border border-white/5">
+            <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/5">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-[#D946EF] to-indigo-500"
+                className="h-full rounded-full bg-gradient-to-r from-[#D946EF] to-[#8B5CF6]"
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPercent}%` }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -358,7 +358,7 @@ export default function AutopilotPage() {
             return (
               <div
                 key={source.id}
-                className={`rounded-xl border bg-[#111111] overflow-hidden transition-colors ${
+                className={`rounded-xl border bg-[var(--glass-bg)] overflow-hidden transition-colors ${
                   isDone ? 'border-green-500/30 bg-green-500/5' : 'border-white/5 hover:border-[#D946EF]/30'
                 }`}
               >
@@ -375,7 +375,7 @@ export default function AutopilotPage() {
                     {isDone && <CheckCircle2 className="w-5 h-5 text-green-400" />}
                   </div>
 
-                  <h4 className="text-white font-black italic uppercase text-sm leading-snug mb-3">
+                  <h4 className="ds-h4 italic text-white leading-snug mb-3">
                     {source.name}
                   </h4>
 
@@ -436,7 +436,7 @@ export default function AutopilotPage() {
                         </a>
 
                         {/* Submission text preview */}
-                        <div className="rounded-lg bg-[#0a0a0a] border border-white/5 p-4">
+                        <div className="ds-well p-4">
                           <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Submission Text</p>
                           <p className="text-xs text-zinc-400 leading-relaxed whitespace-pre-line break-all">{submissionText}</p>
                         </div>
@@ -444,10 +444,10 @@ export default function AutopilotPage() {
                         {/* Copy submission text */}
                         <button
                           onClick={() => handleCopyDesc(source.id, submissionText)}
-                          className={`flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                          className={`w-full gap-2 ${
                             copiedId === source.id
-                              ? 'bg-green-500/10 text-green-400 border border-green-500/30'
-                              : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500/20'
+                              ? 'btn btn-sm bg-green-500/10 text-green-400 border border-green-500/30'
+                              : 'btn btn-accent-soft btn-sm'
                           }`}
                         >
                           {copiedId === source.id ? (

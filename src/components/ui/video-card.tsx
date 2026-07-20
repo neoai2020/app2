@@ -89,7 +89,7 @@ export function VideoCard({
               aria-label={`Play ${title}`}
               className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
             >
-              <span className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#a855f7] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+              <span className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
                 <Play className="ml-1 h-10 w-10 fill-white" />
               </span>
               <span className="text-sm font-semibold text-white drop-shadow-lg md:text-base">

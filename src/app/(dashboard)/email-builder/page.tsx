@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
+import { PageHeader } from '@/components/ui/page-header'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { createClient } from '@/lib/supabase/client'
 import { EMAIL_TONES, DAILY_EMAIL_LIMIT } from '@/lib/constants'
@@ -236,24 +237,27 @@ function EmailBuilderContent() {
       className="max-w-4xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-6">
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-4xl font-bold gradient-text">Write Emails</h1>
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="Outreach"
+          title={
+            <span className="flex items-center gap-3">
+              Write Emails
               <HelpTooltip
                 variant="info"
                 title="Write Emails"
                 content="This writes your emails for you. Pick a customer, pick what you're offering, and we'll create a friendly, ready-to-send message."
               />
-            </div>
-            <p className="text-zinc-500 mt-2">AI-powered outreach generation system</p>
-          </div>
-          <Badge variant="info" pulse>
-            <Cpu className="w-3 h-3 mr-1" />
-            {emailsRemaining} generations available
-          </Badge>
-        </div>
+            </span>
+          }
+          subtitle="AI-powered outreach generation system"
+          actions={
+            <Badge variant="info" pulse>
+              <Cpu className="w-3 h-3 mr-1" />
+              {emailsRemaining} generations available
+            </Badge>
+          }
+        />
       </motion.div>
       
       <motion.div variants={itemVariants}>
@@ -265,8 +269,8 @@ function EmailBuilderContent() {
         <Card className="mb-6" glow>
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
-                <Sparkles className="w-6 h-6 text-indigo-400" />
+              <div className="p-3 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20">
+                <Sparkles className="w-6 h-6 text-[#8B5CF6]" />
               </div>
               <div>
                 <CardTitle>Generation Parameters</CardTitle>
@@ -323,7 +327,7 @@ function EmailBuilderContent() {
 
               <div>
                 <div className="flex items-center mb-2">
-                  <span className="text-sm font-medium text-[#D946EF]/80 uppercase tracking-wider">Offer Template</span>
+                  <span className="ds-label">Offer Template</span>
                   <HelpTooltip
                     variant="help"
                     content="Your offer is what you want the business to check out — a product, service, or deal. Pick one you saved earlier, or write a quick description below."
@@ -357,7 +361,7 @@ function EmailBuilderContent() {
 
               <div>
                 <div className="flex items-center mb-2">
-                  <span className="text-sm font-medium text-[#D946EF]/80 uppercase tracking-wider">Output Tone</span>
+                  <span className="ds-label">Output Tone</span>
                   <HelpTooltip
                     variant="help"
                     content="Tone is the style of the email — how it sounds. Friendly is warm and casual, Professional is polished and formal, and Direct gets straight to the point."
@@ -385,7 +389,7 @@ function EmailBuilderContent() {
                   Generate Email ({emailsRemaining} left today)
                 </Button>
               ) : (
-                <div className="rounded-xl bg-gradient-to-br from-[#D946EF]/5 via-zinc-900/50 to-indigo-500/5 border border-[#D946EF]/20 p-6">
+                <div className="rounded-xl bg-gradient-to-br from-[#D946EF]/5 via-zinc-900/50 to-[#8B5CF6]/5 border border-[#D946EF]/20 p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <motion.div
                       animate={{ rotate: 360 }}
@@ -401,7 +405,7 @@ function EmailBuilderContent() {
 
                   <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden mb-4">
                     <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-[#D946EF] via-indigo-500 to-[#D946EF]"
+                      className="h-full rounded-full bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#D946EF]"
                       style={{ backgroundSize: '200% 100%' }}
                       animate={{
                         width: `${loadingProgress}%`,
@@ -464,7 +468,7 @@ function EmailBuilderContent() {
             <CardContent className="space-y-6">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-[#e879f9]/80 uppercase tracking-wider">Subject Line</label>
+                  <label className="ds-label">Subject Line</label>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -482,7 +486,7 @@ function EmailBuilderContent() {
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-[#e879f9]/80 uppercase tracking-wider">Email Body</label>
+                  <label className="ds-label">Email Body</label>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -502,7 +506,7 @@ function EmailBuilderContent() {
               {followUp && (
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="flex items-center text-sm font-medium text-[#e879f9]/80 uppercase tracking-wider">
+                    <span className="ds-label flex items-center">
                       Follow-Up
                       <HelpTooltip
                         variant="help"

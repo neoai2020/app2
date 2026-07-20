@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { PageHeader } from '@/components/ui/page-header'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -95,25 +96,21 @@ export default function ProtectorPage() {
       className="max-w-6xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="p-4 rounded-2xl bg-green-400/10 border border-green-400/20">
-              <ShieldCheck className="w-8 h-8 text-green-400" />
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="Premium"
+          title="Protector"
+          subtitle="Your account security overview. Everything is monitored in real time."
+          actions={
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-400/10 border border-green-400/20">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400" />
+              </span>
+              <span className="text-green-400 text-sm font-bold uppercase tracking-wider">All Systems Secure</span>
             </div>
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white">Protector</h1>
-              <p className="text-zinc-500 mt-1">Your account security overview. Everything is monitored in real time.</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-400/10 border border-green-400/20">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400" />
-            </span>
-            <span className="text-green-400 text-sm font-bold uppercase tracking-wider">All Systems Secure</span>
-          </div>
-        </div>
+          }
+        />
       </motion.div>
 
       {/* Stats Row */}
@@ -138,7 +135,7 @@ export default function ProtectorPage() {
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Security Checks</h2>
+              <h2 className="ds-h2 text-white mb-4">Security Checks</h2>
               <div className="space-y-3">
                 {securityChecks.map((check, index) => {
                   const Icon = check.icon
@@ -148,7 +145,7 @@ export default function ProtectorPage() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={checksAnimated ? { opacity: 1, x: 0 } : {}}
                       transition={{ delay: index * 0.1 }}
-                      className="flex items-center justify-between p-4 rounded-xl bg-zinc-800/30 border border-zinc-700/30"
+                      className="flex items-center justify-between p-4 ds-well"
                     >
                       <div className="flex items-center gap-4">
                         <div className="p-2.5 rounded-lg bg-green-400/10 border border-green-400/20">
@@ -177,7 +174,7 @@ export default function ProtectorPage() {
           <motion.div variants={itemVariants}>
             <Card>
               <CardContent className="p-6">
-                <h2 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Account Info</h2>
+                <h2 className="ds-h2 text-white mb-4">Account Info</h2>
                 <div className="space-y-4">
                   {[
                     { icon: Mail, label: 'Email', value: userEmail || 'Loading...' },
@@ -207,7 +204,7 @@ export default function ProtectorPage() {
           <motion.div variants={itemVariants}>
             <Card>
               <CardContent className="p-6">
-                <h2 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Recent Activity</h2>
+                <h2 className="ds-h2 text-white mb-4">Recent Activity</h2>
                 <div className="space-y-3">
                   {recentActivity.map((item, index) => {
                     const Icon = item.icon

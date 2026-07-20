@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Select } from '@/components/ui/select'
+import { PageHeader } from '@/components/ui/page-header'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 import { createClient } from '@/lib/supabase/client'
 import { ActivityLog } from '@/types/database'
@@ -72,13 +73,13 @@ export default function ActivityPage() {
       case 'lead_allocated':
         return { bg: 'bg-[#D946EF]/10', border: 'border-[#D946EF]/20', text: 'text-[#D946EF]' }
       case 'email_generated':
-        return { bg: 'bg-indigo-400/10', border: 'border-indigo-400/20', text: 'text-indigo-400' }
+        return { bg: 'bg-[#8B5CF6]/10', border: 'border-[#8B5CF6]/20', text: 'text-[#8B5CF6]' }
       case 'email_saved':
         return { bg: 'bg-green-400/10', border: 'border-green-400/20', text: 'text-green-400' }
       case 'offer_created':
         return { bg: 'bg-yellow-400/10', border: 'border-yellow-400/20', text: 'text-yellow-400' }
       case 'offer_updated':
-        return { bg: 'bg-orange-400/10', border: 'border-orange-400/20', text: 'text-orange-400' }
+        return { bg: 'bg-[var(--warning)]/10', border: 'border-[var(--warning)]/20', text: 'text-[var(--warning)]' }
       default:
         return { bg: 'bg-zinc-400/10', border: 'border-zinc-400/20', text: 'text-zinc-400' }
     }
@@ -92,16 +93,21 @@ export default function ActivityPage() {
       className="max-w-4xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-6">
-        <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold gradient-text">Activity Log</h1>
-          <HelpTooltip
-            variant="info"
-            title="Activity Tracking"
-            content="Every action you take is logged here for transparency and auditing. Use filters to find specific events or review your daily productivity."
-          />
-        </div>
-        <p className="text-zinc-500 mt-2">System event monitoring and audit trail</p>
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="History"
+          title={
+            <span className="flex items-center gap-3">
+              Activity Log
+              <HelpTooltip
+                variant="info"
+                title="Activity Tracking"
+                content="Every action you take is logged here for transparency and auditing. Use filters to find specific events or review your daily productivity."
+              />
+            </span>
+          }
+          subtitle="System event monitoring and audit trail"
+        />
       </motion.div>
 
       {/* Filters */}

@@ -80,7 +80,7 @@ export default function SignupPage() {
         <div className="inline-flex items-center justify-center mb-4">
           <Image src="/logo.png" alt="Profit Loop" width={64} height={64} />
         </div>
-        <h1 className="text-3xl font-bold gradient-text mb-2">PROFIT LOOP</h1>
+        <h1 className="ds-h1 gradient-text mb-2">PROFIT LOOP</h1>
         <p className="text-zinc-500 text-sm uppercase tracking-widest">AI-Powered Outreach Platform</p>
       </div>
 
@@ -165,7 +165,7 @@ export default function SignupPage() {
                 <div className="w-full border-t border-zinc-800" />
               </div>
               <div className="relative flex justify-center">
-                <span className="px-4 text-xs text-zinc-600 bg-[#0a0a0f] uppercase tracking-widest">
+                <span className="px-4 text-xs text-zinc-600 bg-[var(--glass-bg)] uppercase tracking-widest">
                   Existing User
                 </span>
               </div>

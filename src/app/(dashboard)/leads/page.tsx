@@ -8,6 +8,7 @@ import { Select } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
+import { PageHeader } from '@/components/ui/page-header'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { createClient } from '@/lib/supabase/client'
 import { INDUSTRIES, DAILY_LEAD_LIMIT, LEAD_STATUS } from '@/lib/constants'
@@ -126,16 +127,21 @@ export default function LeadsPage() {
       className="max-w-6xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-6">
-        <div className="flex items-center gap-3 flex-wrap">
-          <h1 className="text-4xl font-bold gradient-text">Find Customers</h1>
-          <HelpTooltip
-            variant="info"
-            title="What's a lead?"
-            content="A lead is just a local business we found that you can email your offer to. Pick a type of business and a location, and we'll find some for you."
-          />
-        </div>
-        <p className="text-zinc-500 mt-2">Pick a type of business and a location, and we&apos;ll find customers you can email.</p>
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="Leads"
+          title={
+            <span className="flex items-center gap-3">
+              Find Customers
+              <HelpTooltip
+                variant="info"
+                title="What's a lead?"
+                content="A lead is just a local business we found that you can email your offer to. Pick a type of business and a location, and we'll find some for you."
+              />
+            </span>
+          }
+          subtitle="Pick a type of business and a location, and we'll find customers you can email."
+        />
       </motion.div>
       
       <motion.div variants={itemVariants}>
@@ -173,7 +179,7 @@ export default function LeadsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <div className="flex items-center mb-2">
-                  <span className="text-sm font-medium text-[#D946EF]/80 uppercase tracking-wider">Type of business</span>
+                  <span className="ds-label">Type of business</span>
                   <HelpTooltip
                     variant="help"
                     content="The kind of business you want to reach — like restaurants, dentists, or gyms. Some people call this an industry or niche."
@@ -188,7 +194,7 @@ export default function LeadsPage() {
               </div>
               <div>
                 <div className="flex items-center mb-2">
-                  <span className="text-sm font-medium text-[#D946EF]/80 uppercase tracking-wider">Location</span>
+                  <span className="ds-label">Location</span>
                   <HelpTooltip
                     variant="help"
                     content="The town, state, or country where you want to find businesses. For example: 'Austin, Texas' or 'United Kingdom'."
@@ -228,13 +234,13 @@ export default function LeadsPage() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
-                  <Users className="w-6 h-6 text-indigo-400" />
+                <div className="p-3 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20">
+                  <Users className="w-6 h-6 text-[#8B5CF6]" />
                 </div>
                 <div>
                   <CardTitle>Customers Found</CardTitle>
                   <CardDescription>
-                    <span className="text-indigo-400 font-mono">{leads.length}</span> businesses you can email
+                    <span className="text-[#8B5CF6] font-mono">{leads.length}</span> businesses you can email
                   </CardDescription>
                 </div>
               </div>

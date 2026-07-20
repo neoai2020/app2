@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { PageHeader } from '@/components/ui/page-header'
 import { BonusTrainingCard } from '@/components/ui/bonus-training-card'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 import { VideoOverlay } from '@/components/ui/video-overlay'
@@ -139,7 +140,7 @@ function TrainingVideoCard({ video, index }: { video: Video; index: number }) {
               aria-label={`Play ${video.title}`}
               className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
             >
-              <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#a855f7] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+              <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
                 <Play className="ml-1 h-8 w-8 fill-white" />
               </span>
               <span className="text-sm font-semibold text-white drop-shadow-lg">
@@ -271,26 +272,31 @@ export default function TrainingPage() {
       className="max-w-4xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-6">
-        <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold gradient-text">Training</h1>
-          <HelpTooltip
-            variant="info"
-            title="Training Center"
-            content="Watch step-by-step video tutorials to master every feature. Premium videos are available with premium features."
-          />
-        </div>
-        <p className="text-zinc-500 mt-2">Video tutorials and frequently asked questions</p>
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="Academy"
+          title={
+            <span className="flex items-center gap-3">
+              Training
+              <HelpTooltip
+                variant="info"
+                title="Training Center"
+                content="Watch step-by-step video tutorials to master every feature. Premium videos are available with premium features."
+              />
+            </span>
+          }
+          subtitle="Video tutorials and frequently asked questions"
+        />
       </motion.div>
 
       {/* Tabs */}
       <motion.div variants={itemVariants} className="mb-6 flex gap-2">
         <button
           onClick={() => setActiveTab('videos')}
-          className={`px-5 py-2.5 rounded-full text-sm font-medium transition-colors ${
+          className={`ds-chip transition-colors ${
             activeTab === 'videos'
-              ? 'bg-zinc-100 text-zinc-900'
-              : 'bg-zinc-800/50 text-zinc-400 hover:text-white hover:bg-zinc-800'
+              ? 'bg-[#D946EF] text-black'
+              : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white'
           }`}
         >
           <span className="flex items-center gap-2">
@@ -300,10 +306,10 @@ export default function TrainingPage() {
         </button>
         <button
           onClick={() => setActiveTab('faq')}
-          className={`px-5 py-2.5 rounded-full text-sm font-medium transition-colors ${
+          className={`ds-chip transition-colors ${
             activeTab === 'faq'
-              ? 'bg-zinc-100 text-zinc-900'
-              : 'bg-zinc-800/50 text-zinc-400 hover:text-white hover:bg-zinc-800'
+              ? 'bg-[#D946EF] text-black'
+              : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white'
           }`}
         >
           <span className="flex items-center gap-2">
@@ -323,7 +329,7 @@ export default function TrainingPage() {
           >
             {/* Platform Videos */}
             <motion.div variants={itemVariants} className="mb-8">
-              <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="ds-h2 mb-4 flex items-center gap-2">
                 <Play className="w-5 h-5 text-[#D946EF]" />
                 Platform Tutorials
               </h2>
@@ -332,7 +338,7 @@ export default function TrainingPage() {
 
             {/* Premium Videos */}
             <motion.div variants={itemVariants}>
-              <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="ds-h2 mb-4 flex items-center gap-2">
                 <Diamond className="w-5 h-5 text-[#D946EF]" />
                 Premium Feature Tutorials
               </h2>
@@ -349,8 +355,8 @@ export default function TrainingPage() {
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-lg bg-indigo-400/10 border border-indigo-400/20">
-                    <GraduationCap className="w-6 h-6 text-indigo-400" />
+                  <div className="p-3 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20">
+                    <GraduationCap className="w-6 h-6 text-[#8B5CF6]" />
                   </div>
                   <div>
                     <CardTitle>Frequently Asked Questions</CardTitle>

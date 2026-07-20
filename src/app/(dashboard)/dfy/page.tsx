@@ -506,17 +506,17 @@ export default function DFYPage() {
   }
 
   return (
-    <div className="space-y-8 pb-20">
+    <div className="max-w-7xl mx-auto space-y-8 pb-20">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1.5 h-10 bg-[#D946EF] rounded-full shadow-[0_0_15px_rgba(217,70,239,0.5)]" />
-            <h1 className="text-4xl font-black italic uppercase tracking-tighter text-white">
+            <h1 className="ds-h1 italic uppercase tracking-tight text-white">
               ACCELERATOR
             </h1>
           </div>
-          <p className="text-zinc-400 max-w-2xl pl-4">
+          <p className="ds-subtitle max-w-2xl pl-4">
             Exclusive premium access to pre-scraped, highly qualified leads. Each niche contains 200 verified emails with hand-crafted, high-converting copy ready to send.
           </p>
         </div>
@@ -556,7 +556,7 @@ export default function DFYPage() {
                   className={`w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center justify-between group disabled:opacity-50 ${
                     selectedNiche === niche.id 
                       ? 'bg-[#D946EF]/10 border border-[#D946EF]/30' 
-                      : 'bg-[#111111] border border-white/5 hover:border-white/10'
+                      : 'bg-[var(--glass-bg)] border border-white/5 hover:border-white/10'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -576,7 +576,7 @@ export default function DFYPage() {
           <div className="glass-card p-6 md:p-8 min-h-[700px]">
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 pb-6 border-b border-white/5 gap-4">
               <div>
-                <h2 className="text-2xl font-black text-white flex items-center gap-3">
+                <h2 className="ds-h2 text-white flex items-center gap-3">
                   {niches.find(n => n.id === selectedNiche)?.icon}
                   {niches.find(n => n.id === selectedNiche)?.name}
                 </h2>
@@ -597,7 +597,7 @@ export default function DFYPage() {
                 </div>
                 <button 
                   onClick={handleCopyAll}
-                  className="flex items-center justify-center gap-2 px-6 py-2 bg-[#D946EF] hover:bg-[#D946EF]/90 text-white rounded-lg text-sm font-bold transition-colors shadow-[0_0_15px_rgba(217,70,239,0.3)] whitespace-nowrap"
+                  className="btn btn-primary btn-md gap-2 whitespace-nowrap"
                 >
                   {copiedAll ? <CheckSquare className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                   {copiedAll ? 'Copied All!' : 'Copy All Emails'}
@@ -626,7 +626,7 @@ export default function DFYPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: Math.min(index * 0.05, 0.4) }}
-                  className="bg-[#111111] rounded-2xl p-6 border border-white/5 hover:border-[#D946EF]/30 transition-all duration-300"
+                  className="bg-[var(--glass-bg)] rounded-2xl p-6 border border-white/5 hover:border-[#D946EF]/30 transition-all duration-300"
                 >
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="md:w-1/3 space-y-3">
@@ -636,14 +636,14 @@ export default function DFYPage() {
                         </div>
                         <h3 className="text-white font-semibold">{lead.firstName} {lead.lastName}</h3>
                       </div>
-                      <div className="text-sm text-zinc-400 space-y-1 bg-black/50 p-3 rounded-lg">
+                      <div className="text-sm text-zinc-400 space-y-1 ds-well p-3">
                         <p className="truncate"><span className="text-zinc-600">Email:</span> {lead.email}</p>
                         <p><span className="text-zinc-600">Company:</span> {lead.company}</p>
                         <p><span className="text-zinc-600">Status:</span> <span className="text-green-400">{lead.status}</span></p>
                       </div>
                     </div>
                     
-                    <div className="md:w-2/3 bg-black/40 rounded-xl p-4 border border-white/5 relative group">
+                    <div className="md:w-2/3 ds-well p-4 relative group">
                       <div className="flex justify-between items-center mb-3">
                         <span className="text-xs text-[#D946EF] uppercase tracking-wider font-bold flex items-center gap-1">
                           <Mail className="w-3 h-3" /> Pre-written Email
@@ -671,7 +671,7 @@ export default function DFYPage() {
                 <div className="py-6 flex justify-center">
                   <button
                     onClick={handleLoadMore}
-                    className="px-6 py-3 bg-[#D946EF]/10 text-[#D946EF] rounded-xl font-bold uppercase tracking-wider text-sm hover:bg-[#D946EF]/20 transition-colors border border-[#D946EF]/30"
+                    className="btn btn-accent-soft btn-md uppercase tracking-wider"
                   >
                     Load More Leads ({remaining} Remaining)
                   </button>

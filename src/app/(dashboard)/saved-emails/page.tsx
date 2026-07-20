@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
+import { PageHeader } from '@/components/ui/page-header'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { createClient } from '@/lib/supabase/client'
 import { EmailTemplate, Lead } from '@/types/database'
@@ -106,22 +107,29 @@ export default function SavedEmailsPage() {
       className="max-w-4xl mx-auto"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-6">
-        <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold gradient-text">Email Archive</h1>
-          <HelpTooltip
-            variant="info"
-            title="Saved Emails"
-            content="All your saved emails live here. Click any email to open it, copy the words, then paste them into Gmail or Outlook to send."
-          />
-        </div>
-        <p className="text-zinc-500 mt-2 flex items-center flex-wrap">
-          Your saved emails — your offer link is already inside each one
-          <HelpTooltip
-            variant="help"
-            content="Your offer link (also called an affiliate link) is the web address people click to buy or sign up. It's already added inside each email for you."
-          />
-        </p>
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          eyebrow="Archive"
+          title={
+            <span className="flex items-center gap-3">
+              Email Archive
+              <HelpTooltip
+                variant="info"
+                title="Saved Emails"
+                content="All your saved emails live here. Click any email to open it, copy the words, then paste them into Gmail or Outlook to send."
+              />
+            </span>
+          }
+          subtitle={
+            <span className="flex items-center flex-wrap">
+              Your saved emails — your offer link is already inside each one
+              <HelpTooltip
+                variant="help"
+                content="Your offer link (also called an affiliate link) is the web address people click to buy or sign up. It's already added inside each email for you."
+              />
+            </span>
+          }
+        />
       </motion.div>
 
       {loading ? (
@@ -206,7 +214,7 @@ export default function SavedEmailsPage() {
                         {/* Subject */}
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2">
-                            <label className="text-xs font-medium text-[#e879f9]/80 uppercase tracking-wider">Subject Line</label>
+                            <label className="ds-label">Subject Line</label>
                             <Button
                               variant="ghost"
                               size="sm"
@@ -219,7 +227,7 @@ export default function SavedEmailsPage() {
                               )}
                             </Button>
                           </div>
-                          <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/30 text-zinc-300 font-mono text-sm">
+                          <div className="ds-well p-3 text-zinc-300 font-mono text-sm">
                             {email.subject}
                           </div>
                         </div>
@@ -227,7 +235,7 @@ export default function SavedEmailsPage() {
                         {/* Body */}
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2">
-                            <label className="text-xs font-medium text-[#e879f9]/80 uppercase tracking-wider">Email Body</label>
+                            <label className="ds-label">Email Body</label>
                             <Button
                               variant="ghost"
                               size="sm"
@@ -240,7 +248,7 @@ export default function SavedEmailsPage() {
                               )}
                             </Button>
                           </div>
-                          <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/30 text-zinc-300 text-sm whitespace-pre-wrap max-h-[300px] overflow-y-auto">
+                          <div className="ds-well p-3 text-zinc-300 text-sm whitespace-pre-wrap max-h-[300px] overflow-y-auto">
                             {email.body}
                           </div>
                         </div>
@@ -249,7 +257,7 @@ export default function SavedEmailsPage() {
                         {email.follow_up && (
                           <div className="mb-4">
                             <div className="flex items-center justify-between mb-2">
-                              <label className="text-xs font-medium text-[#e879f9]/80 uppercase tracking-wider">Follow-Up</label>
+                              <label className="ds-label">Follow-Up</label>
                               <Button
                                 variant="ghost"
                                 size="sm"
@@ -262,7 +270,7 @@ export default function SavedEmailsPage() {
                                 )}
                               </Button>
                             </div>
-                            <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/30 text-zinc-300 text-sm whitespace-pre-wrap">
+                            <div className="ds-well p-3 text-zinc-300 text-sm whitespace-pre-wrap">
                               {email.follow_up}
                             </div>
                           </div>
