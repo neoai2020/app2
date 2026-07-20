@@ -5,8 +5,8 @@ import { Loader2 } from 'lucide-react'
 import { PromoBanner } from '@/components/ui/promo-banner'
 
 /**
- * Shown while a premium CTA is “working” (fake or real load).
- * Loading bar + Free Training banner; after load, parents keep showing PromoBanner alone.
+ * Branded loading bar (purple→magenta gradient, matching dashboard usage bars).
+ * Shown while a generation / premium CTA is working. Embeds a compact PromoBanner.
  */
 export function GenerationProgress({
   label = 'Working on it...'
@@ -25,16 +25,21 @@ export function GenerationProgress({
   }, [])
 
   return (
-    <div className="mb-4 space-y-4">
-      <div className="flex items-center gap-3">
-        <Loader2 className="h-5 w-5 animate-spin text-[#D946EF]" />
-        <p className="text-base font-semibold text-white">{label}</p>
-      </div>
-      <div className="h-3 w-full overflow-hidden rounded-full border border-[#D946EF]/30 bg-zinc-900">
-        <div
-          className="h-full bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] transition-all duration-300"
-          style={{ width: `${progress}%` }}
-        />
+    <div className="mb-4 space-y-3">
+      <div className="rounded-xl border border-[#D946EF]/25 bg-[var(--glass-bg)] p-4">
+        <div className="mb-3 flex items-center gap-3">
+          <Loader2 className="h-5 w-5 animate-spin text-[#D946EF]" />
+          <p className="text-sm font-semibold text-white sm:text-base">{label}</p>
+        </div>
+        <div className="relative h-3.5 overflow-hidden rounded-full border border-[#D946EF]/30 bg-white/5 p-0.5">
+          <div
+            className="absolute inset-y-0.5 left-0.5 rounded-full bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] shadow-[0_0_15px_rgba(217,70,239,0.5)] transition-all duration-300"
+            style={{ width: `calc(${progress}% - 4px)` }}
+          />
+        </div>
+        <p className="mt-2 text-right font-mono text-[10px] font-bold uppercase tracking-wider text-[#D946EF]/70">
+          {progress}%
+        </p>
       </div>
       <PromoBanner />
     </div>

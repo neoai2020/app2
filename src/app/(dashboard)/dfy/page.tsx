@@ -1,10 +1,13 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Diamond, Mail, Copy, CheckCircle2, Search, Link as LinkIcon, CheckSquare } from 'lucide-react'
+import { Diamond, Mail, Copy, CheckCircle2, Search, Link as LinkIcon, CheckSquare, Play } from 'lucide-react'
 import { useState, useMemo } from 'react'
 import { GenerationProgress } from '@/components/ui/generation-progress'
 import { PromoBanner } from '@/components/ui/promo-banner'
+import { VideoOverlay } from '@/components/ui/video-overlay'
+import { getVideoThumbnail } from '@/lib/video-thumbnails'
+import { scrollToResults } from '@/lib/scroll-to-results'
 import { PageHeader } from '@/components/ui/page-header'
 
 const LEADS_PER_PAGE = 10
@@ -67,6 +70,10 @@ export default function DFYPage() {
   const [loading, setLoading] = useState(false)
   const [showOfferBanner, setShowOfferBanner] = useState(false)
   const [loadingLabel, setLoadingLabel] = useState('Loading premium leads...')
+  const [videoOpen, setVideoOpen] = useState(false)
+
+  const acceleratorVideoUrl = 'https://player.vimeo.com/video/1177396681'
+  const acceleratorThumbnail = getVideoThumbnail(acceleratorVideoUrl)
 
   const filteredNiches = useMemo(
     () => niches.filter(n => n.name.toLowerCase().includes(nicheQuery.trim().toLowerCase())),
@@ -87,6 +94,7 @@ export default function DFYPage() {
       setSelectedNiche(nicheId)
       setVisibleCount(LEADS_PER_PAGE)
       setLoading(false)
+      scrollToResults()
     }, 3500)
   }
 
@@ -98,6 +106,7 @@ export default function DFYPage() {
     window.setTimeout(() => {
       setVisibleCount(prev => Math.min(prev + LEADS_PER_PAGE, 200))
       setLoading(false)
+      scrollToResults()
     }, 2500)
   }
 
@@ -525,7 +534,59 @@ export default function DFYPage() {
         }
       />
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+      {/* Training video hero — matches Recurring Streams / Social Payouts */}
+      <div className="mb-8 overflow-hidden rounded-2xl border border-white/5 bg-[var(--glass-bg)] shadow-2xl flex flex-col lg:flex-row">
+        <div className="relative min-h-[280px] overflow-hidden border-b border-white/5 bg-[#0a0a0a] lg:min-h-[380px] lg:w-1/2 lg:border-b-0 lg:border-r">
+          {acceleratorThumbnail ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={acceleratorThumbnail}
+              alt="Accelerator training thumbnail"
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a1f] to-zinc-900" />
+          )}
+          <div className={`absolute inset-0 ${acceleratorThumbnail ? 'thumb-scrim' : 'bg-black/40'}`} />
+          <button
+            type="button"
+            onClick={() => setVideoOpen(true)}
+            aria-label="Play Accelerator training"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
+          >
+            <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+              <Play className="ml-1 h-8 w-8 fill-white" />
+            </span>
+            <span className="text-sm font-semibold text-white drop-shadow-lg">
+              ▶ Click to Play Video
+            </span>
+          </button>
+        </div>
+
+        <div className="relative flex flex-col justify-center p-8 md:p-10 lg:w-1/2">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#D946EF]/5 to-transparent" />
+
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#D946EF]/20 bg-[#D946EF]/10">
+            <Diamond className="h-6 w-6 text-[#D946EF]" />
+          </div>
+
+          <h2 className="mb-1 ds-h2 italic uppercase leading-tight tracking-tight text-white">
+            ACCELERATOR:<br /> <span className="text-[#D946EF]">DONE-FOR-YOU LEADS</span>
+          </h2>
+
+          <p className="page-eyebrow mb-4">
+            1,600 VERIFIED LEADS &amp; PRE-WRITTEN EMAILS
+          </p>
+
+          <p className="ds-subtitle max-w-md">
+            Pick a niche, paste your affiliate link, and copy ready-to-send emails. Watch the training first so you know exactly how to use every lead.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8" data-generation-results>
         {/* Niches Sidebar */}
         <div className="xl:col-span-1 space-y-4">
           <div className="glass-card p-4">
@@ -635,7 +696,7 @@ export default function DFYPage() {
                       <div className="text-sm text-zinc-400 space-y-1 ds-well p-3">
                         <p className="truncate"><span className="text-zinc-600">Email:</span> {lead.email}</p>
                         <p><span className="text-zinc-600">Company:</span> {lead.company}</p>
-                        <p><span className="text-zinc-600">Status:</span> <span className="text-green-400">{lead.status}</span></p>
+                        <p><span className="text-zinc-600">Status:</span> <span className="text-[var(--success)]">{lead.status}</span></p>
                       </div>
                     </div>
                     
@@ -649,7 +710,7 @@ export default function DFYPage() {
                           className="text-zinc-500 hover:text-white transition-colors"
                         >
                           {copiedIndex === index ? (
-                            <span className="flex items-center gap-1 text-green-400 text-xs"><CheckCircle2 className="w-4 h-4" /> Copied</span>
+                            <span className="flex items-center gap-1 text-[var(--success)] text-xs"><CheckCircle2 className="w-4 h-4" /> Copied</span>
                           ) : (
                             <Copy className="w-4 h-4" />
                           )}
@@ -678,6 +739,14 @@ export default function DFYPage() {
           </div>
         </div>
       </div>
+
+      {videoOpen && (
+        <VideoOverlay
+          videoUrl={acceleratorVideoUrl}
+          title="Accelerator Setup & Walkthrough"
+          onClose={() => setVideoOpen(false)}
+        />
+      )}
     </div>
   )
 }

@@ -192,71 +192,71 @@ function VideoRowsWithPromo({ videos }: { videos: Video[] }) {
 const faqs = [
   {
     question: 'How do I get started with Profit Loop?',
-    answer: 'Watch the "Getting Started" video in the Training Videos tab above. The core workflow is: 1) Create offer templates in the Offer Library, 2) Pull leads in Find Customers by industry and location, 3) Generate personalized AI emails in Write Emails, 4) Copy and send via Gmail or Outlook. Repeat daily for best results.'
+    answer: 'Watch the "Getting Started" video on the Dashboard or in Training. The core workflow is: 1) Create offer templates in the Offer Library, 2) Find customers by business type and location, 3) Generate personalized AI emails in Write Emails, 4) Copy and send from your own inbox (Gmail, Outlook, etc.). Repeat daily for best results.'
   },
   {
     question: 'What is the Offer Library and how do I use it?',
-    answer: 'The Offer Library stores your reusable email templates. Click "New Template", choose a type (Affiliate, Service, or Partnership), fill in your details and custom instructions, then click "Generate with AI." The AI writes a professional email template you can save and reuse across all your outreach. You get 5 AI generations per day.'
+    answer: 'The Offer Library stores your reusable outreach templates. Click "New Template", choose a type (Affiliate Offer, Service Offer, or Partnership), fill in your details and any custom notes, then click Generate with AI. The AI writes a professional email template you can save and reuse. You get 5 AI generations per day.'
   },
   {
     question: 'How does Find Customers work?',
-    answer: 'Find Customers pulls real, verified business leads. Select a Target Industry (15 options including Restaurants, Real Estate, Health & Wellness, etc.) and a Target Location (city, state, or country). Click "Find My Customers" and leads appear with business name, email, and website. You get 25 leads per day. Click "Generate Email" on any lead to jump straight to Write Emails.'
+    answer: 'Pick a type of business (15 options including Restaurants & Cafes, Real Estate, Health & Wellness, and more) and a location (city, state, or country). Click "Find My Customers" and businesses appear with name, email, and website when available. You get 25 searches per day. From any result you can jump into Write Emails to draft outreach.'
   },
   {
     question: 'How does Write Emails work?',
-    answer: 'Select a lead from your Find Customers results, pick an offer template (or write a custom description), choose a tone (Professional, Friendly, or Direct), and click Generate. The AI creates a personalized subject line, email body, and follow-up message. You get 10 generations per day. Copy, paste into your email client, and send.'
+    answer: 'Select a customer from your Find Customers results, pick an offer template (or write a custom description), choose a tone (Professional, Friendly, or Direct), and click Generate. The AI creates a personalized subject line, email body, and follow-up. You get 10 generations per day. Copy the email into your own inbox and send it yourself.'
   },
   {
     question: 'What are the daily limits?',
-    answer: 'Find Customers: 25 leads per day. Write Emails: 10 email generations per day. Offer Library: 5 AI offer generations per day. All limits reset automatically every 24 hours. Your remaining count is always visible on the Dashboard and on each feature page.'
+    answer: 'Find Customers: 25 searches per day. Write Emails: 10 email generations per day. Offer Library: 5 AI offer generations per day. Limits reset at midnight. Your remaining count is always visible on the Dashboard and on each feature page.'
   },
   {
     question: 'Does Profit Loop send emails for me?',
-    answer: 'No. Profit Loop generates email content only. You copy the email from Write Emails or Saved Emails, paste it into your email client (Gmail, Outlook, Yahoo, etc.), and send it yourself. This gives you full control over your outreach and avoids spam filter issues.'
+    answer: 'No. Profit Loop generates email content only. You copy the email from Write Emails or Saved Emails, paste it into your email client (Gmail, Outlook, Yahoo, etc.), and send it yourself. This keeps you in control and helps avoid spam-filter issues.'
   },
   {
     question: 'What is Saved Emails?',
-    answer: 'Every email you generate in Write Emails can be saved by clicking "Save Email for Later." The Saved Emails page is your archive — view, expand, copy subject/body/follow-up individually, or use "Copy Complete Email" to grab everything at once. Great for reusing winning templates.'
+    answer: 'Every email you generate in Write Emails can be saved for later. Saved Emails is your archive — view, expand, copy subject/body/follow-up individually, or copy the complete email at once. Great for reusing messages that get replies.'
   },
   {
     question: 'What are the three email tones?',
-    answer: 'Professional — formal and polished, best for first-time cold outreach. Friendly — warm and approachable, ideal for follow-ups or casual industries like restaurants. Direct — sharp and to the point, great for busy decision-makers. The AI adjusts word choice, formality, and structure based on your selection.'
+    answer: 'Professional — formal and business-like, best for first-time cold outreach. Friendly — warm and approachable, ideal for follow-ups or casual industries. Direct — clear and to the point, great for busy decision-makers. The AI adjusts word choice and structure based on your selection.'
   },
   {
     question: 'What are Premium Features?',
-    answer: 'Premium Features include four advanced tools: Accelerator gives you 1,600 pre-built leads with pre-written emails across 8 niches. Recurring Streams provides ready-to-post Facebook messages with your affiliate link. Social Payouts gives you 100+ free traffic sources with submission guides. Plus Protector for account security monitoring.'
+    answer: 'Premium Features (in the sidebar) include four tools: Accelerator — 1,600 pre-built leads with pre-written emails across 8 niches. Recurring Streams — ready-to-post Facebook messages with your affiliate link. Social Payouts — 100+ free traffic sources with step-by-step submission guides. Protector — your account security overview.'
   },
   {
     question: 'How does Accelerator work?',
-    answer: 'Accelerator provides 1,600 verified leads across 8 niches (SaaS, Real Estate, E-commerce, Agencies, Coaching, Fitness, Crypto, Local Services) — 200 leads per niche. Each lead comes with a unique pre-written email. Paste your affiliate link, choose a niche, copy emails, and send. Use "Load More" to access all 200 leads per niche.'
+    answer: 'Watch the on-page training video first. Accelerator gives you 1,600 verified leads across 8 niches (SaaS, Real Estate, E-commerce, Agencies, Coaching, Fitness, Crypto, Local Services) — 200 per niche. Each lead includes a unique pre-written email. Paste your affiliate link, choose a niche, copy emails, and send from your inbox. Use "Load More" to unlock all 200 leads per niche.'
   },
   {
     question: 'How does Recurring Streams work?',
-    answer: 'Choose a niche (Weight Loss, Make Money Online, Health & Fitness, etc.), paste your affiliate link from DigiStore24 or similar, and click "Generate My Posts Now." You get 3 unique Facebook posts written as personal stories. Copy and paste them into Facebook groups (3-5 groups per day). Best posting times: 7-9 AM, 12-1 PM, 7-9 PM.'
+    answer: 'Watch the training video on the page. Choose a niche (Weight Loss, Make Money Online, Health & Fitness, etc.), paste your affiliate link (e.g. from DigiStore24), and click "Generate My Posts Now." You get 3 unique Facebook posts written as personal stories. Copy and paste them into Facebook groups (about 3–5 groups per day). Best posting times: 7–9 AM, 12–1 PM, 7–9 PM.'
   },
   {
     question: 'How does Social Payouts work?',
-    answer: 'Enter your promotion URL and click "Save & Continue." Your link is auto-inserted into all 102 traffic source submissions. Filter by niche, then for each source: click "View Instructions" for step-by-step guidance, "Copy Submission Text" to grab your pre-written post with your link, and "Mark as Done" to track progress. Submit to all 102 sources for maximum traffic.'
+    answer: 'Watch the training video first. Enter your promotion URL and click Save. Your link is auto-inserted into all 102 traffic source submissions. Filter by niche, then for each source: open the instructions, copy the pre-written submission text with your link, and mark it done to track progress.'
   },
   {
     question: 'What is Protector?',
-    answer: 'Protector is your account security dashboard. It shows real-time security checks (account verification, secure connection, session protection, data encryption, server status, API connectivity), your account info, and recent security activity. All systems are monitored continuously.'
+    answer: 'Protector is your account security dashboard under Premium Features. It shows real-time security checks (account verification, secure connection, session protection, data encryption, server status, API connectivity), your account info, and recent security activity.'
   },
   {
     question: 'How do I get the best results from AI emails?',
-    answer: 'Use Professional tone for cold outreach. Add detailed custom instructions in your offer template (e.g., "mention their recent blog post" or "focus on saving them time"). Create separate templates for different industries. Research each lead\'s website before sending. Save every email to build a swipe file of winning templates.'
+    answer: 'Use Professional tone for cold outreach. Add detailed notes in your offer template (for example, "mention their recent blog post" or "focus on saving them time"). Create separate templates for different industries. Glance at each business\'s website before sending. Save strong emails to build a swipe file.'
   },
   {
-    question: 'What is the Fast Cash Training, Claim Now page?',
-    answer: 'That page links to an exclusive training on how to multiply your results using Profit Loop. It covers advanced automation, workflow optimization, and strategies to consistently hit $1,000+ per day by combining email outreach, Recurring Streams, and Social Payouts traffic sources.'
+    question: 'What are the Quick Actions on the right?',
+    answer: 'Quick Actions are exclusive partner offers shown as widgets on the right (below Your activity on desktop, or under More on mobile): Fast Cash Training, Create your P-55 account, and Get Paid To Copy & Paste. Each opens in a new tab. They are optional and separate from your Profit Loop membership.'
   },
   {
     question: 'Can I change my promotion link in Social Payouts?',
-    answer: 'Yes. After saving your initial link, click "Change" to update it. Your new link will be used in all future submission text copies. Note: previously submitted sources will still have the old link — only new copies will reflect the change.'
+    answer: 'Yes. After saving your initial link, click Change to update it. Your new link is used in all future submission text copies. Sources you already submitted still have the old link — only new copies reflect the change.'
   },
   {
     question: 'How do I contact support?',
-    answer: 'Visit the Support page from the sidebar. You can open a ticket at our support portal (neoaifreshdesk.freshdesk.com) or email us at ProfitLoopAI@neoai.freshdesk.com. Response time is 24-48 hours.'
+    answer: 'Open the Support page from the sidebar (or More on mobile). You can open a ticket at https://neoaifreshdesk.freshdesk.com or email ProfitLoopAI@neoai.freshdesk.com. Typical response time is 24–48 hours.'
   },
 ]
 

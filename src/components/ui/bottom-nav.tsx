@@ -14,9 +14,6 @@ import {
   Archive,
   HelpCircle,
   LogOut,
-  TrendingUp,
-  MousePointerClick,
-  ClipboardCopy,
   ExternalLink,
   X
 } from 'lucide-react'
@@ -25,6 +22,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
+import { EXCLUSIVE_OFFERS } from '@/components/ui/exclusive-offer-widgets'
 
 const tabs = [
   { title: 'Home', url: '/dashboard', icon: LayoutDashboard },
@@ -43,25 +41,6 @@ const premiumItems = [
   { title: 'Recurring Streams', url: '/instant-income', icon: Sparkles },
   { title: 'Social Payouts', url: '/autopilot', icon: Zap },
   { title: 'Protector', url: '/protector', icon: ShieldCheck }
-]
-
-/** Profit Loop exclusive offers — same URLs as the desktop sidebar */
-const exclusiveOffers = [
-  {
-    title: 'Fast Cash Training, Claim Now',
-    href: 'https://the7figuresociety.com/earn-1k-2k-per-day',
-    icon: TrendingUp
-  },
-  {
-    title: 'Create your P-55 account, Create Now',
-    href: 'https://scribble.a.explodely.com/?aff=neomedia&pid=47110198&tid=backend',
-    icon: MousePointerClick
-  },
-  {
-    title: 'Get Paid To Copy & Paste, Claim Now',
-    href: 'https://jvz5.com/c/3542829/433243/',
-    icon: ClipboardCopy
-  }
 ]
 
 /** Fixed bottom tab bar for mobile. Hidden on desktop (lg+) where the sidebar lives. */
@@ -209,23 +188,25 @@ export function BottomNav() {
                 </div>
 
                 <div>
-                  <p className="mb-2 px-1 text-[12px] font-semibold uppercase tracking-widest text-zinc-500">
-                    Exclusive offers
+                  <p className="mb-2 px-1 text-[12px] font-semibold uppercase tracking-widest text-[#FFC107]">
+                    Quick Actions
                   </p>
                   <div className="space-y-1.5">
-                    {exclusiveOffers.map((item) => {
+                    {EXCLUSIVE_OFFERS.map((item) => {
                       const Icon = item.icon
                       return (
                         <a
-                          key={item.href}
-                          href={item.href}
+                          key={item.key}
+                          href={item.externalUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => setMoreOpen(false)}
                           className="flex min-h-[52px] items-center gap-3 rounded-xl border border-transparent px-4 py-3.5 text-base font-semibold text-zinc-300 active:bg-white/5"
                         >
-                          <Icon className="h-5 w-5 text-[#D946EF]" />
-                          <span className="flex-1">{item.title}</span>
+                          <Icon className="h-5 w-5 text-[#FFC107]" />
+                          <span className="flex-1">
+                            {item.line1}, {item.line2}
+                          </span>
                           <ExternalLink className="h-4 w-4 text-zinc-600" />
                         </a>
                       )

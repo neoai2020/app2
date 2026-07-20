@@ -11,6 +11,7 @@ import { PageHeader } from '@/components/ui/page-header'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { Offer } from '@/types/database'
+import { scrollToResults } from '@/lib/scroll-to-results'
 import { Plus, Edit, Trash2, ExternalLink, Gift, X, Briefcase, Handshake, DollarSign, Sparkles, RefreshCw, Save, Zap, Brain } from 'lucide-react'
 
 const containerVariants = {
@@ -186,6 +187,7 @@ export default function OffersPage() {
       
       setDescription(data.template)
       setGenerated(true)
+      scrollToResults()
 
       state = getGenerationState()
       const newState = { count: state.count + 1, resetAt: state.resetAt }
@@ -204,6 +206,7 @@ export default function OffersPage() {
       }
       setDescription(text)
       setGenerated(true)
+      scrollToResults()
 
       state = getGenerationState()
       const newState = { count: state.count + 1, resetAt: state.resetAt }
@@ -567,12 +570,12 @@ export default function OffersPage() {
                           </div>
 
                           {/* Progress bar */}
-                          <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden mb-4">
+                          <div className="relative mb-4 h-3.5 w-full overflow-hidden rounded-full border border-[#D946EF]/30 bg-white/5 p-0.5">
                             <motion.div
-                              className="h-full rounded-full bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#D946EF]"
+                              className="absolute inset-y-0.5 left-0.5 rounded-full bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] shadow-[0_0_15px_rgba(217,70,239,0.5)]"
                               style={{ backgroundSize: '200% 100%' }}
                               animate={{
-                                width: `${loadingProgress}%`,
+                                width: `calc(${loadingProgress}% - 4px)`,
                                 backgroundPosition: ['0% 0%', '100% 0%'],
                               }}
                               transition={{
@@ -611,7 +614,7 @@ export default function OffersPage() {
 
                   {/* Generated Preview */}
                   {!generating && generated && description && (
-                    <div className="space-y-1 pt-4 border-t border-white/5">
+                    <div className="space-y-1 border-t border-white/5 pt-4" data-generation-results>
                       <label className="ds-label px-1">Generated Email Template</label>
                       <div
                         ref={editorRef}

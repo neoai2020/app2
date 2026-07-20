@@ -305,49 +305,6 @@ export default function DashboardPage() {
             </motion.div>
           </div>
 
-          {/* Quick Actions */}
-          <motion.div variants={itemVariants}>
-            <h2 className="ds-h2 mb-4">
-              Quick Actions
-            </h2>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4">
-              <Link
-                href="/leads"
-                className="group min-h-[120px] rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all duration-300 hover:border-[#D946EF]/30 hover:bg-white/5 sm:p-6"
-              >
-                <Users className="mb-4 h-8 w-8 text-[#D946EF] transition-transform group-hover:scale-110" />
-                <h3 className="mb-1 text-lg font-black italic uppercase tracking-tighter text-white">
-                  Find Customers
-                </h3>
-                <p className="text-xs font-bold uppercase text-zinc-500">
-                  Generate new business leads
-                </p>
-              </Link>
-              <Link
-                href="/email-builder"
-                className="group min-h-[120px] rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all duration-300 hover:border-white/20 hover:bg-white/5 sm:p-6"
-              >
-                <Mail className="mb-4 h-8 w-8 text-white transition-transform group-hover:scale-110" />
-                <h3 className="mb-1 text-lg font-black italic uppercase tracking-tighter text-white">
-                  Write Emails
-                </h3>
-                <p className="text-xs font-bold uppercase text-zinc-500">
-                  Create AI-powered outreach
-                </p>
-              </Link>
-              <Link
-                href="/offers"
-                className="group min-h-[120px] rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all duration-300 hover:border-white/20 hover:bg-white/5 sm:p-6"
-              >
-                <Activity className="mb-4 h-8 w-8 text-white transition-transform group-hover:scale-110" />
-                <h3 className="mb-1 text-lg font-black italic uppercase tracking-tighter text-white">
-                  Offer Library
-                </h3>
-                <p className="text-xs font-bold uppercase text-zinc-500">Manage offer templates</p>
-              </Link>
-            </div>
-          </motion.div>
-
           {/* Support */}
           <motion.div variants={itemVariants}>
             <Card className="border-[#D946EF]/25">
@@ -420,6 +377,49 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Quick Actions — right rail widgets below activity */}
+          <motion.div variants={itemVariants}>
+            <p className="mb-3 px-2 text-xs font-black italic uppercase tracking-widest text-zinc-500">
+              Quick Actions
+            </p>
+            <div className="flex flex-col gap-3">
+              <Link
+                href="/leads"
+                className="group rounded-2xl border border-white/5 bg-white/[0.02] p-4 transition-all duration-300 hover:border-[#D946EF]/30 hover:bg-white/5"
+              >
+                <Users className="mb-3 h-6 w-6 text-[#D946EF] transition-transform group-hover:scale-110" />
+                <h3 className="mb-0.5 text-sm font-black italic uppercase tracking-tighter text-white">
+                  Find Customers
+                </h3>
+                <p className="text-[10px] font-bold uppercase text-zinc-500">
+                  Generate new business leads
+                </p>
+              </Link>
+              <Link
+                href="/email-builder"
+                className="group rounded-2xl border border-white/5 bg-white/[0.02] p-4 transition-all duration-300 hover:border-white/20 hover:bg-white/5"
+              >
+                <Mail className="mb-3 h-6 w-6 text-white transition-transform group-hover:scale-110" />
+                <h3 className="mb-0.5 text-sm font-black italic uppercase tracking-tighter text-white">
+                  Write Emails
+                </h3>
+                <p className="text-[10px] font-bold uppercase text-zinc-500">
+                  Create AI-powered outreach
+                </p>
+              </Link>
+              <Link
+                href="/offers"
+                className="group rounded-2xl border border-white/5 bg-white/[0.02] p-4 transition-all duration-300 hover:border-white/20 hover:bg-white/5"
+              >
+                <Activity className="mb-3 h-6 w-6 text-white transition-transform group-hover:scale-110" />
+                <h3 className="mb-0.5 text-sm font-black italic uppercase tracking-tighter text-white">
+                  Offer Library
+                </h3>
+                <p className="text-[10px] font-bold uppercase text-zinc-500">Manage offer templates</p>
+              </Link>
+            </div>
           </motion.div>
 
           <motion.div variants={itemVariants} className="xl:hidden">

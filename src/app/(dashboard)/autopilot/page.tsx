@@ -1,12 +1,13 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { TrendingUp, Play, Video, Target, Link as LinkIcon, ExternalLink, CheckCircle2, ChevronDown, ChevronUp, Copy, Check } from 'lucide-react'
+import { TrendingUp, Play, Target, Link as LinkIcon, ExternalLink, CheckCircle2, ChevronDown, ChevronUp, Copy, Check } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { VideoOverlay } from '@/components/ui/video-overlay'
 import { GenerationProgress } from '@/components/ui/generation-progress'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { getVideoThumbnail } from '@/lib/video-thumbnails'
+import { scrollToResults } from '@/lib/scroll-to-results'
 import { PageHeader } from '@/components/ui/page-header'
 
 const niches = [
@@ -100,6 +101,7 @@ export default function AutopilotPage() {
       localStorage.setItem(URL_STORAGE_KEY, url.trim())
       setUrlLocked(true)
       setSavingLink(false)
+      scrollToResults()
     }, 4000)
   }
 
@@ -139,30 +141,9 @@ export default function AutopilotPage() {
         subtitle="Submit your link to 100+ free traffic sources once and get ongoing traffic automatically — no daily work required."
       />
 
-      {/* Main Hero Card */}
-      <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[var(--glass-bg)] p-8 md:p-12 text-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#D946EF]/5 to-transparent pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#D946EF]/5 blur-[100px] rounded-full pointer-events-none" />
-
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="w-14 h-14 rounded-xl bg-[#D946EF] flex items-center justify-center mb-5 shadow-[0_0_30px_rgba(217,70,239,0.4)]">
-            <TrendingUp className="w-7 h-7 text-black" strokeWidth={3} />
-          </div>
-          <h2 className="ds-h2 italic uppercase tracking-tight text-white mb-1 leading-tight">
-            SOCIAL PAYOUTS — <span className="text-[#D946EF]">TRAFFIC ON AUTOPILOT</span>
-          </h2>
-          <p className="page-eyebrow mt-3 mb-4">
-            100+ FREE TRAFFIC SOURCES — SUBMIT ONCE, GET TRAFFIC FOREVER
-          </p>
-          <p className="ds-subtitle max-w-2xl mx-auto">
-            SUBMIT YOUR LINK TO THESE 100+ SITES ONCE AND GET ONGOING TRAFFIC AUTOMATICALLY. NO DAILY WORK REQUIRED.
-          </p>
-        </div>
-      </div>
-
-      {/* Video Tutorial — Compact */}
-      <div className="rounded-2xl border border-white/5 bg-[var(--glass-bg)] flex flex-col md:flex-row overflow-hidden">
-        <div className="md:w-2/5 min-h-[200px] relative bg-[#0a0a0a] border-b md:border-b-0 md:border-r border-white/5 overflow-hidden">
+      {/* Hero — video + pitch (matches Recurring Streams layout) */}
+      <div className="mb-8 overflow-hidden rounded-2xl border border-white/5 bg-[var(--glass-bg)] shadow-2xl flex flex-col lg:flex-row">
+        <div className="relative min-h-[280px] overflow-hidden border-b border-white/5 bg-[#0a0a0a] lg:min-h-[380px] lg:w-1/2 lg:border-b-0 lg:border-r">
           {socialThumbnail ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -182,29 +163,38 @@ export default function AutopilotPage() {
             aria-label="Play Social Payouts training"
             className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
-              <Play className="ml-0.5 h-7 w-7 fill-white" />
+            <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+              <Play className="ml-1 h-8 w-8 fill-white" />
             </span>
-            <span className="text-xs font-semibold text-white drop-shadow-lg">
+            <span className="text-sm font-semibold text-white drop-shadow-lg">
               ▶ Click to Play Video
             </span>
           </button>
         </div>
-        <div className="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
-          <div className="flex items-center gap-2 text-[#D946EF] font-bold text-xs uppercase tracking-widest mb-2">
-            <Video className="w-4 h-4" /> WATCH FIRST
+
+        <div className="relative flex flex-col justify-center p-8 md:p-10 lg:w-1/2">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#D946EF]/5 to-transparent" />
+
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#D946EF]/20 bg-[#D946EF]/10">
+            <TrendingUp className="h-6 w-6 text-[#D946EF]" />
           </div>
-          <h3 className="ds-h3 italic uppercase text-white mb-2">
-            HOW TO USE SOCIAL PAYOUTS
-          </h3>
-          <p className="text-zinc-400 text-sm leading-relaxed">
-            Learn how to submit your link to 100+ traffic sources and get automated traffic forever.
+
+          <h2 className="mb-1 ds-h2 italic uppercase leading-tight tracking-tight text-white">
+            SOCIAL PAYOUTS:<br /> <span className="text-[#D946EF]">TRAFFIC ON AUTOPILOT</span>
+          </h2>
+
+          <p className="page-eyebrow mb-4">
+            100+ FREE TRAFFIC SOURCES
+          </p>
+
+          <p className="ds-subtitle max-w-md">
+            Submit your link once to 100+ free traffic sources and get ongoing traffic automatically. No daily work required.
           </p>
         </div>
       </div>
 
       {/* How This Works — Horizontal */}
-      <div>
+      <div data-generation-results>
         <div className="flex items-center gap-3 pl-1 mb-4">
           <Target className="w-5 h-5 text-[#D946EF]" />
           <h2 className="ds-h2 italic uppercase tracking-tight text-white">

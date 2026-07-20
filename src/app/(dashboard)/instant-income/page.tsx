@@ -7,6 +7,7 @@ import { VideoOverlay } from '@/components/ui/video-overlay'
 import { GenerationProgress } from '@/components/ui/generation-progress'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { getVideoThumbnail } from '@/lib/video-thumbnails'
+import { scrollToResults } from '@/lib/scroll-to-results'
 import { PageHeader } from '@/components/ui/page-header'
 
 const niches = [
@@ -53,6 +54,7 @@ export default function InstantIncomePage() {
       if (generateToken.current !== token) return
       setGenerating(false)
       setShowPosts(true)
+      scrollToResults()
     }, 4500)
   }
 
@@ -371,7 +373,7 @@ export default function InstantIncomePage() {
               ) : null}
 
               {showPosts && !generating ? (
-                <div className="space-y-4">
+                <div className="space-y-4" data-generation-results>
                   {samplePosts.map((post, index) => (
                     <div
                       key={index}

@@ -19,43 +19,43 @@ const itemVariants = {
 const faqs = [
   {
     question: 'What are the daily usage limits?',
-    answer: 'Find Customers: 25 leads per day. Write Emails: 10 email generations per day. Offer Library: 5 AI offer generations per day. All limits reset automatically every 24 hours. Your remaining count is always visible on the Dashboard and each feature page.'
+    answer: 'Find Customers: 25 searches per day. Write Emails: 10 email generations per day. Offer Library: 5 AI offer generations per day. Limits reset at midnight. Your remaining count is always visible on the Dashboard and each feature page.'
   },
   {
     question: 'Does Profit Loop send emails for me?',
-    answer: 'No. Profit Loop generates email content only. You copy the email from Write Emails or Saved Emails, paste it into your email client (Gmail, Outlook, Yahoo, etc.), and send it yourself. This gives you full control and avoids spam filter issues.'
+    answer: 'No. Profit Loop generates email content only. You copy the email from Write Emails or Saved Emails, paste it into your email client (Gmail, Outlook, Yahoo, etc.), and send it yourself. This keeps you in control and helps avoid spam-filter issues.'
   },
   {
     question: 'Why are some business emails unavailable?',
-    answer: 'We only surface publicly available business contact information. Personal emails are never collected, ensuring regulatory compliance. Some businesses may not have a publicly listed email.'
+    answer: 'We only surface publicly available business contact information. Personal emails are never collected. Some businesses simply do not list a public email address.'
   },
   {
     question: 'Are leads validated?',
-    answer: 'Yes. All email addresses undergo format validation and deliverability checks. However, 100% deliverability cannot be guaranteed due to dynamic server configurations.'
+    answer: 'Yes. Email addresses go through format validation and deliverability checks. 100% deliverability still cannot be guaranteed because mailbox servers change over time.'
   },
   {
     question: 'Which industries can I target in Find Customers?',
-    answer: 'Available industries include: Restaurants & Cafes, Retail Stores, Professional Services, Health & Wellness, Home Services, Automotive, Real Estate, Legal Services, Financial Services, Education & Training, Technology Services, Marketing & Advertising, Construction, and Manufacturing.'
+    answer: 'Available types of business: Restaurants & Cafes, Retail Stores, Professional Services, Health & Wellness, Home Services, Automotive, Real Estate, Legal Services, Financial Services, Education & Training, Technology Services, Marketing & Advertising, Construction, Manufacturing, and Other.'
   },
   {
     question: 'What offer types can I create?',
-    answer: 'Three types: Affiliate Offer (promote products for commission), Service Offer (pitch your own skills like SEO, web design, marketing), and Partnership (propose collaborations). Each type has specialized AI prompts for better results.'
+    answer: 'Three types: Affiliate Offer (promote products for commission), Service Offer (pitch your own skills like SEO, web design, or marketing), and Partnership (propose collaborations). Each type uses specialized AI prompts for better results.'
   },
   {
     question: 'What are the three email tones in Write Emails?',
-    answer: 'Professional — formal and polished, best for cold outreach. Friendly — warm and approachable, ideal for follow-ups. Direct — sharp and to the point, great for busy decision-makers. The AI adjusts word choice and structure based on your selection.'
+    answer: 'Professional — formal and business-like, best for cold outreach. Friendly — warm and approachable, ideal for follow-ups. Direct — clear and to the point, great for busy decision-makers. The AI adjusts word choice and structure based on your selection.'
   },
   {
     question: 'How does Accelerator work?',
-    answer: 'Accelerator provides 1,600 verified leads across 8 niches with 200 leads each. Every lead includes a unique pre-written email. Paste your affiliate link, choose a niche, and start copying and sending. Click "Load More" to access all 200 leads per niche.'
+    answer: 'Watch the on-page training video first. Accelerator provides 1,600 verified leads across 8 niches with 200 leads each. Every lead includes a unique pre-written email. Paste your affiliate link, choose a niche, and start copying and sending. Click "Load More" to access all 200 leads per niche.'
   },
   {
     question: 'How does Recurring Streams work?',
-    answer: 'Choose a niche, paste your affiliate link (e.g. from DigiStore24), and click "Generate My Posts Now." You get 3 unique Facebook posts written as personal stories. Copy and paste them into Facebook groups for affiliate commissions.'
+    answer: 'Watch the training video, choose a niche, paste your affiliate link (e.g. from DigiStore24), and click "Generate My Posts Now." You get 3 unique Facebook posts written as personal stories. Copy and paste them into Facebook groups for affiliate commissions.'
   },
   {
     question: 'How does Social Payouts work?',
-    answer: 'Enter your promotion URL, save it, and your link gets auto-inserted into all 102 traffic source submissions. Each source has step-by-step instructions, ready-to-copy text, and a direct link. Track progress as you complete each one.'
+    answer: 'Watch the training video, enter your promotion URL, save it, and your link gets auto-inserted into all 102 traffic source submissions. Each source has step-by-step instructions, ready-to-copy text, and a direct link. Track progress as you complete each one.'
   },
   {
     question: 'What is Protector?',
@@ -63,19 +63,23 @@ const faqs = [
   },
   {
     question: 'Where can I find training videos?',
-    answer: 'Visit the Training page from the sidebar. It has video tutorials for every feature: Getting Started, Offer Library, Find Customers, Write Emails, plus premium tutorials for Accelerator, Recurring Streams, and Social Payouts. There\'s also a comprehensive FAQ tab.'
+    answer: 'Open Training from the sidebar (or More on mobile). You will find tutorials for Getting Started, Offer Library, Find Customers, Write Emails, plus premium walkthroughs for Accelerator, Recurring Streams, and Social Payouts. Each premium page also has its own on-page training video. There is a full FAQ tab in Training as well.'
   },
   {
     question: 'What are Premium Features?',
-    answer: 'Premium Features include: Accelerator (1,600 pre-built leads with emails), Recurring Streams (Facebook post generator), Social Payouts (100+ free traffic sources), and Protector (security dashboard). All accessible from the sidebar.'
+    answer: 'Premium Features include: Accelerator (1,600 pre-built leads with emails), Recurring Streams (Facebook post generator), Social Payouts (100+ free traffic sources), and Protector (security dashboard). All are listed under Premium Features in the sidebar.'
+  },
+  {
+    question: 'What are the Quick Actions on the right?',
+    answer: 'Quick Actions are exclusive partner offers shown as widgets on the right below Your activity (desktop) or under More (mobile): Fast Cash Training, Create your P-55 account, and Get Paid To Copy & Paste. Each opens in a new tab and is optional — separate from your membership.'
   },
   {
     question: 'How do I get the best results?',
-    answer: 'Use Professional tone for cold outreach. Create multiple offer templates for different niches. Add custom instructions in your offers for better AI output. Use all 25 daily leads and 10 email generations. Layer in Recurring Streams and Social Payouts for additional revenue streams.'
+    answer: 'Use Professional tone for cold outreach. Create multiple offer templates for different niches. Add custom notes in your offers for better AI output. Use your daily Find Customers and Write Emails allowance. Layer in Recurring Streams and Social Payouts for additional traffic.'
   },
   {
     question: 'How do refunds work?',
-    answer: 'Full refund available within 30 days of purchase — no questions asked. Email ProfitLoopAI@neoai.freshdesk.com or open a ticket at neoaifreshdesk.freshdesk.com. Refunds are processed within 5-7 business days.'
+    answer: 'Full refund available within 30 days of purchase — no questions asked. Email ProfitLoopAI@neoai.freshdesk.com or open a ticket at https://neoaifreshdesk.freshdesk.com. Refunds are typically processed within 5–7 business days.'
   }
 ]
 

@@ -34,6 +34,14 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
+/** Soft emerald that pairs with the purple design system (not neon green-400) */
+const secure = {
+  text: 'text-[#34d399]',
+  bg: 'bg-[#34d399]/10',
+  border: 'border-[#34d399]/25',
+  dot: 'bg-[#34d399]'
+}
+
 const securityChecks = [
   {
     icon: BadgeCheck,
@@ -102,12 +110,12 @@ export default function ProtectorPage() {
           title="Protector"
           subtitle="Your account security overview. Everything is monitored in real time."
           actions={
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-400/10 border border-green-400/20">
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${secure.bg} border ${secure.border}`}>
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400" />
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${secure.dot} opacity-75`} />
+                <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${secure.dot}`} />
               </span>
-              <span className="text-green-400 text-sm font-bold uppercase tracking-wider">All Systems Secure</span>
+              <span className={`${secure.text} text-sm font-bold uppercase tracking-wider`}>All Systems Secure</span>
             </div>
           }
         />
@@ -117,7 +125,7 @@ export default function ProtectorPage() {
       <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {[
           { label: 'Security Score', value: '100%', color: 'text-white' },
-          { label: 'Account Status', value: 'Verified', color: 'text-green-400' },
+          { label: 'Account Status', value: 'Verified', color: secure.text },
           { label: 'Encryption', value: 'AES-256', color: 'text-[#D946EF]' },
           { label: 'Uptime', value: '99.9%', color: 'text-white' },
         ].map((stat) => (
@@ -148,15 +156,15 @@ export default function ProtectorPage() {
                       className="flex items-center justify-between p-4 ds-well"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="p-2.5 rounded-lg bg-green-400/10 border border-green-400/20">
-                          <Icon className="w-5 h-5 text-green-400" />
+                        <div className={`p-2.5 rounded-lg ${secure.bg} border ${secure.border}`}>
+                          <Icon className={`w-5 h-5 ${secure.text}`} />
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-white">{check.title}</p>
                           <p className="text-xs text-zinc-500">{check.description}</p>
                         </div>
                       </div>
-                      <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-400/10 border border-green-400/20 text-green-400 text-xs font-bold uppercase tracking-wider">
+                      <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full ${secure.bg} border ${secure.border} ${secure.text} text-xs font-bold uppercase tracking-wider`}>
                         <CheckCircle className="w-3.5 h-3.5" />
                         Verified
                       </span>
@@ -178,8 +186,8 @@ export default function ProtectorPage() {
                 <div className="space-y-4">
                   {[
                     { icon: Mail, label: 'Email', value: userEmail || 'Loading...' },
-                    { icon: User, label: 'Membership', value: 'Active', valueColor: 'text-green-400' },
-                    { icon: Lock, label: '2FA', value: 'Enabled', valueColor: 'text-green-400' },
+                    { icon: User, label: 'Membership', value: 'Active', valueColor: secure.text },
+                    { icon: Lock, label: '2FA', value: 'Enabled', valueColor: secure.text },
                     { icon: Calendar, label: 'Last Login', value: 'Today', valueColor: 'text-white' },
                   ].map((item) => {
                     const Icon = item.icon
@@ -216,8 +224,8 @@ export default function ProtectorPage() {
                         transition={{ delay: 0.8 + index * 0.1 }}
                         className="flex items-center gap-3"
                       >
-                        <div className="p-1.5 rounded-md bg-green-400/10">
-                          <Icon className="w-3.5 h-3.5 text-green-400" />
+                        <div className={`p-1.5 rounded-md ${secure.bg}`}>
+                          <Icon className={`w-3.5 h-3.5 ${secure.text}`} />
                         </div>
                         <div className="flex-1">
                           <p className="text-sm text-zinc-300">{item.text}</p>

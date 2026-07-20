@@ -14,6 +14,7 @@ import { PageHeader } from '@/components/ui/page-header'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { createClient } from '@/lib/supabase/client'
 import { EMAIL_TONES, DAILY_EMAIL_LIMIT } from '@/lib/constants'
+import { scrollToResults } from '@/lib/scroll-to-results'
 import { Lead, Offer } from '@/types/database'
 import { Sparkles, Copy, Save, RefreshCw, Mail, Cpu, CheckCircle, Brain } from 'lucide-react'
 
@@ -168,6 +169,7 @@ function EmailBuilderContent() {
         setBody(result.body)
         setFollowUp(result.followUp || '')
         setEmailsRemaining(prev => prev - 1)
+        scrollToResults()
       }
     } catch {
       setError('System error during generation')
@@ -403,12 +405,12 @@ function EmailBuilderContent() {
                     </div>
                   </div>
 
-                  <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden mb-4">
+                  <div className="relative mb-4 h-3.5 w-full overflow-hidden rounded-full border border-[#D946EF]/30 bg-white/5 p-0.5">
                     <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#D946EF]"
+                      className="absolute inset-y-0.5 left-0.5 rounded-full bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] shadow-[0_0_15px_rgba(217,70,239,0.5)]"
                       style={{ backgroundSize: '200% 100%' }}
                       animate={{
-                        width: `${loadingProgress}%`,
+                        width: `calc(${loadingProgress}% - 4px)`,
                         backgroundPosition: ['0% 0%', '100% 0%'],
                       }}
                       transition={{
@@ -452,12 +454,13 @@ function EmailBuilderContent() {
           variants={itemVariants}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          data-generation-results
         >
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-lg bg-green-400/10 border border-green-400/20">
-                  <Mail className="w-6 h-6 text-green-400" />
+                <div className="p-3 rounded-lg bg-[#D946EF]/10 border border-[#D946EF]/20">
+                  <Mail className="w-6 h-6 text-[#D946EF]" />
                 </div>
                 <div>
                   <CardTitle>Generated Output</CardTitle>

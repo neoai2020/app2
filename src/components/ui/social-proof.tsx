@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { formatDistanceToNow } from 'date-fns'
 import { Mail, Users, CheckCircle, Gift, Lightbulb, Activity } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { ExclusiveOfferWidgets } from '@/components/ui/exclusive-offer-widgets'
 
 type FeedIcon = 'email' | 'lead' | 'success' | 'offer' | 'tip'
 
@@ -180,6 +181,7 @@ export function SocialProofNotifications() {
 
   // Desktop only: floating toasts cover content and the tab bar on phones,
   // and this feed is passive reinforcement — not worth blocking the UI for.
+  // Quick-action exclusive offers sit below the activity toast.
   return (
     <div className="fixed bottom-4 right-4 z-50 hidden max-w-[320px] flex-col gap-3 lg:flex">
       <AnimatePresence mode="popLayout">
@@ -222,6 +224,7 @@ export function SocialProofNotifications() {
           </motion.div>
         )}
       </AnimatePresence>
+      <ExclusiveOfferWidgets />
     </div>
   )
 }

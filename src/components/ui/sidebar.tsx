@@ -13,13 +13,10 @@ import {
   GraduationCap,
   HelpCircle,
   LogOut,
-  TrendingUp,
   Diamond,
   Sparkles,
   Zap,
   ShieldCheck,
-  MousePointerClick,
-  ClipboardCopy,
   PanelLeftClose,
   PanelLeftOpen
 } from 'lucide-react'
@@ -33,37 +30,6 @@ const mainNavItems = [
   { href: '/leads', label: 'Find Customers', icon: Users },
   { href: '/email-builder', label: 'Write Emails', icon: Mail },
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive }
-]
-
-type TrainingOfferNavItem = {
-  key: string
-  line1: string
-  line2: string
-  icon: typeof TrendingUp
-} & ({ externalUrl: string } | { href: string })
-
-const trainingOfferNav: TrainingOfferNavItem[] = [
-  {
-    key: 'fast-cash',
-    externalUrl: 'https://the7figuresociety.com/earn-1k-2k-per-day',
-    line1: 'Fast Cash Training,',
-    line2: 'Claim Now',
-    icon: TrendingUp
-  },
-  {
-    key: 'p-55',
-    externalUrl: 'https://scribble.a.explodely.com/?aff=neomedia&pid=47110198&tid=backend',
-    line1: 'Create your P-55 account,',
-    line2: 'Create Now',
-    icon: MousePointerClick
-  },
-  {
-    key: 'copy-paste',
-    externalUrl: 'https://jvz5.com/c/3542829/433243/',
-    line1: 'Get Paid To Copy & Paste,',
-    line2: 'Claim Now',
-    icon: ClipboardCopy
-  }
 ]
 
 const lowerNavItems = [
@@ -177,69 +143,7 @@ export function Sidebar() {
           })}
         </ul>
 
-        {/* Exclusive offers */}
-        <div className={`mt-4 mb-2 ${collapsed ? '' : 'px-1'}`}>
-          {!collapsed && (
-            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-[#FFC107]">
-              Exclusive offers
-            </p>
-          )}
-          <ul
-            className={`space-y-1.5 rounded-xl border border-[#FFC107]/25 bg-[#FFC107]/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] ${
-              collapsed ? 'p-1' : 'p-1.5'
-            }`}
-          >
-            {trainingOfferNav.map((item) => {
-              const Icon = item.icon
-              const label = `${item.line1} ${item.line2}`
-              const isActive = 'href' in item && pathname === item.href
-              const offerClassName = `cyber-sidebar-item flex cursor-pointer items-start gap-3 rounded-lg border text-left text-zinc-100 transition-all duration-300 ${
-                collapsed ? 'justify-center px-0 py-2.5' : 'px-3 py-2.5'
-              } ${
-                isActive
-                  ? 'active border-[#D946EF]/45 bg-[#D946EF]/20 text-white shadow-[0_0_16px_rgba(217,70,239,0.25)]'
-                  : 'border-transparent hover:border-[#FFC107]/40 hover:bg-[#FFC107]/15'
-              }`
-              const offerContent = (
-                <>
-                  <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#FFC107]" />
-                  {!collapsed && (
-                    <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                      <span className="text-[11px] font-semibold leading-snug tracking-wide text-white/95">
-                        {item.line1}
-                      </span>
-                      <span className="text-[11px] font-bold leading-snug tracking-wide text-[#FFC107]">
-                        {item.line2}
-                      </span>
-                    </span>
-                  )}
-                </>
-              )
-              return (
-                <li key={item.key}>
-                  {'href' in item ? (
-                    <Link href={item.href} aria-label={label} title={collapsed ? label : undefined} className={offerClassName}>
-                      {offerContent}
-                    </Link>
-                  ) : (
-                    <a
-                      href={item.externalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${label} (opens in new tab)`}
-                      title={collapsed ? label : undefined}
-                      className={offerClassName}
-                    >
-                      {offerContent}
-                    </a>
-                  )}
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-
-        <ul className="mt-3 space-y-1">
+        <ul className="mt-4 space-y-1">
           {lowerNavItems.map((item) => {
             const isActive = pathname === item.href
             const Icon = item.icon

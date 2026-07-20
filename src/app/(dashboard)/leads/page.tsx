@@ -10,8 +10,10 @@ import { Badge } from '@/components/ui/badge'
 import { HelpTooltip, QuickTip } from '@/components/ui/help-tooltip'
 import { PageHeader } from '@/components/ui/page-header'
 import { PromoBanner } from '@/components/ui/promo-banner'
+import { GenerationProgress } from '@/components/ui/generation-progress'
 import { createClient } from '@/lib/supabase/client'
 import { INDUSTRIES, DAILY_LEAD_LIMIT, LEAD_STATUS } from '@/lib/constants'
+import { scrollToResults } from '@/lib/scroll-to-results'
 import { Lead } from '@/types/database'
 import { ExternalLink, Mail, Users, Target, Zap } from 'lucide-react'
 
@@ -109,6 +111,7 @@ export default function LeadsPage() {
         await fetchUsage()
         setIndustry('')
         setLocation('')
+        scrollToResults()
       }
     } catch {
       setError('Could not reach the server. Check your connection and try again.')
@@ -211,25 +214,31 @@ export default function LeadsPage() {
             <Button
               onClick={handleAllocateLeads}
               loading={loading}
-              disabled={remainingLeads === 0}
+              disabled={remainingLeads === 0 || loading}
               size="lg"
               glow
             >
               <Zap className="w-4 h-4 mr-2" />
               Find My Customers
             </Button>
+
+            {loading && (
+              <div className="mt-4">
+                <GenerationProgress label="Finding customers in your area..." />
+              </div>
+            )}
           </CardContent>
         </Card>
       </motion.div>
 
-      {showOfferBanner && (
+      {showOfferBanner && !loading && (
         <motion.div variants={itemVariants}>
           <PromoBanner />
         </motion.div>
       )}
 
       {/* Leads Table */}
-      <motion.div variants={itemVariants}>
+      <motion.div variants={itemVariants} data-generation-results>
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">

@@ -12,8 +12,8 @@ interface PromoBannerProps {
 }
 
 /**
- * Contextual training offer — Robinhood EarningsBanner design.
- * Shown during/after Find Customers, Write Emails, and Offer generation — not globally.
+ * Compact contextual training offer.
+ * Sized so it never blocks results below — parents should scroll to results after generation.
  */
 export function PromoBanner({
   title = 'Wake Up With An Extra $1,000–$5,000 In Your Bank Account Tomorrow',
@@ -26,7 +26,6 @@ export function PromoBanner({
 
   if (dismissed) return null
 
-  // Split title so the dollar range can be highlighted like Robinhood
   const highlightMatch = title.match(/(\$1,000[–\-]\s*\$5,000)/i)
   const before = highlightMatch ? title.slice(0, highlightMatch.index) : title
   const highlight = highlightMatch?.[1]
@@ -36,22 +35,22 @@ export function PromoBanner({
 
   return (
     <div
-      className={`relative mb-4 w-full rounded-2xl border-2 border-[#fbbf24]/50 bg-gradient-to-b from-[#101726] to-[#0b0f18] px-6 py-10 text-center md:px-12 md:py-12 ${className}`}
+      className={`relative mb-3 w-full rounded-xl border border-[#fbbf24]/40 bg-gradient-to-b from-[#101726] to-[#0b0f18] px-4 py-4 text-center sm:px-6 sm:py-5 ${className}`}
     >
       <button
         type="button"
         onClick={() => setDismissed(true)}
         aria-label="Close banner"
-        className="absolute right-3 top-3 rounded-lg p-1.5 text-[#7dd3fc]/60 transition-colors hover:bg-white/10 hover:text-white"
+        className="absolute right-2 top-2 rounded-lg p-1 text-[#7dd3fc]/60 transition-colors hover:bg-white/10 hover:text-white"
       >
-        <X className="h-5 w-5" />
+        <X className="h-4 w-4" />
       </button>
 
-      <span className="mb-5 inline-block rounded-md bg-[#ef4444] px-4 py-1.5 text-sm font-black uppercase tracking-widest text-white md:text-base">
+      <span className="mb-2 inline-block rounded-md bg-[#ef4444] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-white sm:text-xs">
         Free Training
       </span>
 
-      <h2 className="mx-auto mb-4 max-w-4xl text-3xl font-black uppercase leading-tight text-white md:text-5xl">
+      <h2 className="mx-auto mb-1.5 max-w-3xl text-base font-black uppercase leading-snug text-white sm:text-xl md:text-2xl">
         {highlight ? (
           <>
             {before}
@@ -63,7 +62,7 @@ export function PromoBanner({
         )}
       </h2>
 
-      <p className="mx-auto mb-8 max-w-3xl text-lg font-bold leading-snug text-[#d8e9fb] md:text-2xl">
+      <p className="mx-auto mb-3 max-w-2xl text-xs font-semibold leading-snug text-[#d8e9fb] sm:text-sm">
         {description}
       </p>
 
@@ -71,12 +70,12 @@ export function PromoBanner({
         href={ctaLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] px-10 py-5 text-xl font-black uppercase text-[#1a1305] shadow-xl shadow-[#fbbf24]/40 transition-all duration-200 hover:scale-[1.04] hover:shadow-[#fbbf24]/60 md:text-2xl"
+        className="inline-block rounded-lg bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] px-5 py-2.5 text-sm font-black uppercase text-[#1a1305] shadow-lg shadow-[#fbbf24]/30 transition-all duration-200 hover:scale-[1.03] hover:shadow-[#fbbf24]/50 sm:text-base"
       >
         {ctaText}
       </a>
 
-      <p className="mt-4 text-sm font-black uppercase tracking-wide text-[#ef4444] md:text-base">
+      <p className="mt-2 text-[10px] font-bold uppercase tracking-wide text-[#ef4444] sm:text-xs">
         Warning: This will be taken down soon
       </p>
     </div>
