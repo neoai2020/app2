@@ -7,6 +7,7 @@ import { VideoOverlay } from '@/components/ui/video-overlay'
 import { GenerationProgress } from '@/components/ui/generation-progress'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { getVideoThumbnail } from '@/lib/video-thumbnails'
+import { PageHeader } from '@/components/ui/page-header'
 
 const niches = [
   "ALL NICHES", "WEIGHT LOSS", "MAKE MONEY ONLINE", "HEALTH & FITNESS",
@@ -81,8 +82,14 @@ export default function InstantIncomePage() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="max-w-5xl mx-auto pb-20"
+      className="max-w-7xl mx-auto pb-20"
     >
+      <PageHeader
+        eyebrow="Premium"
+        title="Recurring Streams"
+        subtitle="Copy proven Facebook posts with your affiliate link inside and start generating income today — no tech skills needed."
+      />
+
       {/* Hero Section */}
       <motion.div variants={itemVariants}>
         <div className="rounded-2xl border border-white/5 bg-[var(--glass-bg)] overflow-hidden flex flex-col lg:flex-row shadow-2xl mb-8">
@@ -124,13 +131,13 @@ export default function InstantIncomePage() {
               <Facebook className="w-6 h-6 text-[#1877F2]" fill="currentColor" />
             </div>
 
-            <h1 className="ds-h1 italic uppercase tracking-tight text-white mb-1 leading-tight">
+            <h2 className="ds-h2 italic uppercase tracking-tight text-white mb-1 leading-tight">
               RECURRING STREAMS:<br /> <span className="text-[#D946EF]">FACEBOOK POSTS</span>
-            </h1>
-
-            <h2 className="page-eyebrow mb-4">
-              200+ READY-TO-POST MESSAGES
             </h2>
+
+            <p className="page-eyebrow mb-4">
+              200+ READY-TO-POST MESSAGES
+            </p>
 
             <p className="ds-subtitle max-w-md">
               Copy proven posts, paste them in Facebook groups, and start generating income today. No tech skills needed.

@@ -70,7 +70,7 @@ export function HowItWorks() {
 
             <Link
               href={step.href}
-              className="touch-cta flex h-14 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] text-base font-black text-black shadow-lg shadow-[#D946EF]/20 transition-all hover:from-[#8B5CF6] hover:to-[#D946EF] hover:shadow-[#D946EF]/40"
+              className="btn btn-primary btn-lg w-full"
             >
               {step.cta}
               <ArrowRight className="h-4 w-4" />

@@ -101,13 +101,14 @@ Disable the triggering control while loading. Pages with no generation CTA (e.g.
 1. **Remove** the popup from the layout (and delete the dead component file once nothing imports it).
 2. Create a `VideoOverlay` component:
    - Portal to `document.body`, `z-[120]`, backdrop `bg-black/60`, Esc + backdrop-click close, body scroll lock
-   - Panel: dark glass, rounded-2xl on desktop, **full `100dvh` sheet on mobile** with safe-area padded close button (44×44px)
-   - Header with title + close, then a 16:9 iframe (Vimeo/YouTube via a `toEmbedUrl()` helper that adds autoplay params)
-   - **Below the video: the withdraw ad bar** — same creative as the old popup (emerald check circle, "ACCOUNT VERIFIED", "Congratulations! You're eligible to withdraw $X", "Available balance from your activity", emerald "Withdraw Now →" CTA) with CSS keyframe animations: drifting blur blobs, emerald pulse, traveling sheen, CTA glow. Keep the animations — they're the attention driver.
+   - **The ad must be fully visible without scrolling — this is the whole point.** Build the panel as a flex column: header `shrink-0`, ad bar `shrink-0`, and the video as `flex-1 min-h-0` absorbing the leftover height (the embedded player letterboxes itself). Panel height: `h-[100dvh]` on mobile, `h-[min(92dvh,56rem)]` on desktop. Never use `aspect-video` on the player wrapper inside a capped panel — that's what pushes the ad below the fold.
+   - Close button 44×44px inside the safe-area top inset; ad bar gets safe-area bottom padding.
+   - Header with title + close, then the iframe (Vimeo/YouTube via a `toEmbedUrl()` helper that adds autoplay params)
+   - **Below the video: the withdraw ad bar** — same creative as the old popup (emerald check circle, "ACCOUNT VERIFIED", "Congratulations! You're eligible to withdraw $X", "Available balance from your activity", emerald "Withdraw Now →" CTA) with CSS keyframe animations: drifting blur blobs, emerald pulse, traveling sheen, CTA glow. Keep the animations — they're the attention driver. Keep the bar compact (~120–160px) so it never crowds the video.
 3. Convert every inline video embed to **thumbnail + play button → opens the overlay**: training page cards, dashboard welcome video, premium page tutorial videos.
 4. The ad's URL is this app's **own** withdraw/offer affiliate link — take it from the popup you just removed.
 
-**Verify:** popup gone from all pages; every training video opens the overlay; ad shows under the playing video; link identical to the old popup's.
+**Verify (in the browser, not just in code):** open the overlay on a laptop-height window (~800px) AND a phone — header, full video, and the complete ad including its CTA must all be on screen with zero scrolling; popup gone from all pages; link identical to the old popup's.
 
 ---
 
@@ -138,11 +139,13 @@ This phase only works if you audit first. Don't define tokens from memory — co
 1. **Color tokens:** app canvas (tinted off-black ~10% lifted from `#000`, e.g. `#0c0a0e`), elevated panel, glass card, one primary accent + one gradient partner, soft-accent for labels, 2 muted text tones, semantic success/danger/warning. **Map every stray color to a token** (all the ad-hoc indigos/blues → the gradient partner; keep only real brand marks like a Facebook icon and semantic states). Ad creatives (promo banner, withdraw bar) keep their own palette on purpose — exclude them from the sweep.
 2. **Type scale as reusable classes** — one hierarchy, used by name: `ds-h1` (page title, clamp ~1.75–2.4rem, one per page), `ds-h2` (section), `ds-h3` (card), `ds-h4` (micro uppercase label), `ds-label` (form field), `ds-subtitle`, `page-eyebrow`. Hype/premium pages may add `italic uppercase` *modifiers* but never a different size. Body ≥15px mobile; inputs ≥16px.
 3. **A `PageHeader` component** (eyebrow + h1 + subtitle + right-side actions slot, fixed bottom margin) — every page starts with it. This single component kills most heading drift.
-4. **Layout templates** — define and name them: one-column (`max-w-6xl`, `space-y-6`), two-column-with-rail (`max-w-7xl`, `grid xl:grid-cols-4`, main `col-span-3`), catalog (filter rail + content), landing moment (centered `max-w-4xl`), auth (`max-w-md`). Every page must declare which template it is. All templates collapse to one column + full-width CTAs + bottom-nav clearance on mobile.
-5. **Button system** — primary (brand gradient, defined hover: brightness+lift, active: scale .98, purple shadow), secondary (white/5 + border), soft-accent tertiary, ghost, danger, and a `chip` style for tabs/filters (active = solid accent). Three sizes with min-heights (36/44/52px). Ship them **both** as component variants and as plain CSS classes (`.btn .btn-primary .btn-lg`) so raw `<a>`/`<Link>` CTAs render identically to the component. **One primary per screen region** — cognitive-load rule.
+4. **Layout templates — ONE container width for the whole app.** Every page uses the same outer container (e.g. `max-w-7xl mx-auto`) so content starts at the exact same x-position on every route; inside it, templates vary: one-column, two-column-with-rail (`grid xl:grid-cols-4`, main `col-span-3`), catalog (filter rail + content), landing moment, auth (`max-w-md`). A page that needs a narrower reading column constrains an *inner* block — never the page container. Verify with `grep -rn "max-w-" app/(protected)/*/page.tsx`: exactly one container class should appear. All templates collapse to one column + full-width CTAs + bottom-nav clearance on mobile.
+   **This applies to premium/hype pages too:** they get the same `PageHeader` (eyebrow + title + subtitle) as every other page; their hero cards keep the flavor but the hero's big title becomes an `h2` *below* the standard header. Same header component on 100% of pages — no exceptions, or it isn't a system.
+   **Pages with semantic color themes** (e.g. a green "security" page): the semantic color stays only on status pills/checkmarks; stat values, headers, surfaces, and structure use the system tokens.
+5. **Button system** — primary (brand gradient, defined hover: brightness+lift, active: scale .98, accent shadow), secondary (white/5 + border), soft-accent tertiary, ghost, danger, and a `chip` style for tabs/filters (active = solid accent). Three sizes with min-heights (36/44/52px). Ship them **both** as component variants and as plain CSS classes (`.btn .btn-primary .btn-lg`) so raw `<a>`/`<Link>` CTAs render identically to the component. **One primary per screen region** — cognitive-load rule. **Text on filled/gradient CTAs is white, always** — black text on a saturated gradient fails contrast and looks broken; reserve dark text only for very light fills (e.g. solid amber). After the sweep, `grep 'text-black' | grep 'gradient\|btn\|bg-\['` must return only intentional light-fill cases.
 6. **Surface system** — one card recipe (glass bg, 1px border, rounded-2xl) plus a `ds-well` class for content boxes *inside* cards. Radius hierarchy: inner elements tighter than containers.
 7. **Media rules** — every thumbnail gets a bottom-heavy gradient **scrim** (`~72%→12%` black) under its play button so buttons/captions never fight the artwork (a flat 10% overlay is not enough); one play-button spec; playback only in the shared overlay.
-8. **Sidebar spec** — lifted tinted surface (never pitch black), plus a **collapse toggle**: width via a CSS variable (`--sidebar-w: 280px ↔ ~76px`), toggled through `html[data-sidebar]`, persisted in `localStorage`, main pane padding `lg:pl-[var(--sidebar-w)]` with a width transition; collapsed mode is icon-only with `title` tooltips.
+8. **Sidebar spec** — lifted tinted surface (never pitch black), plus a **collapse toggle**: width via a CSS variable (`--sidebar-w: 280px ↔ ~76px`), toggled through `html[data-sidebar]`, persisted in `localStorage`, main pane padding `lg:pl-[var(--sidebar-w)]` with a width transition; collapsed mode is icon-only with `title` tooltips. **The brand name never wraps**: `whitespace-nowrap` (+ `&nbsp;` between words) on the logo text in the sidebar AND the mobile top bar — check it at the collapsed width and at 320px. Size the wordmark so it fits beside the collapse button without squeezing.
 9. **UX guardrails** — 4px spacing base, section gap 24px, touch ≥44px, ≥8px between targets, ≤3 choices per decision point, progressive disclosure for multi-step flows, visible focus rings, `prefers-reduced-motion` support, contrast: body copy never darker than mid-gray on card surfaces.
 
 **6c. Apply page by page — in parallel if possible.** Split routes into batches (core tools / premium / content+auth) and sweep each against the audit: PageHeader in, heading classes swapped, buttons onto the system, wells unified, colors mapped. Hard constraints for the sweep: class/JSX-structure edits only, no logic/handler/link/video-ID changes, ad creatives untouched, typecheck after every batch.
@@ -222,7 +225,21 @@ Page passes: stack grids to one column, full-width 48–56px CTAs, dialogs becom
 
 ---
 
-## Phase 10 — Ship
+## Phase 10 — Verify on localhost BEFORE claiming done
+
+Nothing ships on greps and a typecheck alone. Static checks miss layout bugs: an ad below the fold, a wrapped logo, black text on a gradient, content starting at different x-positions per page — all of these pass `tsc` happily.
+
+1. `npm run dev`, log in with a real test account.
+2. Walk **every route** at three widths: desktop (~1440), laptop-height window (~800px tall), phone (375–430 via devtools device mode). Per page check:
+   - Header: same eyebrow/title/subtitle pattern, same start position, same container width
+   - Buttons: primary CTAs identical (gradient, white text, same radius/height); no black-on-gradient
+   - No page with its own colors/structure outside the system
+3. Open **every overlay/modal/sheet**: video overlay (ad fully visible without scroll), More sheet, dialogs.
+4. Trigger **every generation CTA**: progress bar + banner during, banner stays after, results correct.
+5. Mobile specifics: brand name on one line, bottom tabs don't cover the last CTA, no input zoom, top bar clean (no stray hamburger — More lives in the bottom tabs).
+6. If a browser-automation tool (Chrome DevTools MCP / Playwright) is available, screenshot each route at the three widths and eyeball the set side-by-side; if not, do it by hand. **Do not report "done" until this walk is complete.**
+
+## Phase 11 — Ship
 
 ```bash
 git add -A
@@ -230,12 +247,46 @@ git commit -m "<phase summary>"
 git push origin main
 ```
 
-Then check the deployed site (desktop + a real phone). Confirm:
+Then re-check the deployed site (desktop + a real phone). Confirm:
 1. All revenue links click through to the right offers
-2. Videos play in the overlay with the ad bar
+2. Videos play in the overlay with the ad bar fully visible
 3. Generation CTAs show progress + banner, results still arrive
 4. Bottom nav works, nothing hidden behind it
 5. Pages load fast (thumbnails are WebP, no multi-MB requests in the network tab)
+
+---
+
+## Appendix — Running this playbook with Cursor agents (model routing + token economy)
+
+The playbook has two kinds of work: **judgment** (audits, system design, review) and **mechanical application** (class sweeps, file-by-file edits). Route them to different models or you'll either waste tokens or ship slop.
+
+### Model routing
+
+| Work | Model class | Why |
+|---|---|---|
+| Phase 0 baseline, Phase 6a audit, design-system definition (6b), dashboard copy, review gates | **Strategy model** (frontier reasoning — e.g. Fable/Claude thinking tier) | Needs judgment: counting inconsistencies, choosing tokens, writing rules, catching what looks wrong |
+| Page sweeps (6c), color/class find-replace, wiring a defined component into N pages, image conversion scripts | **Applier model** (fast — e.g. Composer tier) | Mechanical once the spec exists; 10× cheaper per page |
+| Final review of applier diffs, Phase 10 browser walk | **Strategy model** | The applier cannot judge its own output |
+
+### How to keep the applier from breaking things
+
+The applier fails in predictable ways: inventing its own styles, "improving" logic, touching links, missing files. Every applier prompt must contain:
+
+1. **The exact class map** — old → new, as a table. Never "make it consistent"; say `text-4xl font-bold gradient-text` → `ds-h1` etc.
+2. **A forbidden list**: no logic/state/handler/timeout changes, no link/URL edits, no video-ID edits, do-not-touch files by name (ad creatives, API routes).
+3. **A scoped file list** — 3–5 similar pages per prompt, never "the whole app".
+4. **A required exit command**: `npx tsc --noEmit` must pass; report what changed per file.
+5. **A git checkpoint before each batch** so any batch can be reverted alone (`git commit` per phase/batch).
+6. After each batch, the **strategy model reviews `git diff --stat` + spot-reads the diff** looking specifically for: new hardcoded colors, black text on filled buttons, changed hrefs, container-width drift, deleted handlers. Then run the Phase 0 link grep and diff against baseline.
+
+### Token economy
+
+- Paste the **audit table** into applier prompts, not source files — the applier reads the files itself.
+- Point to `DESIGN_SYSTEM.md` as the single spec; never restate it per prompt.
+- Batch pages by similarity (all form pages together, all premium pages together) so one prompt's rules cover the whole batch.
+- Ask the applier to verify with **greps, not re-reads** (e.g. `grep -c 'ds-h1' page.tsx` should be 1).
+- Do the browser walk yourself (or with one strategy-model session + screenshots) — don't burn applier tokens on "verify visually" they can't do.
+- One retry max per applier batch; if it fails twice, the spec was ambiguous — fix the spec with the strategy model instead of re-prompting.
 
 ---
 

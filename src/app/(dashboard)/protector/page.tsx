@@ -93,7 +93,7 @@ export default function ProtectorPage() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="max-w-6xl mx-auto"
+      className="max-w-7xl mx-auto"
     >
       {/* Header */}
       <motion.div variants={itemVariants}>
@@ -116,10 +116,10 @@ export default function ProtectorPage() {
       {/* Stats Row */}
       <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {[
-          { label: 'Security Score', value: '100%', color: 'text-green-400' },
+          { label: 'Security Score', value: '100%', color: 'text-white' },
           { label: 'Account Status', value: 'Verified', color: 'text-green-400' },
           { label: 'Encryption', value: 'AES-256', color: 'text-[#D946EF]' },
-          { label: 'Uptime', value: '99.9%', color: 'text-green-400' },
+          { label: 'Uptime', value: '99.9%', color: 'text-white' },
         ].map((stat) => (
           <Card key={stat.label}>
             <CardContent className="p-5">

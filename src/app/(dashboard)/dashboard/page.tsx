@@ -169,7 +169,7 @@ export default function DashboardPage() {
             />
             <Link
               href="/training"
-              className="touch-cta flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] text-base font-black text-black shadow-lg shadow-[#D946EF]/25 transition-all hover:from-[#8B5CF6] hover:to-[#D946EF]"
+              className="btn btn-primary btn-lg w-full"
             >
               Open Training Academy
             </Link>
@@ -366,7 +366,7 @@ export default function DashboardPage() {
                   </div>
                   <Link
                     href="/support"
-                    className="touch-cta flex h-12 items-center justify-center rounded-xl bg-gradient-to-r from-[#D946EF] to-[#8B5CF6] px-8 text-base font-extrabold text-black shadow-lg shadow-[#D946EF]/30 transition-all"
+                    className="btn btn-primary btn-md px-8"
                   >
                     Contact Support
                   </Link>

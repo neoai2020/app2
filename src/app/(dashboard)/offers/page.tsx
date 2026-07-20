@@ -287,7 +287,7 @@ export default function OffersPage() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="max-w-4xl mx-auto"
+      className="max-w-7xl mx-auto"
     >
       {/* Header */}
       <motion.div variants={itemVariants}>

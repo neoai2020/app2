@@ -106,8 +106,13 @@ export function VideoOverlay({ videoUrl, title, onClose }: VideoOverlayProps) {
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" onClick={onClose} />
 
+      {/*
+        Panel is a flex column with the header and ad bar as fixed rows and the
+        video absorbing the leftover height, so the withdraw ad is ALWAYS fully
+        visible without scrolling — on every screen size.
+      */}
       <div
-        className="relative flex h-[100dvh] w-full max-w-5xl flex-col overflow-y-auto overflow-x-hidden rounded-none border-0 border-white/10 sm:h-auto sm:max-h-[92dvh] sm:rounded-2xl sm:border"
+        className="relative flex h-[100dvh] w-full max-w-5xl flex-col overflow-hidden rounded-none border-0 border-white/10 sm:h-[min(92dvh,56rem)] sm:rounded-2xl sm:border"
         style={{
           backgroundColor: 'rgba(8, 5, 12, 0.94)',
           boxShadow:
@@ -115,8 +120,8 @@ export function VideoOverlay({ videoUrl, title, onClose }: VideoOverlayProps) {
         }}
       >
         <div
-          className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-3.5"
-          style={{ paddingTop: 'max(0.875rem, env(safe-area-inset-top))' }}
+          className="flex flex-shrink-0 items-center justify-between gap-4 border-b border-white/10 px-5 py-3"
+          style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}
         >
           <p className="flex-1 truncate text-sm font-bold text-white">{title || 'Now Playing'}</p>
           <button
@@ -129,7 +134,8 @@ export function VideoOverlay({ videoUrl, title, onClose }: VideoOverlayProps) {
           </button>
         </div>
 
-        <div className="relative aspect-video w-full bg-black">
+        {/* Player letterboxes itself inside whatever height remains */}
+        <div className="relative min-h-0 w-full flex-1 bg-black">
           {embedUrl ? (
             <iframe
               src={embedUrl}
@@ -153,13 +159,16 @@ export function VideoOverlay({ videoUrl, title, onClose }: VideoOverlayProps) {
         </div>
 
         {/* Withdraw ad — same creative as the old popup, under the video */}
-        <div className="relative overflow-hidden border-t border-emerald-400/15 px-5 py-5 sm:px-6">
+        <div
+          className="relative flex-shrink-0 overflow-hidden border-t border-emerald-400/15 px-5 py-4 sm:px-6"
+          style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+        >
           <div className="banner-blob-left pointer-events-none absolute -left-16 -top-20 h-48 w-48 rounded-full bg-[#00a36c]/30 blur-3xl" />
           <div className="banner-blob-right pointer-events-none absolute -right-14 -bottom-24 h-52 w-52 rounded-full bg-[#22d38b]/25 blur-3xl" />
           <div className="ad-emerald-pulse pointer-events-none absolute inset-0 bg-gradient-to-r from-[#00a36c]/[0.12] via-transparent to-[#22d38b]/[0.12]" />
           <div className="ad-sheen pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
-          <div className="relative flex flex-col items-center gap-5 sm:flex-row sm:gap-6">
+          <div className="relative flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
             <div className="flex flex-1 items-center gap-4">
               <div
                 className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full"

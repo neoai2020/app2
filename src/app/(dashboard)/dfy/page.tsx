@@ -5,6 +5,7 @@ import { Diamond, Mail, Copy, CheckCircle2, Search, Link as LinkIcon, CheckSquar
 import { useState, useMemo } from 'react'
 import { GenerationProgress } from '@/components/ui/generation-progress'
 import { PromoBanner } from '@/components/ui/promo-banner'
+import { PageHeader } from '@/components/ui/page-header'
 
 const LEADS_PER_PAGE = 10
 
@@ -507,27 +508,22 @@ export default function DFYPage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-20">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-1.5 h-10 bg-[#D946EF] rounded-full shadow-[0_0_15px_rgba(217,70,239,0.5)]" />
-            <h1 className="ds-h1 italic uppercase tracking-tight text-white">
-              ACCELERATOR
-            </h1>
+      <PageHeader
+        eyebrow="Premium"
+        title="Accelerator"
+        subtitle="Exclusive premium access to pre-scraped, highly qualified leads. Each niche contains 200 verified emails with hand-crafted, high-converting copy ready to send."
+        actions={
+          <div className="glass-card flex items-center gap-4 px-6 py-4">
+            <Diamond className="h-8 w-8 text-[#D946EF]" />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+                Total Premium Leads
+              </p>
+              <p className="text-2xl font-black text-white">{niches.length * 200}</p>
+            </div>
           </div>
-          <p className="ds-subtitle max-w-2xl pl-4">
-            Exclusive premium access to pre-scraped, highly qualified leads. Each niche contains 200 verified emails with hand-crafted, high-converting copy ready to send.
-          </p>
-        </div>
-        <div className="glass-card px-6 py-4 flex items-center gap-4">
-          <Diamond className="text-[#D946EF] w-8 h-8" />
-          <div>
-            <p className="text-xs text-zinc-500 uppercase tracking-wider font-bold">Total Premium Leads</p>
-            <p className="text-2xl font-black text-white">{niches.length * 200}</p>
-          </div>
-        </div>
-      </div>
+        }
+      />
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
         {/* Niches Sidebar */}

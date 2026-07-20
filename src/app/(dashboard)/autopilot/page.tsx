@@ -7,6 +7,7 @@ import { VideoOverlay } from '@/components/ui/video-overlay'
 import { GenerationProgress } from '@/components/ui/generation-progress'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { getVideoThumbnail } from '@/lib/video-thumbnails'
+import { PageHeader } from '@/components/ui/page-header'
 
 const niches = [
   "ALL", "WEIGHT LOSS", "MAKE MONEY ONLINE", "HEALTH & FITNESS",
@@ -131,7 +132,13 @@ export default function AutopilotPage() {
   }
 
   return (
-    <div className="space-y-8 pb-20 max-w-5xl mx-auto">
+    <div className="space-y-8 pb-20 max-w-7xl mx-auto">
+      <PageHeader
+        eyebrow="Premium"
+        title="Social Payouts"
+        subtitle="Submit your link to 100+ free traffic sources once and get ongoing traffic automatically — no daily work required."
+      />
+
       {/* Main Hero Card */}
       <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[var(--glass-bg)] p-8 md:p-12 text-center">
         <div className="absolute inset-0 bg-gradient-to-b from-[#D946EF]/5 to-transparent pointer-events-none" />
@@ -141,12 +148,12 @@ export default function AutopilotPage() {
           <div className="w-14 h-14 rounded-xl bg-[#D946EF] flex items-center justify-center mb-5 shadow-[0_0_30px_rgba(217,70,239,0.4)]">
             <TrendingUp className="w-7 h-7 text-black" strokeWidth={3} />
           </div>
-          <h1 className="ds-h1 italic uppercase tracking-tight text-white mb-1 leading-tight">
+          <h2 className="ds-h2 italic uppercase tracking-tight text-white mb-1 leading-tight">
             SOCIAL PAYOUTS — <span className="text-[#D946EF]">TRAFFIC ON AUTOPILOT</span>
-          </h1>
-          <h2 className="page-eyebrow mt-3 mb-4">
-            100+ FREE TRAFFIC SOURCES — SUBMIT ONCE, GET TRAFFIC FOREVER
           </h2>
+          <p className="page-eyebrow mt-3 mb-4">
+            100+ FREE TRAFFIC SOURCES — SUBMIT ONCE, GET TRAFFIC FOREVER
+          </p>
           <p className="ds-subtitle max-w-2xl mx-auto">
             SUBMIT YOUR LINK TO THESE 100+ SITES ONCE AND GET ONGOING TRAFFIC AUTOMATICALLY. NO DAILY WORK REQUIRED.
           </p>

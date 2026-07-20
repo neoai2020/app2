@@ -119,8 +119,8 @@ export function Sidebar() {
           <Image src="/logo.png" alt="Profit Loop" width={40} height={40} className="rounded-lg" />
           {!collapsed && (
             <div className="min-w-0 flex-1">
-              <h1 className="text-xl font-black italic uppercase tracking-tighter text-white">
-                PROFIT LOOP
+              <h1 className="whitespace-nowrap text-lg font-black italic uppercase tracking-tighter text-white">
+                PROFIT&nbsp;LOOP
               </h1>
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D946EF]/50">
                 AI
@@ -340,8 +340,8 @@ export function Sidebar() {
         style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
         <Image src="/logo.png" alt="Profit Loop" width={32} height={32} className="rounded-lg" />
-        <span className="text-sm font-black italic uppercase tracking-tighter text-white">
-          Profit Loop
+        <span className="whitespace-nowrap text-sm font-black italic uppercase tracking-tighter text-white">
+          Profit&nbsp;Loop
         </span>
       </div>
 
