@@ -3,6 +3,10 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { TrendingUp, Play, Video, Target, Link as LinkIcon, ExternalLink, CheckCircle2, ChevronDown, ChevronUp, Copy, Check } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { VideoOverlay } from '@/components/ui/video-overlay'
+import { GenerationProgress } from '@/components/ui/generation-progress'
+import { PromoBanner } from '@/components/ui/promo-banner'
+import { getVideoThumbnail } from '@/lib/video-thumbnails'
 
 const niches = [
   "ALL", "WEIGHT LOSS", "MAKE MONEY ONLINE", "HEALTH & FITNESS",
@@ -52,6 +56,14 @@ export default function AutopilotPage() {
   const [completed, setCompleted] = useState<Set<number>>(new Set())
   const [copiedId, setCopiedId] = useState<number | null>(null)
   const [urlLocked, setUrlLocked] = useState(false)
+  const [videoOpen, setVideoOpen] = useState(false)
+  const [savingLink, setSavingLink] = useState(false)
+  const [loadingNiche, setLoadingNiche] = useState<string | null>(null)
+  const [showOfferBanner, setShowOfferBanner] = useState(false)
+
+  const socialVideoUrl = 'https://player.vimeo.com/video/1177396473'
+  const socialThumbnail = getVideoThumbnail(socialVideoUrl)
+  const nicheLoading = loadingNiche != null
 
   useEffect(() => {
     setCompleted(getCompleted())
@@ -80,15 +92,31 @@ export default function AutopilotPage() {
   }
 
   const handleSetUrl = () => {
-    if (url.trim()) {
+    if (!url.trim() || savingLink) return
+    setSavingLink(true)
+    setShowOfferBanner(true)
+    window.setTimeout(() => {
       localStorage.setItem(URL_STORAGE_KEY, url.trim())
       setUrlLocked(true)
-    }
+      setSavingLink(false)
+    }, 4000)
   }
 
   const handleChangeUrl = () => {
     setUrlLocked(false)
+    setShowOfferBanner(false)
+    setLoadingNiche(null)
     localStorage.removeItem(URL_STORAGE_KEY)
+  }
+
+  const handleSelectNiche = (niche: string) => {
+    if (niche === activeNiche || loadingNiche != null || savingLink) return
+    setLoadingNiche(niche)
+    setShowOfferBanner(true)
+    window.setTimeout(() => {
+      setActiveNiche(niche)
+      setLoadingNiche(null)
+    }, 3500)
   }
 
   const diffColors: Record<string, string> = {
@@ -128,12 +156,30 @@ export default function AutopilotPage() {
       {/* Video Tutorial — Compact */}
       <div className="rounded-2xl border border-white/5 bg-[#111111] flex flex-col md:flex-row overflow-hidden">
         <div className="md:w-2/5 min-h-[200px] relative bg-[#0a0a0a] border-b md:border-b-0 md:border-r border-white/5 overflow-hidden">
-          <iframe
-            src="https://player.vimeo.com/video/1177396473?title=0&byline=0&portrait=0"
-            className="absolute inset-0 w-full h-full"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
-          />
+          {socialThumbnail ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={socialThumbnail}
+              alt="Social Payouts training thumbnail"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a1f] to-zinc-900" />
+          )}
+          <div className={`absolute inset-0 ${socialThumbnail ? 'bg-black/10' : 'bg-black/40'}`} />
+          <button
+            type="button"
+            onClick={() => setVideoOpen(true)}
+            aria-label="Play Social Payouts training"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
+          >
+            <span className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#a855f7] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+              <Play className="ml-0.5 h-7 w-7 fill-white" />
+            </span>
+            <span className="text-xs font-semibold text-white drop-shadow-lg">
+              ▶ Click to Play Video
+            </span>
+          </button>
         </div>
         <div className="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
           <div className="flex items-center gap-2 text-[#D946EF] font-bold text-xs uppercase tracking-widest mb-2">
@@ -192,18 +238,26 @@ export default function AutopilotPage() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://your-page-url.com"
-              className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl py-4 px-5 text-sm text-white focus:outline-none focus:border-[#D946EF]/50 transition-colors mb-3 font-mono"
+              disabled={savingLink}
+              className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl py-4 px-5 text-sm text-white focus:outline-none focus:border-[#D946EF]/50 transition-colors mb-3 font-mono disabled:opacity-50"
             />
             <p className="text-zinc-600 text-xs mb-4">
               This link will be auto-inserted into all submission descriptions below.
             </p>
-            <button
-              onClick={handleSetUrl}
-              disabled={!url.trim()}
-              className="bg-[#D946EF] hover:bg-[#c026d3] disabled:opacity-40 disabled:cursor-not-allowed text-black font-black italic uppercase tracking-widest text-xs py-3 px-8 rounded-xl transition-all"
-            >
-              SAVE & CONTINUE
-            </button>
+
+            {savingLink ? (
+              <GenerationProgress label="Saving your link and preparing traffic sources..." />
+            ) : null}
+
+            {!savingLink ? (
+              <button
+                onClick={handleSetUrl}
+                disabled={!url.trim()}
+                className="bg-[#D946EF] hover:bg-[#c026d3] disabled:opacity-40 disabled:cursor-not-allowed text-black font-black italic uppercase tracking-widest text-xs py-3 px-8 rounded-xl transition-all"
+              >
+                SAVE & CONTINUE
+              </button>
+            ) : null}
           </>
         ) : (
           <div className="flex items-center gap-4 flex-wrap">
@@ -225,14 +279,24 @@ export default function AutopilotPage() {
         )}
       </div>
 
+      {urlLocked && showOfferBanner && !nicheLoading && !savingLink ? (
+        <PromoBanner />
+      ) : null}
+
+      {urlLocked && nicheLoading ? (
+        <GenerationProgress
+          label={`Loading ${loadingNiche === 'ALL' ? 'all' : (loadingNiche || '').toLowerCase()} traffic sources...`}
+        />
+      ) : null}
+
       {/* Niche Filter */}
-      {urlLocked && (
+      {urlLocked && !nicheLoading && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex flex-wrap gap-2">
             {niches.map((niche) => (
               <button
                 key={niche}
-                onClick={() => setActiveNiche(niche)}
+                onClick={() => handleSelectNiche(niche)}
                 className={`px-4 py-2 rounded-full text-[10px] md:text-xs font-black italic tracking-widest uppercase transition-all
                   ${activeNiche === niche
                     ? 'bg-[#D946EF] text-black shadow-[0_0_15px_rgba(217,70,239,0.3)]'
@@ -248,7 +312,7 @@ export default function AutopilotPage() {
       )}
 
       {/* Progress */}
-      {urlLocked && (
+      {urlLocked && !nicheLoading && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -278,7 +342,7 @@ export default function AutopilotPage() {
       )}
 
       {/* Traffic Sources Grid */}
-      {urlLocked && (
+      {urlLocked && !nicheLoading && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -411,6 +475,14 @@ export default function AutopilotPage() {
             )
           })}
         </motion.div>
+      )}
+
+      {videoOpen && (
+        <VideoOverlay
+          videoUrl={socialVideoUrl}
+          title="How to Use Social Payouts"
+          onClose={() => setVideoOpen(false)}
+        />
       )}
     </div>
   )

@@ -1,0 +1,201 @@
+'use client'
+
+import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import { ArrowRight, Check, X } from 'lucide-react'
+
+/** Profit Loop affiliate withdraw offer */
+const WITHDRAW_URL = 'https://jvz5.com/c/3542829/433243/'
+
+/** Turn a YouTube or Vimeo link into an embeddable, autoplaying URL. */
+export function toEmbedUrl(url: string): string | null {
+  try {
+    let u = new URL(url)
+
+    if (u.hostname === 'player.vimeo.com' || /(^|\.)vimeo\.com$/.test(u.hostname)) {
+      if (u.hostname !== 'player.vimeo.com') {
+        const id = u.pathname.split('/').filter(Boolean)[0]
+        if (!id) return null
+        u = new URL(`https://player.vimeo.com/video/${id}`)
+      }
+      const defaults: Record<string, string> = {
+        badge: '0',
+        autopause: '0',
+        player_id: '0',
+        app_id: '58479'
+      }
+      for (const [key, value] of Object.entries(defaults)) {
+        if (!u.searchParams.has(key)) u.searchParams.set(key, value)
+      }
+      u.searchParams.set('autoplay', '1')
+      u.searchParams.set('controls', '1')
+      u.searchParams.delete('background')
+      u.searchParams.delete('muted')
+      return u.toString()
+    }
+
+    if (/(^|\.)youtube\.com$|(^|\.)youtu\.be$/.test(u.hostname)) {
+      let id = ''
+      if (u.hostname.includes('youtu.be')) {
+        id = u.pathname.split('/')[1] || ''
+      } else if (u.pathname.startsWith('/shorts/') || u.pathname.startsWith('/embed/')) {
+        id = u.pathname.split('/')[2] || ''
+      } else {
+        id = u.searchParams.get('v') || ''
+      }
+      return id ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0` : null
+    }
+
+    return null
+  } catch {
+    return null
+  }
+}
+
+/** Muted looping preview suitable for in-card thumbnails. */
+export function toPreviewUrl(url: string): string | null {
+  try {
+    const u = new URL(url)
+    if (u.hostname === 'player.vimeo.com' || /(^|\.)vimeo\.com$/.test(u.hostname)) {
+      let id = ''
+      if (u.hostname === 'player.vimeo.com') {
+        id = u.pathname.split('/').filter(Boolean)[0] || ''
+      } else {
+        id = u.pathname.split('/').filter(Boolean)[0] || ''
+      }
+      if (!id) return null
+      return `https://player.vimeo.com/video/${id}?badge=0&autopause=0&player_id=0&app_id=58479&background=1&muted=1`
+    }
+    return null
+  } catch {
+    return null
+  }
+}
+
+interface VideoOverlayProps {
+  videoUrl: string
+  title?: string
+  onClose: () => void
+}
+
+/**
+ * Full-screen video player with the Account Verified / Withdraw ad
+ * baked into a bar under the player (Robinhood pattern).
+ */
+export function VideoOverlay({ videoUrl, title, onClose }: VideoOverlayProps) {
+  const embedUrl = toEmbedUrl(videoUrl)
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[120] flex items-end justify-center p-0 sm:items-center sm:p-3 md:p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title || 'Video player'}
+    >
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" onClick={onClose} />
+
+      <div
+        className="relative flex h-[100dvh] w-full max-w-5xl flex-col overflow-y-auto overflow-x-hidden rounded-none border-0 border-white/10 sm:h-auto sm:max-h-[92dvh] sm:rounded-2xl sm:border"
+        style={{
+          backgroundColor: 'rgba(8, 5, 12, 0.94)',
+          boxShadow:
+            '0 0 0 1px rgba(217,70,239,0.12) inset, 0 24px 80px rgba(0,0,0,0.7)'
+        }}
+      >
+        <div
+          className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-3.5"
+          style={{ paddingTop: 'max(0.875rem, env(safe-area-inset-top))' }}
+        >
+          <p className="flex-1 truncate text-sm font-bold text-white">{title || 'Now Playing'}</p>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close video"
+            className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/5 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="relative aspect-video w-full bg-black">
+          {embedUrl ? (
+            <iframe
+              src={embedUrl}
+              title={title || 'Video'}
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              allowFullScreen
+              className="absolute inset-0 h-full w-full border-0"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <a
+                href={videoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-xl bg-white/10 px-6 py-3 font-bold text-white hover:bg-white/20"
+              >
+                Open video in a new tab
+              </a>
+            </div>
+          )}
+        </div>
+
+        {/* Withdraw ad — same creative as the old popup, under the video */}
+        <div className="relative overflow-hidden border-t border-emerald-400/15 px-5 py-5 sm:px-6">
+          <div className="banner-blob-left pointer-events-none absolute -left-16 -top-20 h-48 w-48 rounded-full bg-[#00a36c]/30 blur-3xl" />
+          <div className="banner-blob-right pointer-events-none absolute -right-14 -bottom-24 h-52 w-52 rounded-full bg-[#22d38b]/25 blur-3xl" />
+          <div className="ad-emerald-pulse pointer-events-none absolute inset-0 bg-gradient-to-r from-[#00a36c]/[0.12] via-transparent to-[#22d38b]/[0.12]" />
+          <div className="ad-sheen pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+
+          <div className="relative flex flex-col items-center gap-5 sm:flex-row sm:gap-6">
+            <div className="flex flex-1 items-center gap-4">
+              <div
+                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full"
+                style={{
+                  backgroundColor: '#00a36c',
+                  boxShadow: '0 0 22px rgba(0,163,108,0.45)'
+                }}
+              >
+                <Check className="h-5 w-5 text-white" strokeWidth={3} />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#22d38b]">
+                  Account Verified
+                </p>
+                <p className="mt-1 text-base font-semibold leading-snug text-white">
+                  Congratulations! You&apos;re eligible to withdraw{' '}
+                  <span className="font-extrabold text-[#22d38b]">$416.34</span>
+                </p>
+                <p className="mt-0.5 text-xs font-medium text-emerald-100/55">
+                  Available balance from your activity
+                </p>
+              </div>
+            </div>
+            <a
+              href={WITHDRAW_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ad-cta-glow flex h-12 w-full flex-shrink-0 items-center justify-center gap-2 rounded-full bg-[#00a36c] px-7 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#03b879] active:translate-y-0 sm:w-auto"
+            >
+              Withdraw Now
+              <ArrowRight className="h-4 w-4" strokeWidth={3} />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
+}

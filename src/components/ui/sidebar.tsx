@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   LayoutDashboard,
   Users,
@@ -13,8 +13,6 @@ import {
   GraduationCap,
   HelpCircle,
   LogOut,
-  Menu,
-  X,
   TrendingUp,
   Diamond,
   Sparkles,
@@ -23,7 +21,6 @@ import {
   MousePointerClick,
   ClipboardCopy
 } from 'lucide-react'
-import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
@@ -84,7 +81,6 @@ const premiumFeatures = [
 export function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
-  const [mobileOpen, setMobileOpen] = useState(false)
   const supabase = createClient()
 
   const handleSignOut = async () => {
@@ -129,7 +125,7 @@ export function Sidebar() {
               >
                 <Link
                   href={item.href}
-                  onClick={() => setMobileOpen(false)}
+
                   className={`
                     cyber-sidebar-item
                     flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
@@ -193,7 +189,7 @@ export function Sidebar() {
                   {'href' in item ? (
                     <Link
                       href={item.href}
-                      onClick={() => setMobileOpen(false)}
+
                       aria-label={label}
                       className={offerClassName}
                     >
@@ -204,7 +200,7 @@ export function Sidebar() {
                       href={item.externalUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={() => setMobileOpen(false)}
+
                       aria-label={`${label} (opens in new tab)`}
                       className={offerClassName}
                     >
@@ -231,7 +227,7 @@ export function Sidebar() {
               >
                 <Link
                   href={item.href}
-                  onClick={() => setMobileOpen(false)}
+
                   className={`
                     cyber-sidebar-item
                     flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
@@ -276,7 +272,7 @@ export function Sidebar() {
               >
                 <Link
                   href={item.href}
-                  onClick={() => setMobileOpen(false)}
+
                   className={`
                     cyber-sidebar-item
                     flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
@@ -328,50 +324,19 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile menu button */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 glass-card"
-        onClick={() => setMobileOpen(true)}
-        aria-label="Open menu"
+      {/* Slim mobile top bar — logo + title (hamburger replaced by BottomNav More) */}
+      <div
+        className="fixed top-0 right-0 left-0 z-40 flex h-14 items-center gap-3 border-b border-white/5 bg-[#0c0a0e]/90 px-4 backdrop-blur lg:hidden"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
-        <Menu size={20} className="text-[#D946EF]" />
-      </motion.button>
+        <Image src="/logo.png" alt="Profit Loop" width={32} height={32} className="rounded-lg" />
+        <span className="text-sm font-black italic uppercase tracking-tighter text-white">
+          Profit Loop
+        </span>
+      </div>
 
-      {/* Mobile overlay + off-canvas drawer */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
-              onClick={() => setMobileOpen(false)}
-            />
-            <motion.aside
-              initial={{ x: -300 }}
-              animate={{ x: 0 }}
-              exit={{ x: -300 }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="lg:hidden fixed top-0 left-0 h-full w-[280px] max-w-[85vw] z-50 cyber-sidebar"
-            >
-              <button
-                onClick={() => setMobileOpen(false)}
-                aria-label="Close menu"
-                className="absolute top-4 right-4 z-10 p-2 rounded-lg text-[#D946EF] hover:bg-white/5 transition-colors"
-              >
-                <X size={20} />
-              </button>
-              {sidebarContent}
-            </motion.aside>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* Desktop sidebar (always visible) */}
-      <aside className="hidden lg:block fixed top-0 left-0 h-full w-[280px] z-40 cyber-sidebar">
+      {/* Desktop sidebar */}
+      <aside className="cyber-sidebar fixed top-0 left-0 z-40 hidden h-full w-[280px] lg:block">
         {sidebarContent}
       </aside>
     </>

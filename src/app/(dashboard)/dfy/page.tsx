@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { Diamond, Mail, Copy, CheckCircle2, Search, Link as LinkIcon, CheckSquare } from 'lucide-react'
 import { useState, useMemo } from 'react'
+import { GenerationProgress } from '@/components/ui/generation-progress'
+import { PromoBanner } from '@/components/ui/promo-banner'
 
 const LEADS_PER_PAGE = 10
 
@@ -61,6 +63,9 @@ export default function DFYPage() {
   const [copiedAll, setCopiedAll] = useState(false)
   const [visibleCount, setVisibleCount] = useState(LEADS_PER_PAGE)
   const [nicheQuery, setNicheQuery] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [showOfferBanner, setShowOfferBanner] = useState(false)
+  const [loadingLabel, setLoadingLabel] = useState('Loading premium leads...')
 
   const filteredNiches = useMemo(
     () => niches.filter(n => n.name.toLowerCase().includes(nicheQuery.trim().toLowerCase())),
@@ -72,12 +77,27 @@ export default function DFYPage() {
   const remaining = 200 - visibleCount
 
   const handleSelectNiche = (nicheId: string) => {
-    setSelectedNiche(nicheId)
-    setVisibleCount(LEADS_PER_PAGE)
+    if (nicheId === selectedNiche || loading) return
+    const nicheName = niches.find(n => n.id === nicheId)?.name || 'niche'
+    setLoading(true)
+    setShowOfferBanner(true)
+    setLoadingLabel(`Loading ${nicheName} leads & emails...`)
+    window.setTimeout(() => {
+      setSelectedNiche(nicheId)
+      setVisibleCount(LEADS_PER_PAGE)
+      setLoading(false)
+    }, 3500)
   }
 
   const handleLoadMore = () => {
-    setVisibleCount(prev => Math.min(prev + LEADS_PER_PAGE, 200))
+    if (loading || remaining <= 0) return
+    setLoading(true)
+    setShowOfferBanner(true)
+    setLoadingLabel('Loading more verified leads...')
+    window.setTimeout(() => {
+      setVisibleCount(prev => Math.min(prev + LEADS_PER_PAGE, 200))
+      setLoading(false)
+    }, 2500)
   }
 
   const getEmailContent = (lead: { firstName: string; company: string; id: number }, link: string, nicheId: string, nicheName: string) => {
@@ -532,7 +552,8 @@ export default function DFYPage() {
                 <button
                   key={niche.id}
                   onClick={() => handleSelectNiche(niche.id)}
-                  className={`w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center justify-between group ${
+                  disabled={loading}
+                  className={`w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center justify-between group disabled:opacity-50 ${
                     selectedNiche === niche.id 
                       ? 'bg-[#D946EF]/10 border border-[#D946EF]/30' 
                       : 'bg-[#111111] border border-white/5 hover:border-white/10'
@@ -584,6 +605,15 @@ export default function DFYPage() {
               </div>
             </div>
 
+            {loading ? (
+              <GenerationProgress label={loadingLabel} />
+            ) : showOfferBanner ? (
+              <div className="mb-6">
+                <PromoBanner />
+              </div>
+            ) : null}
+
+            {!loading ? (
             <div className="space-y-6">
               {/* Data representing the emails */}
               {currentLeads.map((lead, index) => {
@@ -592,10 +622,10 @@ export default function DFYPage() {
                 
                 return (
                 <motion.div 
-                  key={index}
+                  key={`${selectedNiche}-${lead.id}-${index}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: Math.min(index * 0.05, 0.4) }}
                   className="bg-[#111111] rounded-2xl p-6 border border-white/5 hover:border-[#D946EF]/30 transition-all duration-300"
                 >
                   <div className="flex flex-col md:flex-row gap-6">
@@ -648,6 +678,7 @@ export default function DFYPage() {
                 </div>
               )}
             </div>
+            ) : null}
           </div>
         </div>
       </div>

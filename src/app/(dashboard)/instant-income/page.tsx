@@ -1,8 +1,12 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Facebook, BookOpen, DollarSign, CheckCircle2, ExternalLink, Lightbulb, Copy, Check } from 'lucide-react'
-import { useState } from 'react'
+import { Facebook, BookOpen, DollarSign, CheckCircle2, ExternalLink, Lightbulb, Copy, Check, Play } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { VideoOverlay } from '@/components/ui/video-overlay'
+import { GenerationProgress } from '@/components/ui/generation-progress'
+import { PromoBanner } from '@/components/ui/promo-banner'
+import { getVideoThumbnail } from '@/lib/video-thumbnails'
 
 const niches = [
   "ALL NICHES", "WEIGHT LOSS", "MAKE MONEY ONLINE", "HEALTH & FITNESS",
@@ -24,8 +28,32 @@ export default function InstantIncomePage() {
   const [affiliateLink, setAffiliateLink] = useState("")
   const [showPosts, setShowPosts] = useState(false)
   const [copiedPost, setCopiedPost] = useState<number | null>(null)
+  const [videoOpen, setVideoOpen] = useState(false)
+  const [generating, setGenerating] = useState(false)
+  const generateToken = useRef(0)
 
-  const currentStep = !activeNiche ? 1 : !affiliateLink ? 2 : !showPosts ? 3 : 4
+  const recurringVideoUrl = 'https://player.vimeo.com/video/1177396575'
+  const recurringThumbnail = getVideoThumbnail(recurringVideoUrl)
+
+  const currentStep = !activeNiche ? 1 : !affiliateLink ? 2 : !showPosts && !generating ? 3 : 4
+
+  const cancelGenerate = () => {
+    generateToken.current += 1
+    setGenerating(false)
+    setShowPosts(false)
+  }
+
+  const handleGeneratePosts = () => {
+    if (!affiliateLink.trim() || generating) return
+    const token = ++generateToken.current
+    setGenerating(true)
+    setShowPosts(false)
+    window.setTimeout(() => {
+      if (generateToken.current !== token) return
+      setGenerating(false)
+      setShowPosts(true)
+    }, 4500)
+  }
 
   const samplePosts: { title: string; text: string }[] = activeNiche ? [
     {
@@ -60,12 +88,30 @@ export default function InstantIncomePage() {
         <div className="rounded-2xl border border-white/5 bg-[#111111] overflow-hidden flex flex-col lg:flex-row shadow-2xl mb-8">
           {/* Left: Video */}
           <div className="lg:w-1/2 relative min-h-[280px] lg:min-h-[380px] bg-[#0a0a0a] border-b lg:border-b-0 lg:border-r border-white/5 overflow-hidden">
-            <iframe
-              src="https://player.vimeo.com/video/1177396575?title=0&byline=0&portrait=0"
-              className="absolute inset-0 w-full h-full"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            />
+            {recurringThumbnail ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={recurringThumbnail}
+                alt="Recurring Streams training thumbnail"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a1f] to-zinc-900" />
+            )}
+            <div className={`absolute inset-0 ${recurringThumbnail ? 'bg-black/10' : 'bg-black/40'}`} />
+            <button
+              type="button"
+              onClick={() => setVideoOpen(true)}
+              aria-label="Play Recurring Streams training"
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
+            >
+              <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#a855f7] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+                <Play className="ml-1 h-8 w-8 fill-white" />
+              </span>
+              <span className="text-sm font-semibold text-white drop-shadow-lg">
+                ▶ Click to Play Video
+              </span>
+            </button>
           </div>
 
           {/* Right: Content */}
@@ -218,7 +264,10 @@ export default function InstantIncomePage() {
               {niches.map((niche) => (
                 <button
                   key={niche}
-                  onClick={() => { setActiveNiche(niche); setShowPosts(false) }}
+                  onClick={() => {
+                    setActiveNiche(niche)
+                    cancelGenerate()
+                  }}
                   className={`px-4 py-2 rounded-full text-xs font-black italic tracking-widest uppercase transition-all
                     ${activeNiche === niche
                       ? 'bg-[#D946EF] text-black shadow-[0_0_15px_rgba(217,70,239,0.3)]'
@@ -245,7 +294,10 @@ export default function InstantIncomePage() {
               <input
                 type="text"
                 value={affiliateLink}
-                onChange={(e) => { setAffiliateLink(e.target.value); setShowPosts(false) }}
+                onChange={(e) => {
+                  setAffiliateLink(e.target.value)
+                  cancelGenerate()
+                }}
                 placeholder="Paste your affiliate link here (e.g. https://digistore24.com/redir/...)"
                 className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl p-4 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#D946EF]/50 transition-colors mb-4"
               />
@@ -293,14 +345,23 @@ export default function InstantIncomePage() {
                 <span className="text-[#D946EF]">STEP 3:</span> GET YOUR POSTS
               </h3>
 
-              {!showPosts ? (
+              {generating ? (
+                <GenerationProgress label="Personalizing posts with your affiliate link..." />
+              ) : showPosts ? (
+                <PromoBanner />
+              ) : null}
+
+              {!showPosts && !generating ? (
                 <button
-                  onClick={() => setShowPosts(true)}
-                  className="w-full bg-[#D946EF] hover:bg-[#c026d3] text-black font-black italic uppercase tracking-widest text-sm py-4 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_25px_rgba(217,70,239,0.3)]"
+                  onClick={handleGeneratePosts}
+                  disabled={!affiliateLink.trim()}
+                  className="w-full bg-[#D946EF] hover:bg-[#c026d3] disabled:opacity-40 disabled:cursor-not-allowed text-black font-black italic uppercase tracking-widest text-sm py-4 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_25px_rgba(217,70,239,0.3)]"
                 >
                   🚀 GENERATE MY POSTS NOW
                 </button>
-              ) : (
+              ) : null}
+
+              {showPosts && !generating ? (
                 <div className="space-y-4">
                   {samplePosts.map((post, index) => (
                     <div
@@ -332,11 +393,19 @@ export default function InstantIncomePage() {
                     </div>
                   ))}
                 </div>
-              )}
+              ) : null}
             </motion.div>
           )}
         </div>
       </motion.div>
+
+      {videoOpen && (
+        <VideoOverlay
+          videoUrl={recurringVideoUrl}
+          title="Recurring Streams Blueprint"
+          onClose={() => setVideoOpen(false)}
+        />
+      )}
     </motion.div>
   )
 }

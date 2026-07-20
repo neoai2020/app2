@@ -1,241 +1,291 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { DollarSign, TrendingUp, Mail, Users, CheckCircle } from 'lucide-react'
+import { formatDistanceToNow } from 'date-fns'
+import { Mail, Users, CheckCircle, Gift, Lightbulb, Activity } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
-interface Notification {
-  id: number
-  name: string
-  location: string
-  action: string
-  amount?: string
-  icon: 'dollar' | 'email' | 'lead' | 'success'
-  timeAgo: string
+type FeedIcon = 'email' | 'lead' | 'success' | 'offer' | 'tip'
+
+interface FeedItem {
+  id: string
+  title: string
+  body: string
+  icon: FeedIcon
+  timeLabel: string
+  kind: 'activity' | 'tip'
 }
 
-const firstNames = [
-  'Michael', 'Sarah', 'David', 'Jennifer', 'Robert', 'Lisa', 'James', 'Emily',
-  'John', 'Amanda', 'William', 'Jessica', 'Richard', 'Ashley', 'Thomas', 'Michelle',
-  'Daniel', 'Stephanie', 'Matthew', 'Nicole', 'Anthony', 'Elizabeth', 'Mark', 'Heather',
-  'Steven', 'Megan', 'Paul', 'Rachel', 'Andrew', 'Laura', 'Kenneth', 'Christina',
-  'George', 'Kimberly', 'Edward', 'Brittany', 'Brian', 'Samantha', 'Ronald', 'Katherine'
-]
-
-const locations = [
-  'New York, USA', 'Los Angeles, USA', 'Chicago, USA', 'Houston, USA', 'Phoenix, USA',
-  'London, UK', 'Toronto, Canada', 'Sydney, Australia', 'Miami, USA', 'Dallas, USA',
-  'Atlanta, USA', 'Denver, USA', 'Seattle, USA', 'Boston, USA', 'Austin, USA',
-  'San Diego, USA', 'Portland, USA', 'Nashville, USA', 'Charlotte, USA', 'Orlando, USA',
-  'Vancouver, Canada', 'Melbourne, Australia', 'Manchester, UK', 'Dublin, Ireland'
-]
-
-const actions = [
-  { text: 'just received a response', icon: 'email' as const, hasAmount: false },
-  { text: 'closed a deal worth', icon: 'dollar' as const, hasAmount: true },
-  { text: 'generated', icon: 'lead' as const, hasAmount: false, suffix: 'new leads' },
-  { text: 'just made', icon: 'dollar' as const, hasAmount: true },
-  { text: 'successfully sent', icon: 'success' as const, hasAmount: false, suffix: 'emails' },
-  { text: 'earned', icon: 'dollar' as const, hasAmount: true },
-  { text: 'booked a call worth', icon: 'dollar' as const, hasAmount: true },
-]
-
-const amounts = ['$127', '$250', '$89', '$340', '$175', '$420', '$195', '$310', '$85', '$550', '$275', '$180']
-const leadCounts = ['15', '22', '18', '25', '12', '30', '28', '20']
-const emailCounts = ['45', '32', '28', '50', '38', '42', '55', '35']
-const timeAgos = ['just now', '2 min ago', '5 min ago', '8 min ago', '12 min ago', '15 min ago']
-
-function getRandomItem<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)]
-}
-
-function generateNotification(id: number): Notification {
-  const action = getRandomItem(actions)
-  let actionText = action.text
-  
-  if (action.suffix === 'new leads') {
-    actionText = `${action.text} ${getRandomItem(leadCounts)} ${action.suffix}`
-  } else if (action.suffix === 'emails') {
-    actionText = `${action.text} ${getRandomItem(emailCounts)} ${action.suffix}`
+const TIPS: Omit<FeedItem, 'id' | 'timeLabel'>[] = [
+  {
+    title: 'What to do next',
+    body: 'Find a few local businesses, then generate one email and copy it into your own inbox.',
+    icon: 'tip',
+    kind: 'tip'
+  },
+  {
+    title: 'Tip',
+    body: 'Keep your first outreach short and clear. You stay in control — Profit Loop does not send emails for you.',
+    icon: 'tip',
+    kind: 'tip'
+  },
+  {
+    title: 'Tip',
+    body: 'Save strong emails to reuse later. Consistency beats volume for most members.',
+    icon: 'tip',
+    kind: 'tip'
+  },
+  {
+    title: 'Tip',
+    body: 'Start with an industry you understand — your messages will sound more natural.',
+    icon: 'tip',
+    kind: 'tip'
   }
-
-  return {
-    id,
-    name: getRandomItem(firstNames),
-    location: getRandomItem(locations),
-    action: actionText,
-    amount: action.hasAmount ? getRandomItem(amounts) : undefined,
-    icon: action.icon,
-    timeAgo: getRandomItem(timeAgos)
-  }
-}
+]
 
 const iconComponents = {
-  dollar: DollarSign,
   email: Mail,
   lead: Users,
-  success: CheckCircle
+  success: CheckCircle,
+  offer: Gift,
+  tip: Lightbulb
 }
 
 const iconColors = {
-  dollar: 'text-green-400 bg-green-400/20',
   email: 'text-[#D946EF] bg-[#D946EF]/20',
   lead: 'text-indigo-400 bg-indigo-400/20',
-  success: 'text-[#D946EF] bg-[#D946EF]/20'
+  success: 'text-emerald-400 bg-emerald-400/20',
+  offer: 'text-amber-300 bg-amber-400/15',
+  tip: 'text-zinc-300 bg-white/10'
 }
 
+function mapActionToFeed(row: {
+  id: string
+  action: string
+  description: string
+  created_at: string
+}): FeedItem {
+  const action = row.action
+  let icon: FeedIcon = 'success'
+  let title = 'Your activity'
+
+  if (action === 'lead_allocated') {
+    icon = 'lead'
+    title = 'Leads found'
+  } else if (action === 'email_generated') {
+    icon = 'email'
+    title = 'Email generated'
+  } else if (action === 'email_saved') {
+    icon = 'success'
+    title = 'Email saved'
+  } else if (action === 'offer_created' || action === 'offer_updated') {
+    icon = 'offer'
+    title = action === 'offer_created' ? 'Offer created' : 'Offer updated'
+  }
+
+  let timeLabel = 'recently'
+  try {
+    timeLabel = formatDistanceToNow(new Date(row.created_at), { addSuffix: true })
+  } catch {
+    // keep default
+  }
+
+  return {
+    id: row.id,
+    title,
+    body: row.description || 'You made progress in Profit Loop.',
+    icon,
+    timeLabel,
+    kind: 'activity'
+  }
+}
+
+/**
+ * Toast feed: rotates the signed-in user's real activity_logs.
+ * Falls back to useful tips — never fabricated names, earnings, or "Verified" badges.
+ */
 export function SocialProofNotifications() {
-  const [notifications, setNotifications] = useState<Notification[]>([])
-  const [counter, setCounter] = useState(0)
+  const [queue, setQueue] = useState<FeedItem[]>([])
+  const [current, setCurrent] = useState<FeedItem | null>(null)
+  const supabase = useMemo(() => createClient(), [])
 
-  const addNotification = useCallback(() => {
-    const newNotification = generateNotification(counter)
-    setNotifications(prev => [newNotification, ...prev].slice(0, 1)) // Only show 1 at a time
-    setCounter(prev => prev + 1)
-  }, [counter])
+  const tipQueue = useMemo(
+    (): FeedItem[] =>
+      TIPS.map((t, i) => ({
+        ...t,
+        id: `tip-${i}`,
+        timeLabel: 'Tip'
+      })),
+    []
+  )
+
+  const loadFeed = useCallback(async () => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser()
+    if (!user) {
+      setQueue(tipQueue)
+      return
+    }
+
+    const { data, error } = await supabase
+      .from('activity_logs')
+      .select('id, action, description, created_at')
+      .eq('user_id', user.id)
+      .in('action', [
+        'lead_allocated',
+        'email_generated',
+        'email_saved',
+        'offer_created',
+        'offer_updated'
+      ])
+      .order('created_at', { ascending: false })
+      .limit(12)
+
+    if (error || !data || data.length === 0) {
+      setQueue(tipQueue)
+      return
+    }
+
+    setQueue(data.map((row) => mapActionToFeed(row as Parameters<typeof mapActionToFeed>[0])))
+  }, [supabase, tipQueue])
 
   useEffect(() => {
-    // Initial notification after 5 seconds
-    const initialTimeout = setTimeout(() => {
-      addNotification()
-    }, 5000)
+    void loadFeed()
+  }, [loadFeed])
 
-    // Then every 15-25 seconds randomly (less overwhelming)
-    const interval = setInterval(() => {
-      addNotification()
-    }, 15000 + Math.random() * 10000)
+  useEffect(() => {
+    if (queue.length === 0) return
 
+    let i = 0
+    const showNext = () => {
+      setCurrent(queue[i % queue.length])
+      i += 1
+    }
+
+    const initial = window.setTimeout(showNext, 4000)
+    const interval = window.setInterval(showNext, 18000)
     return () => {
-      clearTimeout(initialTimeout)
-      clearInterval(interval)
+      window.clearTimeout(initial)
+      window.clearInterval(interval)
     }
-  }, [addNotification])
+  }, [queue])
 
-  // Auto-remove notifications after 6 seconds
   useEffect(() => {
-    if (notifications.length > 0) {
-      const timeout = setTimeout(() => {
-        setNotifications(prev => prev.slice(0, -1))
-      }, 6000)
-      return () => clearTimeout(timeout)
-    }
-  }, [notifications])
+    if (!current) return
+    const t = window.setTimeout(() => setCurrent(null), 7000)
+    return () => window.clearTimeout(t)
+  }, [current])
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-3 max-w-[300px]">
+    <div className="fixed bottom-4 right-4 z-50 flex max-w-[320px] flex-col gap-3">
       <AnimatePresence mode="popLayout">
-        {notifications.map((notification) => {
-          const Icon = iconComponents[notification.icon]
-          const colorClass = iconColors[notification.icon]
-          
-          return (
-            <motion.div
-              key={notification.id}
-              initial={{ opacity: 0, x: 100, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 100, scale: 0.8 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="rounded-xl p-4 shadow-2xl border border-zinc-700/50"
-              style={{
-                background: 'linear-gradient(135deg, rgba(24, 24, 27, 0.98) 0%, rgba(39, 39, 42, 0.98) 100%)',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)'
-              }}
-            >
-              <div className="flex items-start gap-3">
-                <div className={`p-2.5 rounded-lg ${colorClass}`}>
-                  <Icon size={20} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="font-bold text-white text-sm truncate">
-                      {notification.name}
-                    </p>
-                    <span className="shrink-0 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  </div>
-                  <p className="text-zinc-400 text-xs mt-0.5">
-                    {notification.location}
-                  </p>
-                  <p className="text-zinc-200 text-sm mt-2 font-medium">
-                    {notification.action}
-                    {notification.amount && (
-                      <span className="text-green-400 font-bold ml-1">
-                        {notification.amount}
-                      </span>
-                    )}
-                  </p>
-                  <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-zinc-700/50">
-                    <TrendingUp size={12} className="text-green-400" />
-                    <p className="text-zinc-500 text-xs">
-                      {notification.timeAgo}
-                    </p>
-                    <span className="text-zinc-600">•</span>
-                    <span className="text-green-500 text-xs font-medium">Verified</span>
-                  </div>
-                </div>
+        {current && (
+          <motion.div
+            key={current.id + current.timeLabel}
+            initial={{ opacity: 0, x: 100, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 80, scale: 0.95 }}
+            transition={{ type: 'spring', damping: 26, stiffness: 280 }}
+            className="rounded-xl border border-zinc-700/50 p-4 shadow-2xl"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(24, 24, 27, 0.98) 0%, rgba(39, 39, 42, 0.98) 100%)'
+            }}
+          >
+            <div className="flex items-start gap-3">
+              <div className={`rounded-lg p-2.5 ${iconColors[current.icon]}`}>
+                {(() => {
+                  const Icon = iconComponents[current.icon]
+                  return <Icon size={18} />
+                })()}
               </div>
-            </motion.div>
-          )
-        })}
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-white">{current.title}</p>
+                <p className="mt-1 text-sm leading-snug text-zinc-300">{current.body}</p>
+                <div className="mt-2 flex flex-wrap items-center gap-1.5 border-t border-zinc-700/50 pt-2">
+                  <Activity size={12} className="text-zinc-500" />
+                  <p className="text-xs text-zinc-500">{current.timeLabel}</p>
+                  <span className="text-zinc-600">•</span>
+                  <span className="text-xs text-zinc-500">
+                    {current.kind === 'activity' ? 'Your activity' : 'Helpful tip'}
+                  </span>
+                </div>
+                <p className="mt-2 text-[10px] leading-snug text-zinc-600">
+                  Individual results vary.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   )
 }
 
-// Live counter component for dashboard
-export function LiveActivityCounter({ orientation = 'horizontal' }: { orientation?: 'horizontal' | 'vertical' }) {
-  const [stats, setStats] = useState({
-    totalEarnings: 683755.34,
-    activeUsers: 1847,
-    emailsSent: 47521,
-    leadsGenerated: 12892
-  })
+/**
+ * Dashboard side panel: your real usage today + rotating tips.
+ * No fabricated community earnings or fake counters.
+ */
+export function LiveActivityCounter({
+  orientation = 'horizontal'
+}: {
+  orientation?: 'horizontal' | 'vertical'
+}) {
+  const [leadsToday, setLeadsToday] = useState(0)
+  const [emailsToday, setEmailsToday] = useState(0)
+  const [tipIndex, setTipIndex] = useState(0)
+  const supabase = useMemo(() => createClient(), [])
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setStats(prev => ({
-        totalEarnings: prev.totalEarnings + (Math.random() * 15) + 5,
-        activeUsers: prev.activeUsers + (Math.random() > 0.7 ? 1 : Math.random() > 0.3 ? 0 : -1),
-        emailsSent: prev.emailsSent + Math.floor(Math.random() * 2) + 1,
-        leadsGenerated: prev.leadsGenerated + (Math.random() > 0.6 ? 1 : 0)
-      }))
-    }, 3000)
+    void (async () => {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser()
+      if (!user) return
+      const today = new Date().toISOString().split('T')[0]
+      const { data } = await supabase
+        .from('usage_limits')
+        .select('leads_allocated, emails_generated')
+        .eq('user_id', user.id)
+        .eq('date', today)
+        .maybeSingle()
+      if (data) {
+        setLeadsToday((data as { leads_allocated: number }).leads_allocated ?? 0)
+        setEmailsToday((data as { emails_generated: number }).emails_generated ?? 0)
+      }
+    })()
+  }, [supabase])
 
-    return () => clearInterval(interval)
+  useEffect(() => {
+    const t = window.setInterval(() => {
+      setTipIndex((i) => (i + 1) % TIPS.length)
+    }, 12000)
+    return () => window.clearInterval(t)
   }, [])
 
-  const formatNumber = (num: number) => {
-    return num.toLocaleString()
-  }
-
-  const formatCurrency = (num: number) => {
-    return '$' + num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  }
+  const tip = TIPS[tipIndex]
+  const stack = orientation === 'vertical'
 
   return (
-    <div className={orientation === 'vertical' ? 'flex flex-col gap-4' : 'grid grid-cols-2 md:grid-cols-4 gap-4'}>
-      <div className={`text-center p-4 rounded-lg bg-white/2 border border-white/5 ${orientation === 'vertical' ? 'text-left' : ''}`}>
-        <p className={`text-xl font-bold text-[#D946EF] font-mono ${orientation === 'vertical' ? 'text-lg' : ''}`}>
-          {formatCurrency(stats.totalEarnings)}
+    <div className={stack ? 'flex flex-col gap-3' : 'grid grid-cols-1 gap-3 md:grid-cols-3'}>
+      <div className="rounded-lg border border-white/5 bg-white/[0.02] p-3">
+        <p className="font-mono text-lg font-semibold text-white">{leadsToday}</p>
+        <p className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500">
+          Leads found today
         </p>
-        <p className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1 font-bold">Community Earnings</p>
       </div>
-      <div className={`text-center p-4 rounded-lg bg-white/2 border border-white/5 ${orientation === 'vertical' ? 'text-left' : ''}`}>
-        <p className={`text-xl font-bold text-white font-mono ${orientation === 'vertical' ? 'text-lg' : ''}`}>
-          {formatNumber(stats.activeUsers)}
+      <div className="rounded-lg border border-white/5 bg-white/[0.02] p-3">
+        <p className="font-mono text-lg font-semibold text-white">{emailsToday}</p>
+        <p className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500">
+          Emails generated today
         </p>
-        <p className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1 font-bold">Active Members</p>
       </div>
-      <div className={`text-center p-4 rounded-lg bg-white/2 border border-white/5 ${orientation === 'vertical' ? 'text-left' : ''}`}>
-        <p className={`text-xl font-bold text-white font-mono ${orientation === 'vertical' ? 'text-lg' : ''}`}>
-          {formatNumber(stats.emailsSent)}
-        </p>
-        <p className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1 font-bold">Emails Sent</p>
-      </div>
-      <div className={`text-center p-4 rounded-lg bg-white/2 border border-white/5 ${orientation === 'vertical' ? 'text-left' : ''}`}>
-        <p className={`text-xl font-bold text-white font-mono ${orientation === 'vertical' ? 'text-lg' : ''}`}>
-          {formatNumber(stats.leadsGenerated)}
-        </p>
-        <p className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1 font-bold">Leads Generated</p>
+      <div className={`rounded-lg border border-white/5 bg-white/[0.02] p-3 ${stack ? '' : ''}`}>
+        <p className="text-xs font-semibold text-zinc-300">{tip.title}</p>
+        <p className="mt-1 text-xs leading-relaxed text-zinc-500">{tip.body}</p>
+        <p className="mt-2 text-[10px] leading-snug text-zinc-600">Individual results vary.</p>
       </div>
     </div>
   )

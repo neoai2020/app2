@@ -55,7 +55,7 @@ export function AnimatedBackground() {
           style={{
             top: '10%',
             left: '10%',
-            background: 'radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(217, 70, 239, 0.12) 0%, transparent 70%)',
             filter: 'blur(60px)',
           }}
         />

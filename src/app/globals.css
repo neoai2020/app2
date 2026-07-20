@@ -1,14 +1,54 @@
 @import "tailwindcss";
 
+/*
+  Profit Loop Design System
+  -------------------------
+  Accent: Electric Purple #D946EF
+  Surfaces: lifted off pure black for readability
+  Radius: 12 / 16 / 24
+  Type: Geist Sans + Geist Mono
+  Touch: CTAs ≥48px, inputs ≥16px
+*/
+
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --primary-accent: #D946EF; /* Electric Purple */
-  --promo-bg: #8B5CF6; /* Violet */
-  --action-accent: #C026D3; /* Magenta */
-  --glass-bg: #111111;
-  --glass-border: rgba(255, 255, 255, 0.05);
-  --zinc-text: #71717a;
+  /* Surfaces — ~10% lifted from pure black for readability */
+  --background: #0c0a0e;
+  --background-elevated: #121014;
+  --foreground: #fafafa;
+  --primary-accent: #d946ef;
+  --promo-bg: #8b5cf6;
+  --action-accent: #c026d3;
+  --glass-bg: #161318;
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --zinc-text: #a1a1aa;
+  --muted: #a78baf;
+  --muted-strong: #c4b5c9;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #fbbf24;
+
+  /* Spacing scale (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 24px rgba(217, 70, 239, 0.25);
 }
 
 @theme inline {
@@ -32,13 +72,14 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #D946EF, #8B5CF6);
+  background: linear-gradient(180deg, #d946ef, #8b5cf6);
   border-radius: 3px;
 }
 
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @media (min-width: 768px) {
@@ -52,47 +93,91 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
-/* Animated gradient background */
+/* Soft purple-tinted ambient background (readable, not flat black) */
 .animated-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: 
-    radial-gradient(ellipse at 20% 20%, rgba(217, 70, 239, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(192, 38, 211, 0.04) 0%, transparent 50%),
-    var(--background);
+  background:
+    radial-gradient(ellipse at 15% 10%, rgba(217, 70, 239, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(192, 38, 211, 0.08) 0%, transparent 45%),
+    linear-gradient(180deg, #100e12 0%, #0c0a0e 45%, #0a0810 100%);
 }
 
-/* Grid overlay */
 .grid-overlay {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: 
-    linear-gradient(rgba(217, 70, 239, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(217, 70, 239, 0.04) 1px, transparent 1px);
-  background-size: 50px 50px;
-  mask-image: radial-gradient(ellipse at center, black 0%, transparent 80%);
+  background-image:
+    linear-gradient(rgba(217, 70, 239, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 70, 239, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 78%);
+  opacity: 0.9;
 }
 
-/* Glassmorphism card */
 .glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 2px solid var(--glass-border);
-  border-radius: 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-card);
 }
 
 .glass-strong {
-  background: rgba(17, 17, 17, 0.8);
+  background: rgba(22, 19, 24, 0.88);
   backdrop-filter: blur(12px);
-  border: 2px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+}
+
+/* Page shell helpers */
+.page-shell {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+.page-title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: white;
+  text-wrap: balance;
+}
+
+.page-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--primary-accent);
+}
+
+.touch-cta {
+  min-height: 48px;
+}
+
+/* iOS: prevent input zoom */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: inherit;
+  }
 }
 
 /* Glowing text */
@@ -290,7 +375,7 @@ body {
 
 /* Sidebar styles */
 .cyber-sidebar {
-  background: rgba(2, 6, 23, 0.98);
+  background: rgba(12, 10, 14, 0.96);
   border-right: 1px solid rgba(217, 70, 239, 0.1);
   backdrop-filter: blur(20px);
 }
@@ -373,6 +458,81 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Video overlay withdraw ad animations (Robinhood pattern) */
+@keyframes bannerBlobLeft {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(36px, 24px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes bannerBlobRight {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1.15);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(-32px, -20px) scale(0.95);
+    opacity: 0.6;
+  }
+}
+
+.banner-blob-left {
+  animation: bannerBlobLeft 7s ease-in-out infinite;
+}
+
+.banner-blob-right {
+  animation: bannerBlobRight 8s ease-in-out infinite;
+}
+
+@keyframes adEmeraldPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.ad-emerald-pulse {
+  animation: adEmeraldPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes adSheen {
+  0% {
+    transform: translateX(-130%) skewX(-18deg);
+  }
+  60%,
+  100% {
+    transform: translateX(420%) skewX(-18deg);
+  }
+}
+
+.ad-sheen {
+  animation: adSheen 4.5s ease-in-out 0.8s infinite;
+}
+
+@keyframes adCtaGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 16px rgba(0, 163, 108, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 34px rgba(0, 163, 108, 0.7);
+  }
+}
+
+.ad-cta-glow {
+  animation: adCtaGlow 2.4s ease-in-out infinite;
 }
 
 /* Table styles */

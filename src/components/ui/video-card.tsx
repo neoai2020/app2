@@ -1,7 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Clock, Eye, PlayCircle } from 'lucide-react'
+import { Clock, Eye, Play } from 'lucide-react'
+import { VideoOverlay } from '@/components/ui/video-overlay'
+import { getVideoThumbnail } from '@/lib/video-thumbnails'
 
 interface VideoCardProps {
   title?: string
@@ -25,7 +28,9 @@ export function VideoCard({
   stepNumber,
   stepHeadline
 }: VideoCardProps) {
+  const [open, setOpen] = useState(false)
   const showStepHeader = stepNumber != null && stepHeadline
+  const thumbnail = videoUrl ? getVideoThumbnail(videoUrl) : null
 
   return (
     <motion.div
@@ -45,7 +50,7 @@ export function VideoCard({
               <div className="min-w-0 flex-1 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-[#00B894]/40 bg-[#00B894]/15 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#5ee9c5]">
-                    <PlayCircle className="h-3.5 w-3.5 text-[#00B894]" strokeWidth={2.5} />
+                    <Play className="h-3.5 w-3.5 text-[#00B894]" strokeWidth={2.5} />
                     Step {stepNumber}
                   </span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
@@ -65,12 +70,32 @@ export function VideoCard({
 
       <div className="relative aspect-video bg-zinc-900">
         {videoUrl ? (
-          <iframe
-            src={`${videoUrl}?title=0&byline=0&portrait=0`}
-            className="absolute inset-0 w-full h-full"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
-          />
+          <>
+            {thumbnail ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={thumbnail}
+                alt={`${title} thumbnail`}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a1f] to-zinc-900" />
+            )}
+            <div className={`absolute inset-0 ${thumbnail ? 'bg-black/10' : 'bg-black/40'}`} />
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label={`Play ${title}`}
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
+            >
+              <span className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#a855f7] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+                <Play className="ml-1 h-10 w-10 fill-white" />
+              </span>
+              <span className="text-sm font-semibold text-white drop-shadow-lg md:text-base">
+                ▶ Click to Play Video
+              </span>
+            </button>
+          </>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-zinc-900 to-zinc-800">
             <span className="text-zinc-500 text-sm">No video available</span>
@@ -92,6 +117,14 @@ export function VideoCard({
           </span>
         </div>
       </div>
+
+      {open && videoUrl && (
+        <VideoOverlay
+          videoUrl={videoUrl}
+          title={typeof stepHeadline === 'string' ? stepHeadline : title}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </motion.div>
   )
 }

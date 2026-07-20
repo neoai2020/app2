@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { BonusTrainingCard } from '@/components/ui/bonus-training-card'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
+import { VideoOverlay } from '@/components/ui/video-overlay'
+import { getVideoThumbnail } from '@/lib/video-thumbnails'
 import { Play, GraduationCap, ChevronDown, ChevronUp, Diamond } from 'lucide-react'
 
 const VIDEOS_PER_ROW = 2
@@ -35,7 +37,7 @@ const trainingVideos: Video[] = [
     title: 'Getting Started with Profit Loop',
     description: 'A complete walkthrough of the platform — learn how to navigate the dashboard, understand each feature, and set up your account for success.',
     duration: '4:32',
-    thumbnail: '',
+    thumbnail: '/thumbnails/thumb-01-getting-started.png',
     videoUrl: 'https://player.vimeo.com/video/1177396372',
   },
   {
@@ -43,7 +45,7 @@ const trainingVideos: Video[] = [
     title: 'How to Create Offer Templates',
     description: 'Step-by-step guide to building high-converting offer templates in the Offer Library using AI generation.',
     duration: '4:18',
-    thumbnail: '',
+    thumbnail: '/thumbnails/thumb-02-offer-templates.png',
     videoUrl: 'https://player.vimeo.com/video/1177396987',
   },
   {
@@ -51,7 +53,7 @@ const trainingVideos: Video[] = [
     title: 'Find Customers Masterclass',
     description: 'Learn how to pull leads by niche and location using Find Customers, and maximize your daily limit for the best results.',
     duration: '4:05',
-    thumbnail: '',
+    thumbnail: '/thumbnails/thumb-03-find-customers.png',
     videoUrl: 'https://player.vimeo.com/video/1177396886',
   },
   {
@@ -59,7 +61,7 @@ const trainingVideos: Video[] = [
     title: 'Write Emails Deep Dive',
     description: 'Master Write Emails — choose the right tone, pair offers with leads, and generate AI emails that get responses.',
     duration: '4:22',
-    thumbnail: '',
+    thumbnail: '/thumbnails/thumb-04-write-emails.png',
     videoUrl: 'https://player.vimeo.com/video/1177396779',
   },
   {
@@ -67,7 +69,7 @@ const trainingVideos: Video[] = [
     title: 'Accelerator Setup & Walkthrough',
     description: 'Complete guide to the Accelerator system — 1,600 pre-built leads across 8 niches with pre-written emails ready to send.',
     duration: '4:38',
-    thumbnail: '',
+    thumbnail: '/thumbnails/thumb-05-accelerator.png',
     videoUrl: 'https://player.vimeo.com/video/1177396681',
     premium: true,
   },
@@ -76,7 +78,7 @@ const trainingVideos: Video[] = [
     title: 'Recurring Streams Blueprint',
     description: 'Learn the Recurring Streams method — copy-paste Facebook posts with your affiliate link to earn commissions from day one.',
     duration: '4:28',
-    thumbnail: '',
+    thumbnail: '/thumbnails/thumb-06-recurring-streams.png',
     videoUrl: 'https://player.vimeo.com/video/1177396575',
     premium: true,
   },
@@ -85,7 +87,7 @@ const trainingVideos: Video[] = [
     title: 'Social Payouts Configuration',
     description: 'Set up Social Payouts to submit your link to 100+ free traffic sources and get automated traffic on cruise control.',
     duration: '4:45',
-    thumbnail: '',
+    thumbnail: '/thumbnails/thumb-07-social-payouts.png',
     videoUrl: 'https://player.vimeo.com/video/1177396473',
     premium: true,
   },
@@ -100,6 +102,9 @@ function chunkIntoRows<T>(items: T[], rowSize: number): T[][] {
 }
 
 function TrainingVideoCard({ video, index }: { video: Video; index: number }) {
+  const [open, setOpen] = useState(false)
+  const thumbnail = getVideoThumbnail(video.videoUrl)
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -115,12 +120,30 @@ function TrainingVideoCard({ video, index }: { video: Video; index: number }) {
         )}
         <CardContent className="p-0">
           <div className="relative aspect-video bg-zinc-900 rounded-t-xl overflow-hidden">
-            <iframe
-              src={`${video.videoUrl}?title=0&byline=0&portrait=0`}
-              className="w-full h-full"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            />
+            {thumbnail ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={thumbnail}
+                alt={`${video.title} thumbnail`}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a1f] to-zinc-900" />
+            )}
+            <div className={`absolute inset-0 ${thumbnail ? 'bg-black/10' : 'bg-black/40'}`} />
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label={`Play ${video.title}`}
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3"
+            >
+              <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-[#a855f7] to-[#D946EF] text-white shadow-2xl transition-transform duration-300 hover:scale-110">
+                <Play className="ml-1 h-8 w-8 fill-white" />
+              </span>
+              <span className="text-sm font-semibold text-white drop-shadow-lg">
+                ▶ Click to Play Video
+              </span>
+            </button>
           </div>
           <div className="p-4">
             <h3 className="font-semibold text-white text-sm mb-1">{video.title}</h3>
@@ -128,6 +151,14 @@ function TrainingVideoCard({ video, index }: { video: Video; index: number }) {
           </div>
         </CardContent>
       </Card>
+
+      {open && (
+        <VideoOverlay
+          videoUrl={video.videoUrl}
+          title={video.title}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </motion.div>
   )
 }
