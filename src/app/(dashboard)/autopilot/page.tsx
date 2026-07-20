@@ -161,6 +161,8 @@ export default function AutopilotPage() {
             <img
               src={socialThumbnail}
               alt="Social Payouts training thumbnail"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover"
             />
           ) : (

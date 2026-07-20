@@ -76,6 +76,7 @@ export function VideoCard({
               <img
                 src={thumbnail}
                 alt={`${title} thumbnail`}
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (

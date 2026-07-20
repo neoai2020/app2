@@ -93,6 +93,8 @@ export default function InstantIncomePage() {
               <img
                 src={recurringThumbnail}
                 alt="Recurring Streams training thumbnail"
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (

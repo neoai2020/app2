@@ -37,7 +37,7 @@ const trainingVideos: Video[] = [
     title: 'Getting Started with Profit Loop',
     description: 'A complete walkthrough of the platform — learn how to navigate the dashboard, understand each feature, and set up your account for success.',
     duration: '4:32',
-    thumbnail: '/thumbnails/thumb-01-getting-started.png',
+    thumbnail: '/thumbnails/thumb-01-getting-started.webp',
     videoUrl: 'https://player.vimeo.com/video/1177396372',
   },
   {
@@ -45,7 +45,7 @@ const trainingVideos: Video[] = [
     title: 'How to Create Offer Templates',
     description: 'Step-by-step guide to building high-converting offer templates in the Offer Library using AI generation.',
     duration: '4:18',
-    thumbnail: '/thumbnails/thumb-02-offer-templates.png',
+    thumbnail: '/thumbnails/thumb-02-offer-templates.webp',
     videoUrl: 'https://player.vimeo.com/video/1177396987',
   },
   {
@@ -53,7 +53,7 @@ const trainingVideos: Video[] = [
     title: 'Find Customers Masterclass',
     description: 'Learn how to pull leads by niche and location using Find Customers, and maximize your daily limit for the best results.',
     duration: '4:05',
-    thumbnail: '/thumbnails/thumb-03-find-customers.png',
+    thumbnail: '/thumbnails/thumb-03-find-customers.webp',
     videoUrl: 'https://player.vimeo.com/video/1177396886',
   },
   {
@@ -61,7 +61,7 @@ const trainingVideos: Video[] = [
     title: 'Write Emails Deep Dive',
     description: 'Master Write Emails — choose the right tone, pair offers with leads, and generate AI emails that get responses.',
     duration: '4:22',
-    thumbnail: '/thumbnails/thumb-04-write-emails.png',
+    thumbnail: '/thumbnails/thumb-04-write-emails.webp',
     videoUrl: 'https://player.vimeo.com/video/1177396779',
   },
   {
@@ -69,7 +69,7 @@ const trainingVideos: Video[] = [
     title: 'Accelerator Setup & Walkthrough',
     description: 'Complete guide to the Accelerator system — 1,600 pre-built leads across 8 niches with pre-written emails ready to send.',
     duration: '4:38',
-    thumbnail: '/thumbnails/thumb-05-accelerator.png',
+    thumbnail: '/thumbnails/thumb-05-accelerator.webp',
     videoUrl: 'https://player.vimeo.com/video/1177396681',
     premium: true,
   },
@@ -78,7 +78,7 @@ const trainingVideos: Video[] = [
     title: 'Recurring Streams Blueprint',
     description: 'Learn the Recurring Streams method — copy-paste Facebook posts with your affiliate link to earn commissions from day one.',
     duration: '4:28',
-    thumbnail: '/thumbnails/thumb-06-recurring-streams.png',
+    thumbnail: '/thumbnails/thumb-06-recurring-streams.webp',
     videoUrl: 'https://player.vimeo.com/video/1177396575',
     premium: true,
   },
@@ -87,7 +87,7 @@ const trainingVideos: Video[] = [
     title: 'Social Payouts Configuration',
     description: 'Set up Social Payouts to submit your link to 100+ free traffic sources and get automated traffic on cruise control.',
     duration: '4:45',
-    thumbnail: '/thumbnails/thumb-07-social-payouts.png',
+    thumbnail: '/thumbnails/thumb-07-social-payouts.webp',
     videoUrl: 'https://player.vimeo.com/video/1177396473',
     premium: true,
   },
@@ -125,6 +125,8 @@ function TrainingVideoCard({ video, index }: { video: Video; index: number }) {
               <img
                 src={thumbnail}
                 alt={`${video.title} thumbnail`}
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
