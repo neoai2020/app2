@@ -227,6 +227,30 @@ export function SocialProofNotifications() {
 }
 
 /**
+ * Dashboard side panel: rotating helpful tips only.
+ */
+export function DashboardTipsWidget() {
+  const [tipIndex, setTipIndex] = useState(0)
+
+  useEffect(() => {
+    const t = window.setInterval(() => {
+      setTipIndex((i) => (i + 1) % TIPS.length)
+    }, 12000)
+    return () => window.clearInterval(t)
+  }, [])
+
+  const tip = TIPS[tipIndex]
+
+  return (
+    <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4">
+      <p className="text-sm font-semibold text-zinc-300">{tip.title}</p>
+      <p className="mt-2 text-sm leading-relaxed text-zinc-400">{tip.body}</p>
+      <p className="mt-3 text-xs leading-snug text-zinc-600">Individual results vary.</p>
+    </div>
+  )
+}
+
+/**
  * Dashboard side panel: your real usage today + rotating tips.
  * No fabricated community earnings or fake counters.
  */

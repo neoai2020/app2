@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { VideoCard } from '@/components/ui/video-card'
 import { BonusTrainingCard } from '@/components/ui/bonus-training-card'
-import { LiveActivityCounter } from '@/components/ui/social-proof'
+import { DashboardTipsWidget } from '@/components/ui/social-proof'
 import { ContactSupportWidget } from '@/components/ui/contact-support-widget'
 import { HowItWorks } from '@/components/ui/how-it-works'
 import { createClient } from '@/lib/supabase/client'
@@ -15,8 +15,6 @@ import {
   Mail,
   Clock,
   Zap,
-  Activity,
-  TrendingUp,
   Headphones,
   Play
 } from 'lucide-react'
@@ -339,46 +337,15 @@ export default function DashboardPage() {
             <ContactSupportWidget />
           </motion.div>
 
-          <p className="px-2 text-xs font-black italic uppercase tracking-widest text-zinc-500">
-            Notifications
-          </p>
-
-          <motion.div variants={itemVariants}>
-            <Card className="glass-strong border-l-4 border-l-[#D946EF]">
-              <CardHeader className="pb-2">
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-[#D946EF]" />
-                  <CardTitle className="text-xs font-black italic uppercase tracking-widest text-[#D946EF]">
-                    Next step
-                  </CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p className="text-sm font-medium text-zinc-300">
-                  Find a few customers, then write one email.
-                </p>
-                <p className="text-[11px] leading-relaxed text-zinc-500">
-                  Your own progress shows in Your activity below — we never invent community
-                  earnings.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
           <motion.div variants={itemVariants}>
             <Card className="border-none bg-white/[0.02]">
               <CardHeader className="pb-2">
-                <div className="flex items-center gap-2">
-                  <Activity className="h-4 w-4 text-white/40" />
-                  <CardTitle className="text-xs font-black italic uppercase tracking-widest text-zinc-500">
-                    Your activity
-                  </CardTitle>
-                </div>
+                <CardTitle className="text-xs font-black italic uppercase tracking-widest text-zinc-500">
+                  Tips
+                </CardTitle>
               </CardHeader>
-              <CardContent className="p-0">
-                <div className="px-6 py-4">
-                  <LiveActivityCounter orientation="vertical" />
-                </div>
+              <CardContent className="pt-0">
+                <DashboardTipsWidget />
               </CardContent>
             </Card>
           </motion.div>
