@@ -9,6 +9,7 @@ import {
   Sparkles,
   Gift,
   Archive,
+  Bookmark,
   HelpCircle,
   LogOut,
   ExternalLink,
@@ -31,6 +32,7 @@ const tabs = [
 
 const mainMore = [
   { title: 'Offer Library', url: '/offers', icon: Gift },
+  { title: 'Saved Searches', url: '/saved-searches', icon: Bookmark },
   { title: 'Saved Emails', url: '/saved-emails', icon: Archive }
 ]
 

@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
-import { DAILY_LEAD_LIMIT } from '@/lib/constants'
+import { DAILY_SEARCH_LIMIT, LEADS_PER_SEARCH } from '@/lib/constants'
 
 interface GoogleMapsPlace {
   title?: string
@@ -26,6 +26,8 @@ interface ScraperAPIResponse {
 }
 
 const SCRAPER_TIMEOUT_MS = 45_000
+// How many result pages we're willing to walk through to find fresh leads
+const MAX_RESULT_PAGES = 5
 
 async function fetchJsonWithTimeout(url: string): Promise<Response> {
   const controller = new AbortController()
@@ -94,65 +96,81 @@ function withApiKey(url: string, apiKey: string): string {
   return `${url}${url.includes('?') ? '&' : '?'}api_key=${apiKey}`
 }
 
+function normalizeBusinessName(name: string): string {
+  return name.trim().toLowerCase().replace(/\s+/g, ' ')
+}
+
 /**
- * ScraperAPI's mapssearch often returns a shell payload with `next_page_url`
- * (or `nextPageURL`) instead of `results`. Following that URL yields the
- * real local businesses.
+ * ScraperAPI's mapssearch pages via `next_page_url` (or `nextPageURL`).
+ * We keep following pages until we collect `target` businesses that are
+ * not in `excludeNames`, or run out of pages. This is what lets a repeat
+ * search with the same parameters return the NEXT batch of leads instead
+ * of the same ones again.
  */
 async function fetchMapsPlaces(
   apiKey: string,
   industry: string,
-  location: string
+  location: string,
+  target: number,
+  excludeNames: Set<string>
 ): Promise<GoogleMapsPlace[]> {
   const query = encodeURIComponent(`${industry} in ${location}`)
   const coords = await geocodeLocation(location)
-  const mapsUrl =
+  let url: string | null =
     `https://api.scraperapi.com/structured/google/mapssearch?api_key=${apiKey}&query=${query}` +
     (coords ? `&latitude=${coords.lat}&longitude=${coords.lng}` : '')
 
-  const response = await fetchJsonWithTimeout(mapsUrl)
-  if (!response.ok) {
-    console.error('[ScraperAPI][maps] HTTP', response.status)
-    return []
-  }
+  const fresh: GoogleMapsPlace[] = []
+  const seenInBatch = new Set<string>()
 
-  let data = (await response.json()) as {
-    results?: MapsResultRow[]
-    next_page_url?: string
-    nextPageURL?: string
-  }
-
-  let places = mapRowsToPlaces(data.results ?? [], location)
-
-  // Follow the continuation URL when the first response has no businesses
-  const nextUrl = data.next_page_url || data.nextPageURL
-  if (places.length === 0 && nextUrl) {
-    console.log('[ScraperAPI][maps] following next_page_url')
-    const follow = await fetchJsonWithTimeout(withApiKey(nextUrl, apiKey))
-    if (follow.ok) {
-      data = (await follow.json()) as typeof data
-      places = mapRowsToPlaces(data.results ?? [], location)
-    } else {
-      console.error('[ScraperAPI][maps][follow] HTTP', follow.status)
+  for (let page = 0; page < MAX_RESULT_PAGES && url && fresh.length < target; page++) {
+    const response = await fetchJsonWithTimeout(url)
+    if (!response.ok) {
+      console.error('[ScraperAPI][maps] HTTP', response.status, 'page', page)
+      break
     }
+
+    const data = (await response.json()) as {
+      results?: MapsResultRow[]
+      next_page_url?: string
+      nextPageURL?: string
+    }
+
+    const places = mapRowsToPlaces(data.results ?? [], location)
+    for (const place of places) {
+      const key = normalizeBusinessName(place.title || '')
+      if (!key || excludeNames.has(key) || seenInBatch.has(key)) continue
+      seenInBatch.add(key)
+      fresh.push(place)
+      if (fresh.length >= target) break
+    }
+
+    const nextUrl = data.next_page_url || data.nextPageURL
+    url = nextUrl ? withApiKey(nextUrl, apiKey) : null
   }
 
-  return places
+  return fresh
 }
 
 // Fetch real local businesses from ScraperAPI Google Maps Search,
-// with SERP local_packs as a fallback.
-async function fetchRealLeads(industry: string, location: string, count: number): Promise<GoogleMapsPlace[]> {
+// with SERP local_packs as a fallback. Excludes businesses the user
+// already received for this search.
+async function fetchRealLeads(
+  industry: string,
+  location: string,
+  count: number,
+  excludeNames: Set<string>
+): Promise<GoogleMapsPlace[]> {
   const apiKey = process.env.SCRAPER_API_KEY
   if (!apiKey) {
     throw new Error('SCRAPER_API_KEY is not configured')
   }
 
-  console.log('[ScraperAPI] Fetching:', `${industry} in ${location}`)
+  console.log('[ScraperAPI] Fetching:', `${industry} in ${location}`, `(want ${count} fresh)`)
 
   let places: GoogleMapsPlace[] = []
   try {
-    places = await fetchMapsPlaces(apiKey, industry, location)
+    places = await fetchMapsPlaces(apiKey, industry, location, count, excludeNames)
   } catch (err) {
     console.error('[ScraperAPI][maps] request failed:', err)
   }
@@ -165,16 +183,20 @@ async function fetchRealLeads(industry: string, location: string, count: number)
     if (!response.ok) {
       const errorText = await response.text()
       console.error('[ScraperAPI][serp] Error:', response.status, errorText.slice(0, 300))
+      // If the maps call already worked but simply had no new results,
+      // treat this as "no more leads" rather than a hard failure.
+      if (excludeNames.size > 0) return []
       throw new Error(`ScraperAPI request failed: ${response.status}`)
     }
     const data = (await response.json()) as ScraperAPIResponse
 
+    let serpPlaces: GoogleMapsPlace[] = []
     if (data.local_results?.length) {
-      places = data.local_results
+      serpPlaces = data.local_results
     } else if (data.place_results?.length) {
-      places = data.place_results
+      serpPlaces = data.place_results
     } else if (data.businesses?.length) {
-      places = data.businesses.map(b => ({
+      serpPlaces = data.businesses.map(b => ({
         title: b.title,
         address: b.location || b.address || location,
         phone: b.telephone_number || b.phone || null,
@@ -182,7 +204,7 @@ async function fetchRealLeads(industry: string, location: string, count: number)
         rating: b.rating || null
       }))
     } else if (data.local_packs?.length) {
-      places = data.local_packs.map(p => ({
+      serpPlaces = data.local_packs.map(p => ({
         title: p.title,
         address:
           (Array.isArray(p.details) ? p.details.find((d: string) => /\d/.test(d)) : null) ||
@@ -192,9 +214,17 @@ async function fetchRealLeads(industry: string, location: string, count: number)
         rating: p.rating || null
       }))
     }
+
+    const seenInBatch = new Set<string>()
+    places = serpPlaces.filter(p => {
+      const key = normalizeBusinessName(p.title || '')
+      if (!key || excludeNames.has(key) || seenInBatch.has(key)) return false
+      seenInBatch.add(key)
+      return true
+    })
   }
 
-  console.log(`[ScraperAPI] Found ${places.length} local businesses`)
+  console.log(`[ScraperAPI] Found ${places.length} fresh local businesses`)
   return places.slice(0, count)
 }
 
@@ -284,6 +314,10 @@ function deriveEmailFromWebsite(businessName: string, website: string | null): s
   return `info@${domain}`
 }
 
+function normalizedSearchKey(industry: string, location: string): string {
+  return `${industry.trim().toLowerCase().replace(/\s+/g, ' ')}|${location.trim().toLowerCase().replace(/\s+/g, ' ')}`
+}
+
 export async function POST(request: Request) {
   try {
     // Fail fast with a clear message when server env is incomplete,
@@ -322,7 +356,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // Check today's usage
+    // Check today's usage — one click = one search, no matter how many leads come back
     const today = new Date().toISOString().split('T')[0]
     const { data: usageData } = await (adminClient as any)
       .from('usage_limits')
@@ -332,23 +366,44 @@ export async function POST(request: Request) {
       .single()
 
     const usage = usageData as any
-    const currentUsage = usage?.leads_allocated || 0
+    const searchesUsed = usage?.searches_used || 0
 
-    if (currentUsage >= DAILY_LEAD_LIMIT) {
+    if (searchesUsed >= DAILY_SEARCH_LIMIT) {
       return NextResponse.json(
-        { error: 'Daily lead limit reached' },
+        { error: "You've used all your searches for today. Come back tomorrow!" },
         { status: 429 }
       )
     }
 
-    // Calculate how many leads to allocate
-    const remaining = DAILY_LEAD_LIMIT - currentUsage
-    const toAllocate = Math.min(10, remaining)
+    // Look for an existing search with the same parameters (same niche + place).
+    // If found, we fetch the NEXT batch of qualified leads instead of repeats.
+    const searchKey = normalizedSearchKey(industry, location)
+    const { data: existingSearchData } = await (adminClient as any)
+      .from('searches')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('normalized_key', searchKey)
+      .maybeSingle()
 
-    // Fetch REAL leads from ScraperAPI
+    const existingSearch = existingSearchData as any
+
+    // Businesses this search already produced — never charge for duplicates
+    const excludeNames = new Set<string>()
+    if (existingSearch) {
+      const { data: existingLeads } = await (adminClient as any)
+        .from('leads')
+        .select('business_name')
+        .eq('search_id', existingSearch.id)
+
+      for (const l of (existingLeads as { business_name: string }[]) || []) {
+        excludeNames.add(normalizeBusinessName(l.business_name))
+      }
+    }
+
+    // Fetch REAL leads from ScraperAPI (only ones the user doesn't already have)
     let places: GoogleMapsPlace[]
     try {
-      places = await fetchRealLeads(industry, location, toAllocate)
+      places = await fetchRealLeads(industry, location, LEADS_PER_SEARCH, excludeNames)
     } catch (scraperError) {
       console.error('[Lead Allocation] ScraperAPI error:', scraperError)
       return NextResponse.json(
@@ -358,6 +413,25 @@ export async function POST(request: Request) {
     }
 
     if (places.length === 0) {
+      if (existingSearch) {
+        // Repeat search exhausted — refund it (we never counted it)
+        await (adminClient as any)
+          .from('searches')
+          .update({ last_searched_at: new Date().toISOString() })
+          .eq('id', existingSearch.id)
+
+        return NextResponse.json({
+          success: true,
+          exhausted: true,
+          refunded: true,
+          leads: [],
+          allocated: 0,
+          search: existingSearch,
+          remainingSearches: DAILY_SEARCH_LIMIT - searchesUsed,
+          message:
+            'Those were the best income-driving results we could find for this niche and location. We refunded you that search for today.'
+        })
+      }
       return NextResponse.json(
         { error: 'No businesses found for this industry and location. Try different parameters.' },
         { status: 404 }
@@ -373,9 +447,42 @@ export async function POST(request: Request) {
 
     const emails = await generateEmailsForLeads(businessesForEmail)
 
-    // Insert leads into database (using existing schema columns)
+    // Upsert the search row (repeat searches append to the same search)
+    let searchRow = existingSearch
+    if (existingSearch) {
+      const { data: updatedSearch } = await (adminClient as any)
+        .from('searches')
+        .update({ last_searched_at: new Date().toISOString() })
+        .eq('id', existingSearch.id)
+        .select()
+        .single()
+      if (updatedSearch) searchRow = updatedSearch
+    } else {
+      const { data: newSearch, error: searchInsertError } = await (adminClient as any)
+        .from('searches')
+        .insert({
+          user_id: user.id,
+          industry,
+          location,
+          normalized_key: searchKey
+        })
+        .select()
+        .single()
+
+      if (searchInsertError || !newSearch) {
+        console.error('Error creating search:', JSON.stringify(searchInsertError, null, 2))
+        return NextResponse.json(
+          { error: 'Failed to record your search. Please try again.' },
+          { status: 500 }
+        )
+      }
+      searchRow = newSearch
+    }
+
+    // Insert leads into database, linked to their search
     const leadsToInsert = places.map((place, index) => ({
       user_id: user.id,
+      search_id: searchRow.id,
       business_name: place.title || 'Unknown Business',
       website: place.website || null,
       email: emails[index] || `info@unknown.com`,
@@ -399,11 +506,14 @@ export async function POST(request: Request) {
 
     const actualAllocated = insertedLeads?.length || places.length
 
-    // Update or insert usage record
+    // Count this as exactly ONE search (leads_allocated keeps tracking lead volume)
     if (usage) {
       await (adminClient as any)
         .from('usage_limits')
-        .update({ leads_allocated: currentUsage + actualAllocated })
+        .update({
+          searches_used: searchesUsed + 1,
+          leads_allocated: (usage.leads_allocated || 0) + actualAllocated
+        })
         .eq('id', usage.id)
     } else {
       await (adminClient as any)
@@ -411,6 +521,7 @@ export async function POST(request: Request) {
         .insert({
           user_id: user.id,
           date: today,
+          searches_used: 1,
           leads_allocated: actualAllocated,
           emails_generated: 0
         })
@@ -421,14 +532,17 @@ export async function POST(request: Request) {
       user_id: user.id,
       action: 'lead_allocated',
       description: `Allocated ${actualAllocated} real leads for ${industry} in ${location}`,
-      metadata: { industry, location, count: actualAllocated, source: 'scraperapi' }
+      metadata: { industry, location, count: actualAllocated, source: 'scraperapi', search_id: searchRow.id }
     })
 
     return NextResponse.json({
       success: true,
+      exhausted: false,
+      refunded: false,
       leads: insertedLeads,
       allocated: actualAllocated,
-      remaining: remaining - actualAllocated
+      search: searchRow,
+      remainingSearches: DAILY_SEARCH_LIMIT - (searchesUsed + 1)
     })
 
   } catch (error) {

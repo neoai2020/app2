@@ -1,6 +1,9 @@
 // Usage Limits
 export const DAILY_LEAD_LIMIT = parseInt(process.env.NEXT_PUBLIC_DAILY_LEAD_LIMIT || '25', 10)
 export const DAILY_EMAIL_LIMIT = parseInt(process.env.NEXT_PUBLIC_DAILY_EMAIL_LIMIT || '10', 10)
+// One click of "Find My Customers" = one search, regardless of how many leads it returns
+export const DAILY_SEARCH_LIMIT = parseInt(process.env.NEXT_PUBLIC_DAILY_SEARCH_LIMIT || '25', 10)
+export const LEADS_PER_SEARCH = parseInt(process.env.NEXT_PUBLIC_LEADS_PER_SEARCH || '10', 10)
 
 // Industry Options
 export const INDUSTRIES = [

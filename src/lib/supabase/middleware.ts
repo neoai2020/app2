@@ -10,6 +10,7 @@ const AUTH_REQUIRED_ROUTES = [
   '/offers',
   '/email-builder',
   '/saved-emails',
+  '/saved-searches',
   '/training',
   '/support',
   '/send-instructions',

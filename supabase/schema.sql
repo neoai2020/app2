@@ -20,10 +20,26 @@ CREATE TABLE public.users (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Searches table: one row per unique (user, industry, location) combination.
+-- Repeat searches with the same parameters append leads to the same row.
+CREATE TABLE public.searches (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id UUID REFERENCES public.users(id) ON DELETE CASCADE NOT NULL,
+  industry TEXT NOT NULL,
+  location TEXT NOT NULL,
+  normalized_key TEXT NOT NULL,
+  is_saved BOOLEAN NOT NULL DEFAULT FALSE,
+  last_searched_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(user_id, normalized_key)
+);
+
 -- Leads table
 CREATE TABLE public.leads (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES public.users(id) ON DELETE CASCADE NOT NULL,
+  search_id UUID REFERENCES public.searches(id) ON DELETE SET NULL,
   business_name TEXT NOT NULL,
   website TEXT,
   email TEXT NOT NULL,
@@ -83,12 +99,16 @@ CREATE TABLE public.usage_limits (
   date DATE NOT NULL DEFAULT CURRENT_DATE,
   leads_allocated INTEGER DEFAULT 0,
   emails_generated INTEGER DEFAULT 0,
+  searches_used INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   UNIQUE(user_id, date)
 );
 
 -- Indexes for performance
+CREATE INDEX idx_searches_user_id ON public.searches(user_id);
+CREATE INDEX idx_searches_user_saved ON public.searches(user_id, is_saved);
+CREATE INDEX idx_leads_search_id ON public.leads(search_id);
 CREATE INDEX idx_leads_user_id ON public.leads(user_id);
 CREATE INDEX idx_leads_allocated_at ON public.leads(allocated_at);
 CREATE INDEX idx_email_templates_user_id ON public.email_templates(user_id);
@@ -99,6 +119,7 @@ CREATE INDEX idx_usage_limits_user_date ON public.usage_limits(user_id, date);
 
 -- Row Level Security (RLS)
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.searches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.email_templates ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.offers ENABLE ROW LEVEL SECURITY;
@@ -111,6 +132,18 @@ CREATE POLICY "Users can view own profile" ON public.users
 
 CREATE POLICY "Users can update own profile" ON public.users
   FOR UPDATE USING (auth.uid() = id);
+
+CREATE POLICY "Users can view own searches" ON public.searches
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own searches" ON public.searches
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own searches" ON public.searches
+  FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own searches" ON public.searches
+  FOR DELETE USING (auth.uid() = user_id);
 
 CREATE POLICY "Users can view own leads" ON public.leads
   FOR SELECT USING (auth.uid() = user_id);
@@ -202,4 +235,8 @@ CREATE TRIGGER update_offers_updated_at
 
 CREATE TRIGGER update_usage_limits_updated_at
   BEFORE UPDATE ON public.usage_limits
+  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at();
+
+CREATE TRIGGER update_searches_updated_at
+  BEFORE UPDATE ON public.searches
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at();

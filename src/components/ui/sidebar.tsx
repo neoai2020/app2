@@ -10,6 +10,7 @@ import {
   Mail,
   Gift,
   Archive,
+  Bookmark,
   GraduationCap,
   HelpCircle,
   LogOut,
@@ -27,6 +28,7 @@ const mainNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/offers', label: 'Offer Library', icon: Gift },
   { href: '/leads', label: 'Find Customers', icon: Users },
+  { href: '/saved-searches', label: 'Saved Searches', icon: Bookmark },
   { href: '/email-builder', label: 'Write Emails', icon: Mail },
   { href: '/saved-emails', label: 'Saved Emails', icon: Archive }
 ]

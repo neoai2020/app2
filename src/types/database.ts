@@ -45,6 +45,7 @@ export interface Database {
         Row: {
           id: string
           user_id: string
+          search_id: string | null
           business_name: string
           website: string | null
           email: string
@@ -57,6 +58,7 @@ export interface Database {
         Insert: {
           id?: string
           user_id: string
+          search_id?: string | null
           business_name: string
           website?: string | null
           email: string
@@ -69,6 +71,7 @@ export interface Database {
         Update: {
           id?: string
           user_id?: string
+          search_id?: string | null
           business_name?: string
           website?: string | null
           email?: string
@@ -77,6 +80,41 @@ export interface Database {
           status?: 'allocated' | 'used' | 'invalid'
           allocated_at?: string
           created_at?: string
+        }
+      }
+      searches: {
+        Row: {
+          id: string
+          user_id: string
+          industry: string
+          location: string
+          normalized_key: string
+          is_saved: boolean
+          last_searched_at: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          industry: string
+          location: string
+          normalized_key: string
+          is_saved?: boolean
+          last_searched_at?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          industry?: string
+          location?: string
+          normalized_key?: string
+          is_saved?: boolean
+          last_searched_at?: string
+          created_at?: string
+          updated_at?: string
         }
       }
       email_templates: {
@@ -188,6 +226,7 @@ export interface Database {
           date: string
           leads_allocated: number
           emails_generated: number
+          searches_used: number
           created_at: string
           updated_at: string
         }
@@ -197,6 +236,7 @@ export interface Database {
           date: string
           leads_allocated?: number
           emails_generated?: number
+          searches_used?: number
           created_at?: string
           updated_at?: string
         }
@@ -206,6 +246,7 @@ export interface Database {
           date?: string
           leads_allocated?: number
           emails_generated?: number
+          searches_used?: number
           created_at?: string
           updated_at?: string
         }
@@ -255,6 +296,7 @@ export type UpdateTables<T extends keyof Database['public']['Tables']> = Databas
 
 export type User = Tables<'users'>
 export type Lead = Tables<'leads'>
+export type Search = Tables<'searches'>
 export type EmailTemplate = Tables<'email_templates'>
 export type Offer = Tables<'offers'>
 export type ActivityLog = Tables<'activity_logs'>
