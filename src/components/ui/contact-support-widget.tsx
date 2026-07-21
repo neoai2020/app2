@@ -10,11 +10,18 @@ import { FREE_TRAINING_URL, SUPPORT_EMAIL } from '@/lib/constants'
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error'
 
+function openSupportMailto(email: string, message: string) {
+  const subject = 'Profit Loop AI — Support Request'
+  const body = `Please reply to: ${email}\n\n${message}`
+  window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+}
+
 export function ContactSupportWidget() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [formState, setFormState] = useState<FormState>('idle')
   const [submittedEmail, setSubmittedEmail] = useState('')
+  const [sentViaMailto, setSentViaMailto] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   const supabase = createClient()
@@ -59,13 +66,21 @@ export function ContactSupportWidget() {
           body: JSON.stringify({ email: trimmedEmail, message: trimmedMessage })
         })
 
-        const data = (await res.json()) as { error?: string }
+        const data = (await res.json()) as { error?: string; useMailto?: boolean }
 
         if (!res.ok) {
+          if (data.useMailto) {
+            openSupportMailto(trimmedEmail, trimmedMessage)
+            setSubmittedEmail(trimmedEmail)
+            setSentViaMailto(true)
+            setFormState('success')
+            return
+          }
           throw new Error(data.error || 'Something went wrong. Please try again.')
         }
 
         setSubmittedEmail(trimmedEmail)
+        setSentViaMailto(false)
         setFormState('success')
       } catch (err) {
         setErrorMessage(err instanceof Error ? err.message : 'Something went wrong.')
@@ -78,6 +93,7 @@ export function ContactSupportWidget() {
   const resetForm = () => {
     setFormState('idle')
     setMessage('')
+    setSentViaMailto(false)
     setErrorMessage('')
   }
 
@@ -91,12 +107,24 @@ export function ContactSupportWidget() {
             </div>
             <div>
               <h3 className="text-sm font-black italic uppercase tracking-tighter text-white">
-                Message sent
+                {sentViaMailto ? 'Check your email app' : 'Message sent'}
               </h3>
               <p className="mt-2 text-[12px] leading-relaxed text-zinc-400">
-                We&apos;ll reply to{' '}
-                <span className="font-semibold text-white">{submittedEmail}</span>. We usually
-                respond within about 2 hours — during busy periods, please allow 24–48 hours.
+                {sentViaMailto ? (
+                  <>
+                    Your email app should open with your message ready to send to support. Tap{' '}
+                    <span className="font-semibold text-white">Send</span> to deliver it — then
+                    we&apos;ll reply to{' '}
+                    <span className="font-semibold text-white">{submittedEmail}</span>. We usually
+                    respond within about 2 hours — during busy periods, please allow 24–48 hours.
+                  </>
+                ) : (
+                  <>
+                    We&apos;ll reply to{' '}
+                    <span className="font-semibold text-white">{submittedEmail}</span>. We usually
+                    respond within about 2 hours — during busy periods, please allow 24–48 hours.
+                  </>
+                )}
               </p>
             </div>
           </div>
