@@ -328,22 +328,22 @@ export default function TrainingPage() {
             exit={{ opacity: 0, y: -10 }}
           >
             {/* Platform Videos */}
-            <motion.div variants={itemVariants} className="mb-8">
+            <div className="mb-8">
               <h2 className="ds-h2 mb-4 flex items-center gap-2">
                 <Play className="w-5 h-5 text-[#D946EF]" />
                 Platform Tutorials
               </h2>
               <VideoRowsWithPromo videos={trainingVideos.filter(v => !v.premium)} />
-            </motion.div>
+            </div>
 
             {/* Premium Videos */}
-            <motion.div variants={itemVariants}>
+            <div>
               <h2 className="ds-h2 mb-4 flex items-center gap-2">
                 <Diamond className="w-5 h-5 text-[#D946EF]" />
                 Premium Feature Tutorials
               </h2>
               <VideoRowsWithPromo videos={trainingVideos.filter(v => v.premium)} />
-            </motion.div>
+            </div>
           </motion.div>
         ) : (
           <motion.div

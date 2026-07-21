@@ -192,6 +192,14 @@ Format your response as JSON:
       generatedEmail = generateFallbackEmail(lead, offerDescription, tone)
     }
 
+    // The AI API can return an OK response with empty content (e.g. when
+    // rate-limited on back-to-back generations). Never send an empty email
+    // back to the user — fall back to the template instead.
+    if (!generatedEmail.subject?.trim() || !generatedEmail.body?.trim()) {
+      console.warn('[Email Generation] Empty AI response, using fallback template')
+      generatedEmail = generateFallbackEmail(lead, offerDescription, tone)
+    }
+
     // Update usage
     if (usage) {
       await supabase
