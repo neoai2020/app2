@@ -330,7 +330,7 @@ export function QuickTip({ tip, onDismiss }: QuickTipProps) {
           setDismissed(true)
           onDismiss?.()
         }}
-        className="text-xs text-zinc-500 hover:text-zinc-300"
+        className="shrink-0 rounded-full border border-[#D946EF]/40 bg-[#D946EF]/10 px-3.5 py-1.5 text-xs font-semibold text-[#D946EF] transition-colors hover:bg-[#D946EF]/25 hover:text-white"
       >
         Got it
       </button>

@@ -12,7 +12,7 @@ import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { PromoBanner } from '@/components/ui/promo-banner'
 import { Offer } from '@/types/database'
 import { scrollToResults } from '@/lib/scroll-to-results'
-import { Plus, Edit, Trash2, ExternalLink, Gift, X, Briefcase, Handshake, DollarSign, Sparkles, RefreshCw, Save, Zap, Brain } from 'lucide-react'
+import { Plus, Edit, Trash2, ExternalLink, Gift, X, Briefcase, Handshake, DollarSign, Sparkles, RefreshCw, Save, Zap, Brain, ArrowLeft } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -473,9 +473,10 @@ export default function OffersPage() {
                     {!editingOffer && (
                       <button 
                         onClick={() => { setFormStep(1); setGenerated(false); setDescription(''); }} 
-                        className="text-sm text-zinc-400 hover:text-white transition-colors mb-2 flex items-center gap-1"
+                        className="mb-3 inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-3.5 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-[#D946EF]/50 hover:bg-[#D946EF]/10 hover:text-[#D946EF]"
                       >
-                        &larr; Back to Types
+                        <ArrowLeft className="h-4 w-4" />
+                        Back to Types
                       </button>
                     )}
                     
