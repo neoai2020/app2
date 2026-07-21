@@ -34,8 +34,8 @@ async function sendViaResend(
       to: [SUPPORT_EMAIL],
       reply_to: email,
       subject: `Support request from ${email}`,
-      text: `${message}\n\n---\nReply to: ${email}\nUser ID: ${userId}\nSubmitted from Profit Loop dashboard`,
-      html: `<p>${escapeHtml(message)}</p><p><strong>Reply to:</strong> ${escapeHtml(email)}</p><p><em>User ID: ${userId} · Submitted from Profit Loop dashboard</em></p>`
+      text: `Customer email: ${email}\nSoftware: Profit Loop AI\n\nCustomer inquiry is:\n${message}\n\n---\nUser ID: ${userId}`,
+      html: `<p><strong>Customer email:</strong> ${escapeHtml(email)}<br><strong>Software:</strong> Profit Loop AI</p><p><strong>Customer inquiry is:</strong></p><p>${escapeHtml(message)}</p><p><em>User ID: ${userId}</em></p>`
     })
   })
 
@@ -67,7 +67,7 @@ async function sendViaFreshdesk(
     body: JSON.stringify({
       email,
       subject: 'Profit Loop AI — Dashboard Support Request',
-      description: `<p>${escapeHtml(message)}</p><p><em>Submitted from dashboard · User ID: ${userId}</em></p>`,
+      description: `<p><strong>Customer email:</strong> ${escapeHtml(email)}<br><strong>Software:</strong> Profit Loop AI</p><p><strong>Customer inquiry is:</strong></p><p>${escapeHtml(message)}</p><p><em>User ID: ${userId}</em></p>`,
       priority: 2,
       status: 2
     })
