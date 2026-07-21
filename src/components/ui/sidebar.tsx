@@ -14,7 +14,8 @@ import {
   HelpCircle,
   LogOut,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  Sparkles
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -208,12 +209,14 @@ export function Sidebar() {
 
         {/* Premium Features */}
         <div className={`${collapsed ? 'mt-6 border-t border-white/5 pt-4' : 'mt-8'}`}>
-          {!collapsed && (
-            <p className="mb-2 px-4 text-[10px] font-bold uppercase tracking-widest text-[#D946EF]">
-              Premium Features
-            </p>
-          )}
-          <ul className={`premium-nav-section space-y-1 ${collapsed ? '' : 'p-1.5'}`}>
+          <div className={`premium-nav-section ${collapsed ? 'p-1' : 'p-2'}`}>
+            {!collapsed && (
+              <p className="flex items-center gap-1.5 px-2.5 pb-2 pt-1.5 text-[10px] font-bold uppercase tracking-widest text-[#D946EF]">
+                <Sparkles className="h-3 w-3 animate-pulse-glow" fill="currentColor" />
+                Premium Features
+              </p>
+            )}
+            <ul className="space-y-1">
             {PREMIUM_FEATURES.map((item, index) => {
               const isActive = pathname === item.href
               const Icon = item.icon
@@ -248,7 +251,8 @@ export function Sidebar() {
                 </motion.li>
               )
             })}
-          </ul>
+            </ul>
+          </div>
         </div>
       </nav>
 
