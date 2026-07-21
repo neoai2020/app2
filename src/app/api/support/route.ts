@@ -21,7 +21,7 @@ async function sendViaResend(
   if (!apiKey) return false
 
   const from =
-    process.env.RESEND_FROM_EMAIL || 'Profit Loop AI <onboarding@resend.dev>'
+    process.env.RESEND_FROM_EMAIL || 'Profit Loop AI <support@reliteagency.com>'
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
