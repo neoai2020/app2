@@ -78,16 +78,6 @@ export function HowItWorks() {
           </div>
         ))}
       </div>
-
-      <div className="glass-card rounded-2xl border border-white/10 p-5 sm:p-6">
-        <p className="text-base leading-relaxed text-[var(--muted-strong)] lg:text-lg">
-          That&apos;s it. Come back daily for more leads and emails — and if you ever get stuck, open{' '}
-          <Link href="/support" className="font-bold text-[#D946EF] hover:underline">
-            Support
-          </Link>{' '}
-          and a real person will help you.
-        </p>
-      </div>
     </div>
   )
 }
