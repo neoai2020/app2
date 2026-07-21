@@ -12,7 +12,7 @@ const fieldClassName =
   'cyber-input w-full min-w-0 rounded-lg px-3.5 py-3 text-sm leading-normal text-white placeholder:text-white/30'
 
 const labelClassName =
-  'mb-2 block text-xs font-semibold uppercase tracking-wide text-[#D946EF]/90'
+  'mb-2.5 block text-xs font-semibold uppercase tracking-wide text-[#D946EF]/90'
 
 function openSupportMailto(email: string, message: string) {
   const subject = 'Profit Loop AI — Support Request'
@@ -230,14 +230,14 @@ export function ContactSupportWidget() {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-5 pt-0">
+      <CardContent className="space-y-6 pt-5">
         <p className="text-sm leading-relaxed text-zinc-300">
           We usually reply within about 2 hours. Because of high email volume, please allow{' '}
           <span className="font-medium text-white">24–48 hours</span> during busy periods. Your
           answer will go to the email you enter below.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="min-w-0">
             <label htmlFor="support-email" className={labelClassName}>
               Your email
