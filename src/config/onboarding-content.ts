@@ -1,56 +1,31 @@
 /**
- * Profit Loop onboarding — edit copy and URLs here only.
- * Product terms mirror the live sidebar (see sidebar.tsx).
+ * Profit Loop onboarding — edit copy here only.
+ * Plain language, no product/page names, no ads.
  */
 
-export const ONBOARDING_PRODUCT_NAME = 'Profit Loop AI'
-
-/** Final partner CTA after qualification (empty string = dashboard only on click) */
-export const ONBOARDING_BETA_QUALIFICATION_CTA_URL =
-  'https://the7figuresociety.com/earn-1k-2k-per-day'
+export const ONBOARDING_PRODUCT_NAME = 'Profit Loop'
 
 export const onboardingContent = {
-  preparing: {
-    title: 'Setting up your workspace',
-    rows: [
-      {
-        label: 'Loading your Lead Magnet & daily lead allocation',
-        description: 'Preparing verified B2B leads you can email today.'
-      },
-      {
-        label: 'Connecting your Email Blast & Saved Emails workflow',
-        description: 'Syncing AI email generation and your personal swipe file.'
-      },
-      {
-        label: 'Unlocking Training, Support & Premium Features',
-        description: 'Accelerator, Recurring Streams, Social Payouts, and Protector — when your plan includes them.'
-      }
+  productTagline: 'Find customers. Write emails. Get replies.',
+  dashboardRoute: '/dashboard',
+
+  activation: {
+    headline: "Let's Activate Your System",
+    subheadline: 'First, tell us your name so we can personalize things for you.',
+    inputPlaceholder: 'Enter your first name',
+    infoTitle: 'What happens next:',
+    infoSteps: [
+      "We'll save your name so everything feels personal",
+      'Your home screen shows you exactly what to do first',
+      'Finding people to email takes just a few minutes',
+      'Help is always one click away if you get stuck'
     ],
-    tip: 'Start with Lead Magnet first — it walks you from niche pick to fresh leads you can mail in minutes.',
-    continueCta: 'Continue'
-  },
-  congratulations: {
-    badge: '🎉 CONGRATULATIONS!',
-    headline: "You've Been Randomly Selected",
-    continueCta: 'Continue'
-  },
-  beta: {
-    headline:
-      'Out of thousands of new members today, your account was flagged for our private Beta Tester program.',
-    subcopy: `This is a separate, optional opportunity — not part of ${ONBOARDING_PRODUCT_NAME}. But we highly recommend checking it out.`,
-    infoCard:
-      "Don't panic! This is a good thing. You've been chosen to test a brand-new system — and testers get paid.",
-    payLabel: 'Beta Tester Pay:',
-    payAmount: '$500/day',
-    cta: 'See If You Qualify >'
-  },
-  qualification: {
-    badge: '✅ QUALIFICATION CHECK',
-    headline: 'Do You Meet These Requirements?',
-    requirements: ['A phone or a computer', 'Speaks English', 'No tech skills required'],
-    footer: 'If you checked all three — you qualify!',
-    primaryCta: '🎯 Claim My Beta Tester Spot >',
-    noThanksCta: 'No thanks, skip this optional offer →',
-    finePrint: `This is an optional partner offer, separate from your ${ONBOARDING_PRODUCT_NAME} membership. Spots are limited.`
+    note: "You're almost there 🔥 — everything stays saved so you can pick up anytime",
+    ctaLabel: 'Activate My System >',
+    sidebarStatus: [
+      { label: 'Your account', status: 'Ready' },
+      { label: 'Daily emails', status: 'Set up' },
+      { label: 'Help & tips', status: 'Available' }
+    ]
   }
 } as const

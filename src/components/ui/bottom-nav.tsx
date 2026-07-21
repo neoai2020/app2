@@ -6,10 +6,7 @@ import {
   Mail,
   GraduationCap,
   Menu,
-  Diamond,
   Sparkles,
-  Zap,
-  ShieldCheck,
   Gift,
   Archive,
   HelpCircle,
@@ -23,6 +20,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
 import { EXCLUSIVE_OFFERS } from '@/components/ui/exclusive-offer-widgets'
+import { PREMIUM_FEATURES } from '@/lib/premium-features'
 
 const tabs = [
   { title: 'Home', url: '/dashboard', icon: LayoutDashboard },
@@ -36,12 +34,11 @@ const mainMore = [
   { title: 'Saved Emails', url: '/saved-emails', icon: Archive }
 ]
 
-const premiumItems = [
-  { title: 'Accelerator', url: '/dfy', icon: Diamond },
-  { title: 'Recurring Streams', url: '/instant-income', icon: Sparkles },
-  { title: 'Social Payouts', url: '/autopilot', icon: Zap },
-  { title: 'Protector', url: '/protector', icon: ShieldCheck }
-]
+const premiumItems = PREMIUM_FEATURES.map(({ href, label, icon }) => ({
+  title: label,
+  url: href,
+  icon
+}))
 
 /** Fixed bottom tab bar for mobile. Hidden on desktop (lg+) where the sidebar lives. */
 export function BottomNav() {
@@ -159,10 +156,10 @@ export function BottomNav() {
                   </div>
                 </div>
 
-                <div>
-                  <p className="mb-2 flex items-center gap-1.5 px-1 text-[12px] font-semibold uppercase tracking-widest text-[var(--warning)]">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    Premium
+                <div className="premium-nav-section rounded-2xl p-2">
+                  <p className="mb-2 flex items-center gap-1.5 px-1 text-[12px] font-semibold uppercase tracking-widest text-[#D946EF]">
+                    <Sparkles className="h-3.5 w-3.5 animate-pulse-glow" />
+                    Premium Upgrades
                   </p>
                   <div className="space-y-1.5">
                     {premiumItems.map((item) => {
@@ -173,13 +170,11 @@ export function BottomNav() {
                           key={item.url}
                           href={item.url}
                           onClick={() => setMoreOpen(false)}
-                          className={`flex min-h-[52px] items-center gap-3 rounded-xl border px-4 py-3.5 text-base font-semibold transition-colors ${
-                            isActive
-                              ? 'border-[#D946EF]/40 bg-[#D946EF]/15 text-white'
-                              : 'border-transparent text-zinc-300 active:bg-[#D946EF]/10'
+                          className={`premium-sidebar-item flex min-h-[52px] items-center gap-3 rounded-xl px-4 py-3.5 text-base font-semibold transition-colors ${
+                            isActive ? 'is-active' : ''
                           }`}
                         >
-                          <Icon className="h-5 w-5" />
+                          <Icon className="h-5 w-5 text-[#D946EF]" />
                           {item.title}
                         </Link>
                       )

@@ -8,6 +8,7 @@ import { VideoCard } from '@/components/ui/video-card'
 import { BonusTrainingCard } from '@/components/ui/bonus-training-card'
 import { DashboardTipsWidget } from '@/components/ui/social-proof'
 import { ContactSupportWidget } from '@/components/ui/contact-support-widget'
+import { PremiumUpgradesWidget } from '@/components/ui/premium-upgrades-widget'
 import { HowItWorks } from '@/components/ui/how-it-works'
 import { createClient } from '@/lib/supabase/client'
 import { Headphones, Play } from 'lucide-react'
@@ -154,7 +155,7 @@ export default function DashboardPage() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="border-none bg-white/[0.02]">
+            <Card className="border-[#D946EF]/10">
               <CardHeader className="pb-2">
                 <CardTitle className="text-xs font-black italic uppercase tracking-widest text-zinc-500">
                   Tips
@@ -166,6 +167,9 @@ export default function DashboardPage() {
             </Card>
           </motion.div>
 
+          <motion.div variants={itemVariants}>
+            <PremiumUpgradesWidget />
+          </motion.div>
         </div>
       </div>
     </motion.div>

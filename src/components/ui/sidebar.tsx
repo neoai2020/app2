@@ -13,10 +13,6 @@ import {
   GraduationCap,
   HelpCircle,
   LogOut,
-  Diamond,
-  Sparkles,
-  Zap,
-  ShieldCheck,
   PanelLeftClose,
   PanelLeftOpen
 } from 'lucide-react'
@@ -24,6 +20,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { EXCLUSIVE_OFFERS } from '@/components/ui/exclusive-offer-widgets'
+import { PREMIUM_FEATURES } from '@/lib/premium-features'
 
 const mainNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -36,13 +33,6 @@ const mainNavItems = [
 const lowerNavItems = [
   { href: '/training', label: 'Training', icon: GraduationCap },
   { href: '/support', label: 'Support', icon: HelpCircle }
-]
-
-const premiumFeatures = [
-  { href: '/dfy', label: 'Accelerator', icon: Diamond },
-  { href: '/instant-income', label: 'Recurring Streams', icon: Sparkles },
-  { href: '/autopilot', label: 'Social Payouts', icon: Zap },
-  { href: '/protector', label: 'Protector', icon: ShieldCheck }
 ]
 
 const COLLAPSE_KEY = 'pl_sidebar_collapsed'
@@ -217,41 +207,49 @@ export function Sidebar() {
         </ul>
 
         {/* Premium Features */}
-        {!collapsed && (
-          <p className="mt-8 mb-2 px-4 text-[10px] font-bold uppercase tracking-widest text-[#D946EF]">
-            Premium Features
-          </p>
-        )}
-        <ul className={`space-y-1 ${collapsed ? 'mt-6 border-t border-white/5 pt-4' : ''}`}>
-          {premiumFeatures.map((item) => {
-            const isActive = pathname === item.href
-            const Icon = item.icon
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  title={collapsed ? item.label : undefined}
-                  className={`cyber-sidebar-item flex items-center gap-3 rounded-lg py-3 text-sm font-medium transition-all duration-300 ${
-                    collapsed ? 'justify-center px-0' : 'px-4'
-                  } ${
-                    isActive
-                      ? 'active bg-[#D946EF] text-black shadow-[0_0_15px_rgba(217,70,239,0.5)]'
-                      : 'text-zinc-400 hover:bg-[#D946EF]/5 hover:text-[#D946EF]/80'
-                  }`}
+        <div className={`${collapsed ? 'mt-6 border-t border-white/5 pt-4' : 'mt-8'}`}>
+          {!collapsed && (
+            <p className="mb-2 px-4 text-[10px] font-bold uppercase tracking-widest text-[#D946EF]">
+              Premium Features
+            </p>
+          )}
+          <ul className={`premium-nav-section space-y-1 ${collapsed ? '' : 'p-1.5'}`}>
+            {PREMIUM_FEATURES.map((item, index) => {
+              const isActive = pathname === item.href
+              const Icon = item.icon
+              return (
+                <motion.li
+                  key={item.href}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15 + index * 0.05 }}
                 >
-                  <Icon size={18} strokeWidth={1.5} className={isActive ? 'text-black' : ''} />
-                  {!collapsed && <span className="tracking-wide">{item.label}</span>}
-                  {!collapsed && isActive && (
-                    <motion.div
-                      layoutId="activePremiumIndicator"
-                      className="ml-auto h-1.5 w-1.5 rounded-full bg-black"
+                  <Link
+                    href={item.href}
+                    title={collapsed ? item.label : undefined}
+                    className={`premium-sidebar-item flex items-center gap-3 rounded-xl py-3 text-sm font-medium transition-all duration-300 ${
+                      collapsed ? 'justify-center px-0' : 'px-3'
+                    } ${isActive ? 'is-active' : ''}`}
+                  >
+                    <Icon
+                      size={18}
+                      strokeWidth={1.5}
+                      className={isActive ? 'text-[#D946EF]' : 'text-[#D946EF]/80'}
                     />
-                  )}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+                    {!collapsed && <span className="tracking-wide">{item.label}</span>}
+                    {!collapsed && isActive && (
+                      <motion.div
+                        layoutId="activePremiumIndicator"
+                        className="ml-auto h-1.5 w-1.5 rounded-full bg-[#D946EF]"
+                        style={{ boxShadow: '0 0 10px rgba(217, 70, 239, 0.7)' }}
+                      />
+                    )}
+                  </Link>
+                </motion.li>
+              )
+            })}
+          </ul>
+        </div>
       </nav>
 
       {/* Status indicator */}

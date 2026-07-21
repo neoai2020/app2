@@ -385,10 +385,10 @@ export default function InstantIncomePage() {
                         </span>
                         <button
                           onClick={() => handleCopyPost(index, post.text)}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                          className={`btn btn-sm flex items-center gap-1.5 ${
                             copiedPost === index
                               ? 'bg-green-500/10 text-green-400 border border-green-500/30'
-                              : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700'
+                              : 'btn-secondary'
                           }`}
                         >
                           {copiedPost === index ? (

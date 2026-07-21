@@ -242,7 +242,7 @@ export function DashboardTipsWidget() {
   const tip = TIPS[tipIndex]
 
   return (
-    <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4">
+    <div className="ds-well p-4">
       <p className="text-sm font-semibold text-zinc-300">{tip.title}</p>
       <p className="mt-2 text-sm leading-relaxed text-zinc-400">{tip.body}</p>
       <p className="mt-3 text-xs leading-snug text-zinc-600">Individual results vary.</p>

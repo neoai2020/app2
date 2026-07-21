@@ -387,10 +387,8 @@ export default function AutopilotPage() {
 
                   <button
                     onClick={() => setExpandedSource(isExpanded ? null : source.id)}
-                    className={`w-full py-3 rounded-lg text-xs font-black italic uppercase tracking-widest flex items-center justify-center gap-2 transition-colors ${
-                      isExpanded
-                        ? 'bg-[#D946EF]/10 text-[#D946EF] border border-[#D946EF]/30'
-                        : 'bg-[#D946EF] text-black hover:bg-[#D946EF]/90'
+                    className={`w-full btn btn-md text-xs font-black italic tracking-widest ${
+                      isExpanded ? 'btn-accent-soft' : 'btn-primary'
                     }`}
                   >
                     {isExpanded ? (
@@ -427,7 +425,7 @@ export default function AutopilotPage() {
                           href={source.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-zinc-300 uppercase tracking-wider transition-colors"
+                          className="btn btn-secondary btn-sm flex w-full items-center justify-center gap-2"
                         >
                           <ExternalLink className="w-3 h-3" /> GO TO {source.name}
                         </a>
@@ -457,10 +455,10 @@ export default function AutopilotPage() {
                         {/* Mark complete */}
                         <button
                           onClick={() => toggleComplete(source.id)}
-                          className={`flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                          className={`btn btn-sm flex w-full items-center justify-center gap-2 ${
                             isDone
                               ? 'bg-green-500/10 text-green-400 border border-green-500/30'
-                              : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 border border-zinc-700'
+                              : 'btn-secondary'
                           }`}
                         >
                           <CheckCircle2 className="w-3.5 h-3.5" />
