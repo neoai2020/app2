@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { VideoCard } from '@/components/ui/video-card'
 import { BonusTrainingCard } from '@/components/ui/bonus-training-card'
 import { LiveActivityCounter } from '@/components/ui/social-proof'
+import { ContactSupportWidget } from '@/components/ui/contact-support-widget'
 import { HowItWorks } from '@/components/ui/how-it-works'
 import { createClient } from '@/lib/supabase/client'
 import {
@@ -16,10 +17,8 @@ import {
   Zap,
   Activity,
   TrendingUp,
-  HelpCircle,
   Headphones,
-  Play,
-  Gift
+  Play
 } from 'lucide-react'
 import { DAILY_LEAD_LIMIT, DAILY_EMAIL_LIMIT } from '@/lib/constants'
 import { UsageLimit } from '@/types/database'
@@ -336,75 +335,8 @@ export default function DashboardPage() {
 
         {/* Right column */}
         <div className="space-y-6 xl:col-span-1">
-          {/* Quick Actions — first in the rail, with clear CTAs */}
           <motion.div variants={itemVariants}>
-            <p className="mb-3 px-2 text-xs font-black italic uppercase tracking-widest text-zinc-500">
-              Quick Actions
-            </p>
-            <div className="flex flex-col gap-3">
-              <Card className="border-[#D946EF]/20">
-                <CardContent className="p-4">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="rounded-xl border border-[#D946EF]/20 bg-[#D946EF]/10 p-2.5">
-                      <Users className="h-5 w-5 text-[#D946EF]" />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="text-sm font-black italic uppercase tracking-tighter text-white">
-                        Find Customers
-                      </h3>
-                      <p className="text-[11px] leading-snug text-zinc-400">
-                        Generate new business leads
-                      </p>
-                    </div>
-                  </div>
-                  <Link href="/leads" className="btn btn-primary btn-sm w-full">
-                    Find Customers
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-4">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="rounded-xl border border-white/10 bg-white/5 p-2.5">
-                      <Mail className="h-5 w-5 text-white" />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="text-sm font-black italic uppercase tracking-tighter text-white">
-                        Write Emails
-                      </h3>
-                      <p className="text-[11px] leading-snug text-zinc-400">
-                        Create AI-powered outreach
-                      </p>
-                    </div>
-                  </div>
-                  <Link href="/email-builder" className="btn btn-accent-soft btn-sm w-full">
-                    Write Emails
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-4">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="rounded-xl border border-white/10 bg-white/5 p-2.5">
-                      <Gift className="h-5 w-5 text-white" />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="text-sm font-black italic uppercase tracking-tighter text-white">
-                        Offer Library
-                      </h3>
-                      <p className="text-[11px] leading-snug text-zinc-400">
-                        Manage offer templates
-                      </p>
-                    </div>
-                  </div>
-                  <Link href="/offers" className="btn btn-accent-soft btn-sm w-full">
-                    Open Library
-                  </Link>
-                </CardContent>
-              </Card>
-            </div>
+            <ContactSupportWidget />
           </motion.div>
 
           <p className="px-2 text-xs font-black italic uppercase tracking-widest text-zinc-500">
@@ -451,31 +383,6 @@ export default function DashboardPage() {
             </Card>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="xl:hidden">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5">
-                    <HelpCircle className="h-6 w-6 text-zinc-500" />
-                  </div>
-                  <div>
-                    <h4 className="font-black italic uppercase tracking-tighter text-white">
-                      Need Help?
-                    </h4>
-                    <p className="text-[10px] font-bold uppercase text-zinc-500">
-                      Talk to Success Manager
-                    </p>
-                  </div>
-                </div>
-                <Link
-                  href="/support"
-                  className="btn btn-accent-soft btn-sm mt-4 w-full"
-                >
-                  Open Ticket
-                </Link>
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
       </div>
     </motion.div>

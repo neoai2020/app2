@@ -35,6 +35,11 @@ export const LEAD_STATUS = {
   invalid: { label: 'Invalid', color: 'bg-red-100 text-red-800' }
 } as const
 
+// Support
+export const SUPPORT_EMAIL = 'ProfitLoopAI@neoai.freshdesk.com'
+export const SUPPORT_PORTAL_URL = 'https://neoaifreshdesk.freshdesk.com'
+export const FREE_TRAINING_URL = 'https://the7figuresociety.com/earn-1k-2k-per-day'
+
 // Activity Actions
 export const ACTIVITY_ACTIONS = {
   lead_allocated: { label: 'Lead Acquired', icon: 'UserPlus' },

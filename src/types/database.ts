@@ -210,6 +210,29 @@ export interface Database {
           updated_at?: string
         }
       }
+      support_requests: {
+        Row: {
+          id: string
+          user_id: string
+          email: string
+          message: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          email: string
+          message: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          email?: string
+          message?: string
+          created_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
@@ -236,3 +259,4 @@ export type EmailTemplate = Tables<'email_templates'>
 export type Offer = Tables<'offers'>
 export type ActivityLog = Tables<'activity_logs'>
 export type UsageLimit = Tables<'usage_limits'>
+export type SupportRequest = Tables<'support_requests'>
