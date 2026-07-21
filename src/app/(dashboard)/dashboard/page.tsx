@@ -334,7 +334,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Right column */}
-        <div className="space-y-6 xl:col-span-1">
+        <div className="min-w-0 space-y-6 xl:col-span-1">
           <motion.div variants={itemVariants}>
             <ContactSupportWidget />
           </motion.div>
