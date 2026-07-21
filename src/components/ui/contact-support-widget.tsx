@@ -153,60 +153,58 @@ export function ContactSupportWidget() {
   if (formState === 'success') {
     return (
       <Card hover={false} className="min-w-0 overflow-hidden border-[#D946EF]/20">
-        <CardContent className="space-y-5">
+        <CardContent className="space-y-4">
           <div className="flex min-w-0 items-start gap-3">
             <div className="shrink-0 rounded-xl border border-green-500/30 bg-green-500/10 p-3">
               <CheckCircle2 className="h-5 w-5 text-green-400" />
             </div>
-            <div className="min-w-0">
-              <h3 className="text-base font-black italic uppercase tracking-tight text-white">
-                {sentViaMailto ? 'Check your email app' : 'Message sent'}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-300">
-                {sentViaMailto ? (
-                  <>
-                    Your email app should open with your message ready to send. Tap{' '}
-                    <span className="font-semibold text-white">Send</span> to deliver it — then
-                    we&apos;ll reply to{' '}
-                    <span className="break-all font-semibold text-white">{submittedEmail}</span>.
-                    We usually respond within about 2 hours — during busy periods, please allow
-                    24–48 hours.
-                  </>
-                ) : (
-                  <>
-                    We&apos;ll reply to{' '}
-                    <span className="break-all font-semibold text-white">{submittedEmail}</span>.
-                    We usually respond within about 2 hours — during busy periods, please allow
-                    24–48 hours.
-                  </>
-                )}
-              </p>
-            </div>
-          </div>
+            <div className="min-w-0 space-y-4">
+              <div>
+                <h3 className="text-base font-black italic uppercase tracking-tight text-white">
+                  {sentViaMailto ? 'Check your email app' : 'Message sent'}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-300">
+                  {sentViaMailto ? (
+                    <>
+                      Your email app should open with your message ready to send. Tap{' '}
+                      <span className="font-semibold text-white">Send</span> to deliver it — then
+                      we&apos;ll reply to{' '}
+                      <span className="break-all font-semibold text-white">{submittedEmail}</span>.
+                      We usually respond within about 2 hours — during busy periods, please allow
+                      24–48 hours.
+                    </>
+                  ) : (
+                    <>
+                      We&apos;ll reply to{' '}
+                      <span className="break-all font-semibold text-white">{submittedEmail}</span>.
+                      We usually respond within about 2 hours — during busy periods, please allow
+                      24–48 hours.
+                    </>
+                  )}
+                </p>
+              </div>
 
-          <div className="rounded-xl border border-[#fbbf24]/30 bg-gradient-to-b from-[#101726] to-[#0b0f18] px-4 py-5 text-center">
-            <span className="mb-3 inline-block rounded-md bg-[#ef4444] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white">
-              Free Training
-            </span>
-            <p className="mb-2 text-sm font-black uppercase leading-snug text-white">
-              Wake up with an extra{' '}
-              <span className="text-[#fbbf24]">$1,000–$5,000</span> in your account
-            </p>
-            <p className="mb-4 text-sm leading-relaxed text-[#d8e9fb]">
-              While you wait, watch how members scale to $1,000–$5,000 per day — without extra
-              grind.
-            </p>
-            <a
-              href={FREE_TRAINING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-lg bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] px-5 py-2.5 text-xs font-black uppercase text-[#1a1305] shadow-lg shadow-[#fbbf24]/20 transition-all hover:scale-[1.02]"
-            >
-              Watch The Free Training &gt;&gt;
-            </a>
-            <p className="mt-3 text-[10px] font-bold uppercase tracking-wide text-[#ef4444]">
-              Warning: This may be taken down soon
-            </p>
+              <div className="border-t border-white/10 pt-4">
+                <p className="text-sm leading-relaxed text-zinc-300">
+                  While you wait, start with our{' '}
+                  <span className="font-semibold text-[#fbbf24]">free training</span> — discover how
+                  to wake up with an extra{' '}
+                  <span className="font-semibold text-[#fbbf24]">$1,000–$5,000</span> in your account
+                  and scale to $1k–$5k per day without extra grind.
+                </p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-wide text-[#ef4444]">
+                  Warning: This may be taken down soon
+                </p>
+                <a
+                  href={FREE_TRAINING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-block w-full rounded-lg bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] px-4 py-2.5 text-center text-xs font-black uppercase text-[#1a1305] shadow-lg shadow-[#fbbf24]/20 transition-all hover:scale-[1.01]"
+                >
+                  Watch The Free Training &gt;&gt;
+                </a>
+              </div>
+            </div>
           </div>
 
           <button type="button" onClick={resetForm} className="btn btn-accent-soft btn-md w-full">
