@@ -180,6 +180,12 @@ export function ContactSupportWidget() {
                 </>
               )}
             </p>
+            <p className="mt-3 w-full text-sm leading-relaxed text-zinc-400">
+              Remember: our reply will go to{' '}
+              <span className="break-all font-semibold text-white">{submittedEmail}</span> only — not
+              another inbox you may use elsewhere. If you don&apos;t see it within 48 hours, check
+              that inbox&apos;s spam or junk folder.
+            </p>
           </div>
 
           <div className="border-t border-white/10 pt-5">
@@ -269,6 +275,12 @@ export function ContactSupportWidget() {
           {formState === 'error' && errorMessage && (
             <p className="text-sm text-red-400">{errorMessage}</p>
           )}
+
+          <p className="rounded-lg border border-white/10 bg-white/[0.03] px-3.5 py-3 text-xs leading-relaxed text-zinc-400">
+            <span className="font-semibold text-zinc-300">Please note:</span> We will reply to the
+            email address you enter above. If you don&apos;t see our reply within 48 hours, check
+            your spam or junk folder before reaching out again.
+          </p>
 
           <button
             type="submit"
