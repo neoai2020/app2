@@ -20,6 +20,34 @@ function openSupportMailto(email: string, message: string) {
   window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 }
 
+function finishWithMailto(
+  email: string,
+  message: string,
+  setSubmittedEmail: (value: string) => void,
+  setSentViaMailto: (value: boolean) => void,
+  setFormState: (value: FormState) => void
+) {
+  openSupportMailto(email, message)
+  setSubmittedEmail(email)
+  setSentViaMailto(true)
+  setFormState('success')
+}
+
+async function parseJsonResponse(res: Response): Promise<{
+  error?: string
+  useMailto?: boolean
+  success?: boolean
+} | null> {
+  const text = await res.text()
+  if (!text.trim()) return {}
+
+  try {
+    return JSON.parse(text) as { error?: string; useMailto?: boolean; success?: boolean }
+  } catch {
+    return null
+  }
+}
+
 export function ContactSupportWidget() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
@@ -67,25 +95,46 @@ export function ContactSupportWidget() {
         const res = await fetch('/api/support', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
           body: JSON.stringify({ email: trimmedEmail, message: trimmedMessage })
         })
 
-        const data = (await res.json()) as { error?: string; useMailto?: boolean }
+        const data = await parseJsonResponse(res)
 
-        if (!res.ok) {
-          if (data.useMailto) {
-            openSupportMailto(trimmedEmail, trimmedMessage)
-            setSubmittedEmail(trimmedEmail)
-            setSentViaMailto(true)
-            setFormState('success')
-            return
-          }
-          throw new Error(data.error || 'Something went wrong. Please try again.')
+        if (data === null) {
+          finishWithMailto(
+            trimmedEmail,
+            trimmedMessage,
+            setSubmittedEmail,
+            setSentViaMailto,
+            setFormState
+          )
+          return
         }
 
-        setSubmittedEmail(trimmedEmail)
-        setSentViaMailto(false)
-        setFormState('success')
+        if (res.status === 401) {
+          throw new Error('Your session expired. Please refresh the page and try again.')
+        }
+
+        if (res.ok && data.success) {
+          setSubmittedEmail(trimmedEmail)
+          setSentViaMailto(false)
+          setFormState('success')
+          return
+        }
+
+        if (data.useMailto) {
+          finishWithMailto(
+            trimmedEmail,
+            trimmedMessage,
+            setSubmittedEmail,
+            setSentViaMailto,
+            setFormState
+          )
+          return
+        }
+
+        throw new Error(data.error || 'Something went wrong. Please try again.')
       } catch (err) {
         setErrorMessage(err instanceof Error ? err.message : 'Something went wrong.')
         setFormState('error')

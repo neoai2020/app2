@@ -12,7 +12,11 @@ function escapeHtml(text: string): string {
     .replace(/\n/g, '<br>')
 }
 
-async function sendViaResend(email: string, message: string, userId: string): Promise<boolean> {
+async function sendViaResend(
+  email: string,
+  message: string,
+  userId: string
+): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) return false
 
@@ -78,6 +82,8 @@ async function sendViaFreshdesk(
   return true
 }
 
+export const runtime = 'nodejs'
+
 export async function POST(request: Request) {
   try {
     const supabase = await createClient()
@@ -104,13 +110,13 @@ export async function POST(request: Request) {
     }
 
     const sent =
-      (await sendViaResend(email, message, user.id)) ||
-      (await sendViaFreshdesk(email, message, user.id))
+      (await sendViaFreshdesk(email, message, user.id)) ||
+      (await sendViaResend(email, message, user.id))
 
     if (!sent) {
       return NextResponse.json(
         {
-          error: 'Email service not configured',
+          error: 'Could not send automatically — opening your email app instead.',
           useMailto: true
         },
         { status: 503 }
@@ -122,8 +128,7 @@ export async function POST(request: Request) {
     console.error('Support request error:', error)
     return NextResponse.json(
       {
-        error:
-          'We could not send your message right now. Please email ProfitLoopAI@neoai.freshdesk.com directly.',
+        error: 'Could not send automatically — opening your email app instead.',
         useMailto: true
       },
       { status: 500 }
