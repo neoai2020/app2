@@ -113,7 +113,16 @@ export function ContactSupportWidget() {
         }
 
         if (res.status === 401) {
-          throw new Error('Your session expired. Please refresh the page and try again.')
+          // Not signed in (e.g. on auth pages) or session expired — hand off to
+          // the user's email app instead of failing.
+          finishWithMailto(
+            trimmedEmail,
+            trimmedMessage,
+            setSubmittedEmail,
+            setSentViaMailto,
+            setFormState
+          )
+          return
         }
 
         if (res.ok && data.success) {

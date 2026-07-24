@@ -89,13 +89,12 @@ export async function POST(request: Request) {
     const supabase = await createClient()
 
     const {
-      data: { user },
-      error: authError
+      data: { user }
     } = await supabase.auth.getUser()
 
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    // Visitors on the login / signup / password pages can also contact support,
+    // so requests without a session are accepted and labeled instead of rejected.
+    const userId = user?.id ?? 'not signed in (auth pages)'
 
     const body = await request.json()
     const email = typeof body.email === 'string' ? body.email.trim() : ''
@@ -110,8 +109,8 @@ export async function POST(request: Request) {
     }
 
     const sent =
-      (await sendViaFreshdesk(email, message, user.id)) ||
-      (await sendViaResend(email, message, user.id))
+      (await sendViaFreshdesk(email, message, userId)) ||
+      (await sendViaResend(email, message, userId))
 
     if (!sent) {
       return NextResponse.json(
